@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Information</title>
+</head>
+<body>
+    <h1>Medicine Information</h1>
+    {% if details %}
+        {% if details.error %}
+            <p>{{ details.error }}</p>
+        {% else %}
+            <h2>{{ details.name }}</h2>
+            <p>Use: {{ details.use }}</p>
+            <p>Side Effects: {{ details.side_effects|join(', ') }}</p>
+            <p>Substitutes: {{ details.substitutes|join(', ') }}</p>
+            {% endif %}
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Search</title>
+</head>
+<body>
+    <h1>Medicine Search</h1>
+    <form action="/medicine_info" method="post">
+        <label for="partial_name">Enter Medicine Name:</label>
+        <input type="text" id="partial_name" name="partial_name" required>
+        <button type="submit" value="Predict" href="/medicine_info">Search</button>
+    </form>
+
+    {% if matches %}
+        <h2>Multiple matches found. Please select the desired medicine:</h2>
+        <form action="/medicine_detail" method="post">
+            {% for match in matches %}
+                <input type="radio" id="{{ match.name }}" name="selected_medicine" value="{{ match.name }}">
+                <label for="{{ match.name }}">{{ match.name }}</label><br>
+            {% endfor %}
+            <button type="submit" value="ShowDetails">Show Details</button>
+        </form>
+    {% endif %}
+</body>
+</html>

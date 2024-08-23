@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Disease Prediction</title>
+  </head>
+  <body>
+    <h1>Disease Prediction</h1>
+    <form method="POST" action="/predict">
+      <label for="Symptom1">Symptom 1:</label>
+      <select name="Symptom1">
+        {% for symptom in symptoms %}
+        <option value="{{ symptom }}">{{ symptom }}</option>
+        {% endfor %}</select
+      ><br />
+      <label for="Symptom2">Symptom 2:</label>
+      <select name="Symptom2">
+        {% for symptom in symptoms %}
+        <option value="{{ symptom }}">{{ symptom }}</option>
+        {% endfor %}</select
+      ><br />
+      <label for="Symptom3">Symptom 3:</label>
+      <select name="Symptom3">
+        {% for symptom in symptoms %}
+        <option value="{{ symptom }}">{{ symptom }}</option>
+        {% endfor %}</select
+      ><br />
+      <label for="Symptom4">Symptom 4:</label>
+      <select name="Symptom4">
+        {% for symptom in symptoms %}
+        <option value="{{ symptom }}">{{ symptom }}</option>
+        {% endfor %}</select
+      ><br />
+      <label for="Symptom5">Symptom 5:</label>
+      <select name="Symptom5">
+        {% for symptom in symptoms %}
+        <option value="{{ symptom }}">{{ symptom }}</option>
+        {% endfor %}</select
+      ><br />
+      <input type="submit" value="Predict" href="/Disease_Prediction/predict" />
+    </form>
+  </body>
+</html>
