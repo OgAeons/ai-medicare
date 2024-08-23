@@ -133,12 +133,30 @@ input {
     margin-bottom: 2rem;
 }
 
-.submit {
-    color: white;
-    background-color: rgb(68, 68, 248);
+.login_div {
+    display: flex;
 }
 
-.submit:hover {
+.submit_doctor {
+    color: white;
+    background-color: rgb(68, 68, 248);
+    margin-right: 20px;
+    width: 15rem;
+}
+
+.submit_doctor:hover {
+    background-color: rgb(21, 21, 35);
+    color: white;
+}
+
+.submit_patient {
+    color: white;
+    background-color: rgb(68, 68, 248);
+    margin-bottom: 10px;
+    width: 15rem;
+}
+
+.submit_patient:hover {
     background-color: rgb(21, 21, 35);
     color: white;
 }
