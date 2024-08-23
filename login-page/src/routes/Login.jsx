@@ -29,14 +29,14 @@ function Login() {
                 <h2>Welcome Back!</h2>
                 <p className="description-signup">Continue to Google or enter your details</p>
                 <GoogleAuth />
-                <Input 
+                <Input
                     name="email"
                     placeholder="Email Address"
                     type="email"
                     user={user}
                     setUser={setUser}
                 />
-                <Input 
+                <Input
                     name="password"
                     placeholder="Password"
                     type="password"
@@ -44,7 +44,10 @@ function Login() {
                     setUser={setUser}
                 />
                 <a href="" className="forgot">Forgot pasword?</a>
-                <button onClick={(e) => {loginUser(e)}} className="submit" type="submit">Login</button>
+                <div className="login_div">
+                    <button onClick={(e) => { loginUser(e) }} className="submit_doctor" type="submit">Login as doctor.</button>
+                    <button onClick={(e) => { loginUser(e) }} className="submit_patient" type="submit">Login as patient.</button>
+                </div>
                 <p className="create-account">Don't have an account? <Link to={`/register`}>Sign Up for Free</Link></p>
             </div>
         </div>
