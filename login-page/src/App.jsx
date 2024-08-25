@@ -5,6 +5,7 @@ import Register from "./routes/Register"
 import Cover from "./routes/Cover"
 import Home from "./routes/Home"
 import Info from "./routes/Info"
+import AuthCallback from "./components/AuthCallback"
 
 function LayoutWithCover({ children }) {
     return (
@@ -21,6 +22,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<LayoutWithCover><Login /></LayoutWithCover>} />
                 <Route path="/register" element={<LayoutWithCover><Register /></LayoutWithCover>} />
+                <Route path="/auth-callback" element={<AuthCallback />}></Route>
                 <Route path="/info" element={<Info />} />
                 <Route path="/home" element={<Home />} />
             </Routes> 
