@@ -21,7 +21,7 @@ function Register(props) {
             console.log('User created:', newUser)
             await account.createEmailPasswordSession(user.email, user.password)
             console.log('Session created')
-            navigate('/home')
+            navigate('/info')
         } catch (error) {
             console.error('Error during registration:', error.message)
         }

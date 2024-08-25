@@ -198,3 +198,16 @@ a {
     color: white;
     margin: 1rem auto;
 }
+
+.info-container {
+    /* background-color: green; */
+    height: 50vh;
+    width: 80vh;
+    margin: 25vh auto 25vh auto;
+    border: 1px solid black;
+}
+
+.question {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
