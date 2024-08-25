@@ -55,7 +55,10 @@ function Register(props) {
                     setUser={setUser}
                 />
                 <a href="" className="forgot">Forgot pasword?</a>
-                <button onClick={(e) => {registerUser(e)}} className="submit" type="submit">Register</button>
+                <div className="login_div">
+                    <button onClick={(e) => { registerUser(e) }} className="submit_doctor" type="submit">Register as doctor</button>
+                    <button onClick={(e) => { registerUser(e) }} className="submit_patient" type="submit">Register as patient</button>
+                </div>
                 <p className="create-account">Already have an account? <Link to={`/`}>Sign In</Link></p>
             </div>
         </div>
