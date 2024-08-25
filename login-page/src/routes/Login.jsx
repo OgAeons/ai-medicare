@@ -29,14 +29,14 @@ function Login() {
                 <h2>Welcome Back!</h2>
                 <p className="description-signup">Continue to Google or enter your details</p>
                 <GoogleAuth />
-                <Input
+                <Input 
                     name="email"
                     placeholder="Email Address"
                     type="email"
                     user={user}
                     setUser={setUser}
                 />
-                <Input
+                <Input 
                     name="password"
                     placeholder="Password"
                     type="password"
