@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { account } from "../lib/appwriteConfig"
 import { Link, useNavigate } from "react-router-dom"
 
 const questions = [
@@ -23,9 +24,17 @@ function Questions() {
 
 
     function handleSubmit(e) {
-        e.preventDefault();
-        console.log("Final Answers:", answers);
-        navigate('/home')
+        e.preventDefault()
+        console.log("Final Answers:", answers)
+
+        account.updatePrefs(answers)
+        .then(() => {
+            console.log('Preferences updated successfully');
+            navigate('/home');
+        })
+        .catch((error) => {
+            console.error('Error updating preferences:', error);
+        })
     }
 
     return (
