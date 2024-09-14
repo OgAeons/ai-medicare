@@ -13,7 +13,7 @@ function Navbar() {
             <img src="/public/icons/search.png" alt="search-icon" height={"20rem"} style={{margin: "0 .8rem", paddingTop: "3px"}}/>
             <input type="text" placeholder="Search Doctor, Hospitals and Medicines" />
         </div>
-        <div class="services-container">
+        <div className="services-container">
             <div className="servicesBtn">Healthcare Services<img src="/public/icons/down.png" alt="down-arrow" height={"15rem"} /></div>
             <div className="services-content">
                 <a href="#">Find Doctor</a>
