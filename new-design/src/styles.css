@@ -167,3 +167,45 @@ input:focus {
     width: 45%;
     z-index: 2;
 }
+
+/* card */
+.card-container {
+    /* background-color: red; */
+    height: 35vh;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card{
+    color: #1e1b61;
+    background-color: #e3e37c;
+    height: 110%;
+    width: 24%;
+    border-radius: 30px;
+}
+
+.card-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 2rem 0 .5rem 2rem;
+}
+
+.card-info {
+    font-size: 1rem;
+    margin: 0 0 .5rem 2rem;
+}
+
+.card-bottom {
+    display: flex;
+    margin: 0 0 0.5rem 2rem;
+}
+
+.card-arrow {
+    background-color: #1e1b61;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 10px;
+    margin: 7rem 1rem 0 0;
+    border-radius: 50px;
+}

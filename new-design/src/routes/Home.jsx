@@ -10,7 +10,33 @@ function Home() {
       <div className='home-container'>
         <Navbar />
         <Banner />
-        <Card />
+        <div className='card-container'>
+          <Card 
+            title="Virtual Nurse"
+            info="Connect within 60 secs"
+            img="/public/images/virtual-nurse.png"
+            bgColor="#e3e37c"
+          />
+          <Card 
+            title="Find Doctors"
+            info="Confirm Appointments"
+            img="/public/images/find-doctors.png"
+            bgColor="#78b784"
+          />
+          <Card 
+            title="24/7 Medicines"
+            info="Essentials at your doorstep"
+            img="/public/images/medicines.png"
+            bgColor="#e66e6e"
+          />
+          <Card 
+            title="Lab Tests"
+            info="Nearest labs in your area"
+            img="/public/images/lab-tests.png"
+            bgColor="#a5c8f7"
+          />
+        </div>
+        
       </div>
     </div>
   )
