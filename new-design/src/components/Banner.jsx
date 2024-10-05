@@ -14,13 +14,13 @@ function Banner() {
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentSlide((prev) => (prev + 1) % slides.length); 
-        }, 2000); 
+        }, 5000); 
 
         return () => clearInterval(interval); 
     }, [slides.length]);
 
     return (
-        <div style={{ position: 'relative', overflow: 'hidden', width: '100%' }}>
+        <div style={{ position: 'relative', overflow: 'hidden', width: '100%', borderRadius: '30px' }}>
             <div style={{
                 display: 'flex',
                 transition: 'transform 0.5s ease-in-out',

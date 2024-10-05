@@ -11,14 +11,13 @@ body {
     font-size: .8rem;
     text-align: center;
     align-content: center;
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
 }
 
 .home-container {
     /* background-color: #b7f3b9; */
-    height: 300vh;
+    height: auto;
     margin: 0 3rem;
-    padding-top: 1rem;
 }
 
 
@@ -146,7 +145,7 @@ input:focus {
     color: #19e6ed;
     background-color: #f38c8c;
     height: 400px;
-    margin-top: .5rem;
+    margin-top: 1rem;
     position: relative; 
     border-radius: 30px;
     text-align: center;
@@ -180,7 +179,7 @@ input:focus {
 .card{
     color: #1e1b61;
     background-color: #e3e37c;
-    height: 110%;
+    height: 105%;
     width: 24%;
     border-radius: 30px;
 }

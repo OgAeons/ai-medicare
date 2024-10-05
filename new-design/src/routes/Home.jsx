@@ -21,13 +21,13 @@ function Home() {
             title="Find Doctors"
             info="Confirm Appointments"
             img="/public/images/find-doctors.png"
-            bgColor="#78b784"
+            bgColor="#c9d1cb"
           />
           <Card 
             title="24/7 Medicines"
             info="Essentials at your doorstep"
             img="/public/images/medicines.png"
-            bgColor="#e66e6e"
+            bgColor="#e88e8e"
           />
           <Card 
             title="Lab Tests"
