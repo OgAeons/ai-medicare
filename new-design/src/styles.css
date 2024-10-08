@@ -1,10 +1,11 @@
 body {
     margin: 0;
     font-family: "Roboto", sans-serif;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(22, 30, 47);
 }
 
 .notice {
+    display: none;
     background-color: rgb(106, 106, 240);
     color: white;
     height: 1.4rem;
@@ -15,7 +16,7 @@ body {
 }
 
 .home-container {
-    /* background-color: #b7f3b9; */
+    /* background-color: #1e1e1e; */
     height: auto;
     margin: 0 3rem;
 }
@@ -23,8 +24,9 @@ body {
 
 /* navbar */
 .navbar {
-    background-color: rgb(238, 238, 238);
+    background-color: rgb(255, 255, 255);
     height: 3.5rem;
+    margin-top: 1.5rem;
     padding: 0 3rem;
     display: flex;
     align-items: center;
@@ -62,7 +64,7 @@ p {
 
 /* search */
 .search {
-    background-color: white;
+    background-color: rgb(238, 238, 238);
     color: #a4a3a3;
     padding: 5px 10px;
     margin: 0 1rem;
@@ -76,6 +78,7 @@ p {
 }
 
 input {
+    background-color: rgb(238, 238, 238);
     width: 90%;
     height: 1.5rem;
     border-color: rgb(255, 255, 255);
@@ -147,7 +150,7 @@ input:focus {
     height: 400px;
     margin-top: 1rem;
     position: relative; 
-    border-radius: 30px;
+    border-radius: 20px;
     text-align: center;
     overflow: hidden;
 }
@@ -168,24 +171,26 @@ input:focus {
 }
 
 /* card */
-.card-container {
-    /* background-color: red; */
-    height: 35vh;
+.bottom-container {
+    background-color: white;
+    height: auto;
     margin-top: 1rem;
+    padding: 2rem;
     display: flex;
     justify-content: space-between;
+    border-radius: 20px;
 }
 
 .card{
     color: #1e1b61;
     background-color: #e3e37c;
-    height: 105%;
+    height: 95%;
     width: 24%;
-    border-radius: 30px;
+    border-radius: 20px;
 }
 
 .card-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 600;
     margin: 2rem 0 .5rem 2rem;
 }
@@ -205,6 +210,71 @@ input:focus {
     width: 2.5rem;
     height: 2.5rem;
     padding: 10px;
-    margin: 7rem 1rem 0 0;
+    margin: 6rem 1rem 0 0;
     border-radius: 50px;
+}
+
+.card-img {
+    margin-left: 2rem;
+}
+
+.doctor-banner-container {
+    /* background-color: #82dde0; */
+    height: 5rem;
+    margin-top: 1rem;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.doctor-banner {
+    background-color: #71ae8f;
+    color: rgb(33, 33, 33);
+    height: 5rem;
+    width: 49%;
+    border-radius: 20px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.doctor-banner:hover {
+    background-color: #0e0e0e;
+    color: white;
+    border: 1px solid white;
+}
+
+
+.specialist {
+    width: 100%;
+}
+
+.specialist-title {
+    color: #1e1b61;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.item-container {
+    display: flex;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+.item-container::-webkit-scrollbar {
+    display: none; 
+}
+
+.specialist-items {
+    background-color: rgb(158, 204, 177);
+    padding: 15px;
+    margin: 1rem 5px;
+    border-radius: 30px;
+}
+
+.doctor-card-container {
+    display: flex;
+    overflow: auto;
+    white-space: nowrap;
 }
