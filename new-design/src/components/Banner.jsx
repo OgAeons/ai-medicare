@@ -3,12 +3,12 @@ import Slides from './Slides'
 
 function Banner() {
     const slides = [
-        { bgColor: '#14114d', color: '#b3aff6', title: 'Healthcare', img: '/public/images/doctor.png', imgWidth: '43%' },
-        { bgColor: '#2bec72', color: '#2b5e3d', title: 'Pharmacy', img: '/public/images/doctor2.png', imgWidth: '52%' },
-        { bgColor: '#e12285', color: '#ee87bc', title: 'Virtual Nurse', img: '/public/images/doctor3.png', imgWidth: '42%' },
-        { bgColor: '#ff0000', color: '#f38c8c', title: 'Lab Tests', img: '/public/images/doctor4.png', imgWidth: '35%' },
+        { bgColor: '#14114d', color: '#b3aff6', title: 'Healthcare', img: '/images/doctor.png', imgWidth: '43%' },
+        { bgColor: '#2bec72', color: '#2b5e3d', title: 'Pharmacy', img: '/images/doctor2.png', imgWidth: '52%' },
+        { bgColor: '#e12285', color: '#ee87bc', title: 'Virtual Nurse', img: '/images/doctor3.png', imgWidth: '42%' },
+        { bgColor: '#ff0000', color: '#f38c8c', title: 'Lab Tests', img: '/images/doctor4.png', imgWidth: '35%' },
     ];
-    
+
     const [currentSlide, setCurrentSlide] = useState(0);
 
     useEffect(() => {

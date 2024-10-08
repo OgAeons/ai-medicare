@@ -14,29 +14,28 @@ function Home() {
           <Card 
             title="Virtual Nurse"
             info="Connect within 60 secs"
-            img="/public/images/virtual-nurse.png"
+            img="/images/virtual-nurse.png"
             bgColor="#e3e37c"
           />
           <Card 
             title="Find Doctors"
             info="Confirm Appointments"
-            img="/public/images/find-doctors.png"
+            img="/images/find-doctors.png"
             bgColor="#c9d1cb"
           />
           <Card 
             title="24/7 Medicines"
             info="Essentials at your doorstep"
-            img="/public/images/medicines.png"
+            img="/images/medicines.png"
             bgColor="#e88e8e"
           />
           <Card 
             title="Lab Tests"
             info="Nearest labs in your area"
-            img="/public/images/lab-tests.png"
+            img="/images/lab-tests.png"
             bgColor="#a5c8f7"
           />
         </div>
-        
       </div>
     </div>
   )
