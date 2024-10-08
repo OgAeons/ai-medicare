@@ -20,7 +20,7 @@ function Banner() {
     }, [slides.length]);
 
     return (
-        <div style={{ position: 'relative', overflow: 'hidden', width: '100%', borderRadius: '30px' }}>
+        <div style={{ position: 'relative', overflow: 'hidden', width: '100%', borderRadius: '20px' }}>
             <div style={{
                 display: 'flex',
                 transition: 'transform 0.5s ease-in-out',

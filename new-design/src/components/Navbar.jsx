@@ -10,7 +10,7 @@ function Navbar() {
             <p>Pune<img src="/icons/down.png" alt="down-arrow" height={"15rem"} /></p>
         </div>
         <div className='search'>
-            <img src="/public/icons/search.png" alt="search-icon" height={"20rem"} style={{margin: "0 .8rem", paddingTop: "3px"}}/>
+            <img src="/icons/search.png" alt="search-icon" height={"20rem"} style={{margin: "0 .8rem", paddingTop: "3px"}}/>
             <input type="text" placeholder="Search Doctor, Hospitals and Medicines" />
         </div>
         <div className="services-container">
