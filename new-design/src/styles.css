@@ -240,9 +240,19 @@ input:focus {
 }
 
 .doctor-banner:hover {
-    background-color: #0e0e0e;
+    background-color: rgb(105, 121, 112);
     color: white;
     border: 1px solid white;
+}
+
+.selected-banner {
+    background-color: rgb(105, 121, 112);
+    color: white;
+    border: 1px solid white;
+}
+
+.unselected {
+    opacity: 0.5;
 }
 
 
@@ -271,10 +281,49 @@ input:focus {
     padding: 15px;
     margin: 1rem 5px;
     border-radius: 30px;
+    border: 1px solid transparent;
+}
+
+.specialist-items:hover{
+    background-color: rgb(105, 121, 112);
+    color: white;
+    border: 1px solid transparent;
+}
+
+.selected-item {
+    background-color: rgb(105, 121, 112);
+    color: white;
+    border: 1px solid black;
 }
 
 .doctor-card-container {
     display: flex;
     overflow: auto;
     white-space: nowrap;
+    height: 40vh;
+}
+
+.doctor-card {
+    background-color: #b8f1d3;
+    height: 40vh;
+    margin: 0 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.doctor-card img {
+    height: 30vh;
+    margin-top: 1rem;
+}
+
+.doctor-name {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin: .8rem 1rem 0 1rem;
+}
+
+.doctor-speciality {
+    font-size: .8rem;
+    font-weight: 400;
+    margin-left: 1rem;
 }
