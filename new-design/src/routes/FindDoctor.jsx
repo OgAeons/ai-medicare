@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Items from '../components/Items'
 import DoctorCard from '../components/DoctorCard'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import 'leaflet/dist/leaflet.css'
 
 function FindDoctor() {
     const [selectedBanner, setSelectedBanner] = useState()
@@ -129,8 +127,6 @@ function FindDoctor() {
         ]
     }
 
-    const mapCenter = [37.7749, -122.4194]
-
     function handleItemClick(specialist) {
         setSelectedItem(doctorsBySpecialist[specialist] || [])
         setIsSelected(specialist)
@@ -173,22 +169,6 @@ function FindDoctor() {
                         ) : (
                             <div>Please select a specialist to view doctors.</div>
                         )}
-                        
-                        {selectedBanner === 'clinic' && isSelected && (
-                        <div className='clinic-map-container'>
-                            <h3>Nearest Clinics for {isSelected}:</h3>
-                            <MapContainer center={mapCenter} zoom={12} style={{ height: '400px', width: '100%' }}>
-                                <TileLayer
-                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                />
-                                {clinicsBySpecialist[isSelected]?.map((clinic, index) => (
-                                    <Marker key={index} position={[clinic.lat, clinic.lng]}>
-                                        <Popup>{clinic.name}</Popup>
-                                    </Marker>
-                                ))}
-                            </MapContainer>
-                        </div>
-                    )}
                     </div>
                 </div>
             </div>
