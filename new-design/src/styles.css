@@ -357,3 +357,35 @@ input:focus {
 .clinic-review {
     margin: .5rem 1rem;
 }
+
+.banner-container{
+    background-color: #14114d;
+    color: #b3aff6;
+    height: 45vh;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 20px;
+    display: flex;
+    /* border: 1px solid white; */
+}
+
+.banner-title-container{
+    /* background-color: red; */
+    width: 55vw;
+}
+
+.banner-title{
+    font-size: 5rem;
+    font-weight: 700;
+}
+
+.book-now{
+    background-color: white;
+    color: black;
+    margin-top: 8rem;
+    width: 9rem;
+    height: 3rem;
+    text-align: center;
+    align-content: center;
+    border-radius: 30px;
+}

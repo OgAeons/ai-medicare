@@ -38,7 +38,7 @@ function Home() {
               info="Nearest labs in your area"
               img="/images/lab-tests.png"
               bgColor="#a5c8f7"
-              link="/doctor"
+              link="/lab-tests"
             />
           </div>
         </div>
