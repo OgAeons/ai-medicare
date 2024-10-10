@@ -5,8 +5,14 @@ import DoctorCard from '../components/DoctorCard'
 
 function FindDoctor() {
     const [selectedBanner, setSelectedBanner] = useState()
-    const [selectedItem, setSelectedItem] = useState([])
-    const [isSelected, setIsSelected] = useState()
+    const [selectedItem, setSelectedItem] = useState([
+        { name: 'Dr. Sanjana Mehta1', img: '/images/doctor5.png', speciality: 'Orthopedists' },
+        { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Orthopedists' },
+        { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Orthopedists' },
+        { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Orthopedists' },
+        { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Orthopedists' }
+    ])
+    const [isSelected, setIsSelected] = useState('Orthopedists')
 
     const doctorsBySpecialist = {
         'Orthopedists': [
@@ -171,6 +177,34 @@ function FindDoctor() {
                         )}
                     </div>
                 </div>
+                <div className='map'>
+                    <div className='specialist-title'>Clinics:</div>
+                    <img
+                        src='/images/map.png'
+                        alt='Static Map'
+                        style={{ height: '70vh', width: '100%', borderRadius: '20px', marginTop: '1rem', marginBottom: '1rem' }}
+                    />
+                    {/* <div className='clinic-container'>
+                        <div className='clinic-name'>Clinic 1</div>
+                        <div className='clinic-address'>Baker Street, NY</div>
+                        <div className='clinic-review'>8/10</div>
+                    </div> */}
+                    <div className='appointment-container'>
+                        <div className='specialist-title'>Appointment Schedule:</div>
+                        <form action="">
+                            <input type="text" placeholder='Patient Name' />
+                            <input type="text" placeholder='Patient Phone Number' />
+                            <select id="time" name="time">
+                                <option value="morning">9:00am - 10:00am</option>
+                                <option value="noon">11:00am - 12:00pm</option>
+                                <option value="evening">3:00pm - 5:00pm</option>
+                                <option value="night">6:00pm - 8:00pm</option>
+                            </select>
+                            <button type="submit">Confirm Appointment</button>
+                        </form>
+                    </div>
+                </div>
+                
             </div>
         </div>
     )

@@ -176,8 +176,6 @@ input:focus {
     height: auto;
     margin-top: 1rem;
     padding: 2rem;
-    display: flex;
-    justify-content: space-between;
     border-radius: 20px;
 }
 
@@ -216,6 +214,11 @@ input:focus {
 
 .card-img {
     margin-left: 2rem;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-between;
 }
 
 .doctor-banner-container {
@@ -300,7 +303,7 @@ input:focus {
     display: flex;
     overflow: auto;
     white-space: nowrap;
-    height: 40vh;
+    height: 45vh;
 }
 
 .doctor-card {
@@ -326,4 +329,31 @@ input:focus {
     font-size: .8rem;
     font-weight: 400;
     margin-left: 1rem;
+}
+
+.map {
+    /* background-color: red; */
+    height: auto;
+    margin: 2rem 1rem;
+    border-radius: 20px;
+}
+
+.clinic-container {
+    /* background-color: #71ae8f; */
+    width: 100%;
+    border-radius: 20px;
+    margin: 1rem 0;
+}
+
+.clinic-name {
+    font-size: 2rem;
+    margin: .5rem 1rem;
+}
+
+.clinic-address {
+    margin: .5rem 1rem;
+}
+
+.clinic-review {
+    margin: .5rem 1rem;
 }
