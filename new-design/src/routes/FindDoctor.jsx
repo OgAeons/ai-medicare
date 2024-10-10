@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Items from '../components/Items'
 import DoctorCard from '../components/DoctorCard'
+import MapComponent from '../components/MapComponent'
+// import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+// import 'leaflet/dist/leaflet.css'
+// import {Icon} from 'leaflet'
 
 function FindDoctor() {
     const [selectedBanner, setSelectedBanner] = useState()
@@ -133,6 +137,26 @@ function FindDoctor() {
         ]
     }
 
+    // const markers = [
+    //     {
+    //         geocode: [18.619893726057885, 73.74988316737976],
+    //         popUp: 'JSPMs Rajarshi Shahu College of Engineering'
+    //     },
+    //     {
+    //         geocode: [18.618938000659224, 73.7479627056685],
+    //         popUp: 'Clinic A'
+    //     },
+    //     {
+    //         geocode: [18.618968502616635, 73.75231861323707],
+    //         popUp: 'Clinic B'
+    //     }
+    // ]
+    
+    // const customIcon = new Icon({
+    //     iconUrl: '/icons/pin2.png',
+    //     iconSize: [38,38]
+    // })
+
     function handleItemClick(specialist) {
         setSelectedItem(doctorsBySpecialist[specialist] || [])
         setIsSelected(specialist)
@@ -177,34 +201,22 @@ function FindDoctor() {
                         )}
                     </div>
                 </div>
-                <div className='map'>
-                    <div className='specialist-title'>Clinics:</div>
-                    <img
-                        src='/images/map.png'
-                        alt='Static Map'
-                        style={{ height: '70vh', width: '100%', borderRadius: '20px', marginTop: '1rem', marginBottom: '1rem' }}
-                    />
-                    {/* <div className='clinic-container'>
-                        <div className='clinic-name'>Clinic 1</div>
-                        <div className='clinic-address'>Baker Street, NY</div>
-                        <div className='clinic-review'>8/10</div>
-                    </div> */}
-                    <div className='appointment-container'>
-                        <div className='specialist-title'>Appointment Schedule:</div>
-                        <form action="">
-                            <input type="text" placeholder='Patient Name' />
-                            <input type="text" placeholder='Patient Phone Number' />
-                            <select id="time" name="time">
-                                <option value="morning">9:00am - 10:00am</option>
-                                <option value="noon">11:00am - 12:00pm</option>
-                                <option value="evening">3:00pm - 5:00pm</option>
-                                <option value="night">6:00pm - 8:00pm</option>
-                            </select>
-                            <button type="submit">Confirm Appointment</button>
-                        </form>
-                    </div>
+                <div className='specialist-title'>Clinics:</div>
+                <MapComponent />
+                <div className='appointment-container'>
+                    <div className='specialist-title'>Appointment Schedule:</div>
+                    <form action="">
+                        <input type="text" placeholder='Patient Name' />
+                        <input type="text" placeholder='Patient Phone Number' />
+                        <select id="time" name="time">
+                            <option value="morning">9:00am - 10:00am</option>
+                            <option value="noon">11:00am - 12:00pm</option>
+                            <option value="evening">3:00pm - 5:00pm</option>
+                            <option value="night">6:00pm - 8:00pm</option>
+                        </select>
+                        <button type="submit">Confirm Appointment</button>
+                    </form>
                 </div>
-                
             </div>
         </div>
     )
