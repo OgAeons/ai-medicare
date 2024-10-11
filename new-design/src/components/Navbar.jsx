@@ -1,4 +1,5 @@
 import React from 'react'
+import Location from '../services/Location'
 
 function Navbar() {
   return (
@@ -6,8 +7,7 @@ function Navbar() {
         <div className='navbar-title'>AiM - Aritfical Intelligence Medicare</div>
         <img src="/icons/line.png" alt="divider" height={"20rem"} style={{color: 'grey'}}/>
         <div className='location-container'>
-            <p className='select-location'><img src="/icons/pin.png" alt="pin" height={"12rem"} />Select Location</p>
-            <p>Pune<img src="/icons/down.png" alt="down-arrow" height={"15rem"} /></p>
+            <p className='location'><img src="/icons/pin.png" alt="pin" height={"12rem"} /><Location /></p>
         </div>
         <div className='search'>
             <img src="/icons/search.png" alt="search-icon" height={"20rem"} style={{margin: "0 .8rem", paddingTop: "3px"}}/>
