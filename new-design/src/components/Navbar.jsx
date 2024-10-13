@@ -1,16 +1,23 @@
 import React from 'react'
 import Location from '../services/Location'
+import { Link } from 'react-router-dom'
 
 function Navbar() {
+    const userSignedIn = true
+
   return (
     <div className='navbar'>
-        <div className='navbar-title'>AiM - Aritfical Intelligence Medicare</div>
-        <img src="/icons/line.png" alt="divider" height={"20rem"} style={{color: 'grey'}}/>
+        <div className='navbar-logo'>
+            <Link to={'/'}><img src="/images/Aim-logo.png" alt="logo" height={'50vh'} /></Link>
+            <Link to={'/'}>Artifical Intelligence Medicare</Link>
+        </div>
+        <img src="/icons/line.png" alt="divider" height={"20rem"} style={{color: 'grey'}} />
         <div className='location-container'>
-            <p className='location'><img src="/icons/pin.png" alt="pin" height={"12rem"} /><Location /></p>
+            <img src="/icons/pin.png" alt="pin" height={"20rem"} />
+            <div className='location'><Location /></div>
         </div>
         <div className='search'>
-            <img src="/icons/search.png" alt="search-icon" height={"20rem"} style={{margin: "0 .8rem", paddingTop: "3px"}}/>
+            <img src="/icons/search.png" alt="search-icon" height={"20rem"} style={{margin: "0 .8rem"}}/>
             <input type="text" placeholder="Search Doctor, Hospitals and Medicines" />
         </div>
         <div className="services-container">
@@ -30,10 +37,18 @@ function Navbar() {
             <img src="/icons/shopping-bag.png" alt="user-icon" height={"15rem"}/>
             Cart
         </div>
-        <div className='login-container'>
-            <img src="/icons/user.png" alt="user-icon" height={"15rem"}/>
-            Login
-        </div>
+        { userSignedIn ? (
+                <div className='user-container'>
+                    <img src="/icons/user.png" alt="user-icon" height={"15rem"}/>
+                    Atharva Phatak
+                </div>
+            ) : (
+                <div className='login-container'>
+                    <img src="/icons/user.png" alt="user-icon" height={"15rem"}/>
+                    Login
+                </div>
+            )} 
+        
         
     </div>
   )

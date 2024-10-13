@@ -18,7 +18,7 @@ body {
 .home-container {
     /* background-color: #1e1e1e; */
     height: auto;
-    margin: 0 3rem;
+    margin: 1rem 3rem;
 }
 
 
@@ -26,23 +26,30 @@ body {
 .navbar {
     background-color: rgb(255, 255, 255);
     height: 3.5rem;
-    margin-top: 1.5rem;
-    padding: 0 3rem;
+    padding: 0 2rem;
     display: flex;
     align-items: center;
     border-radius: 10px;
 }
 
-.navbar-title {
+.navbar-logo {
     width: 15%;
+    font-size: .9rem;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+a {
+    color: black;
+    text-decoration: none;
 }
 
 .location-container {
+    width: 10%;
+    font-size: .8rem;
     display: flex;
-    flex-direction: column;
-    margin-left: 1rem;
-    padding: .5rem;
-    width: 7%;
+    align-items: center;
     border: 1px solid transparent;
     border-radius: 5px;
 }
@@ -51,24 +58,19 @@ body {
     border: 1px solid black;
 }
 
-.select-location {
-    color: grey;
-    font-size: .6rem;
-    margin: 0;
+.location {
+    width: 85%;
 }
 
-p {
-    margin: 0;
-    font-size: .8rem;
-}
-
-/* search */
 .search {
     background-color: rgb(238, 238, 238);
     color: #a4a3a3;
     padding: 5px 10px;
     margin: 0 1rem;
-    width: 45%;
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid transparent;
     border-radius: 30px;
 }
@@ -81,7 +83,6 @@ input {
     background-color: rgb(238, 238, 238);
     width: 90%;
     height: 1.5rem;
-    border-color: rgb(255, 255, 255);
     border-style: none;
 }
 
@@ -91,6 +92,11 @@ input:focus {
 
 
 /* dropdown  */
+.services-container {
+    /* background-color: red; */
+    width: 15%;
+}
+
 .services-container:hover {
     background-color: rgb(96, 96, 96);
     color: white;
@@ -139,6 +145,20 @@ input:focus {
 }
 
 .login-container:hover {
+    border: 1px solid black;
+}
+
+.user-container {
+    width: 11%;
+    padding: 10px 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: 1px solid transparent;
+    border-radius: 30px;
+}
+
+.user-container:hover {
     border: 1px solid black;
 }
 
