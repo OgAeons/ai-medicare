@@ -31,7 +31,7 @@ function Home() {
               info="Essentials at your doorstep"
               img="/images/medicines.png"
               bgColor="#e88e8e"
-              link="/doctor"
+              link="/medicine"
             />
             <Card 
               title="Lab Tests"

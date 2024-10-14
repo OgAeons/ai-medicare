@@ -41,8 +41,9 @@ body {
 }
 
 a {
-    color: black;
+    /* color: rgb(87, 101, 90); */
     text-decoration: none;
+    font-weight: 800;
 }
 
 .location-container {
