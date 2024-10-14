@@ -6,7 +6,7 @@ function Location({ onLocationChange }) {
     const [area, setArea] = useState('')
     const [loading, setLoading] = useState(true)
 
-    const api_key = '97a5e557a25342f8bd42da1553c8b5fc'
+    const api_key = '97a5e557a25342f8bd42da1553c8b5fc1'
 
     useEffect(() => {
         const fetchLocation = () => {
@@ -53,7 +53,7 @@ function Location({ onLocationChange }) {
 
     return (
         <div>
-            {loading ? <p>Fetching Location</p> : <p>{area}</p>}
+            {loading ? <p>Fetching Location</p> : ''}
         </div>
     )    
 }

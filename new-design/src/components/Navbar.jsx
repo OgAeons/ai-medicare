@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Location from '../services/Location'
 import { Link } from 'react-router-dom'
 
 function Navbar() {
+    const [userLocation, setUserLocation] = useState({latitude: null, longitude: null, area: ''})
     const userSignedIn = true
+
+    function handleLocationChange(location) {
+        setUserLocation(location)
+    }
 
   return (
     <div className='navbar'>
@@ -14,7 +19,7 @@ function Navbar() {
         <img src="/icons/line.png" alt="divider" height={"20rem"} style={{color: 'grey'}} />
         <div className='location-container'>
             <img src="/icons/pin.png" alt="pin" height={"20rem"} />
-            <div className='location'><Location /></div>
+            <div className='location'>{userLocation.area}<Location onLocationChange={handleLocationChange}/></div>
         </div>
         <div className='search'>
             <img src="/icons/search.png" alt="search-icon" height={"20rem"} style={{margin: "0 .8rem"}}/>
@@ -32,7 +37,7 @@ function Navbar() {
                 <a href="#">Tests recommendations</a>
                 <a href="#">Doctor at Doorstep</a>
             </div>
-    </div>
+        </div>
         <div className='login-container'>
             <img src="/icons/shopping-bag.png" alt="user-icon" height={"15rem"}/>
             Cart
@@ -47,9 +52,8 @@ function Navbar() {
                     <img src="/icons/user.png" alt="user-icon" height={"15rem"}/>
                     Login
                 </div>
-            )} 
-        
-        
+            )
+        } 
     </div>
   )
 }
