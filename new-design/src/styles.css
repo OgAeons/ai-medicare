@@ -27,6 +27,7 @@ body {
     background-color: rgb(255, 255, 255);
     height: 3.5rem;
     padding: 0 2rem;
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
     border-radius: 10px;
@@ -91,8 +92,6 @@ input:focus {
     outline: none;
 }
 
-
-/* dropdown  */
 .services-container {
     /* background-color: red; */
     width: 15%;
@@ -133,8 +132,6 @@ input:focus {
 
 .services-container:hover .services-content {display: block;}
 
-
-/* login */
 .login-container {
     width: 4%;
     padding: 10px 1rem;
@@ -169,7 +166,7 @@ input:focus {
     color: #19e6ed;
     background-color: #f38c8c;
     height: 400px;
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
     position: relative; 
     border-radius: 20px;
     text-align: center;
