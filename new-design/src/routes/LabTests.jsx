@@ -105,7 +105,7 @@ function LabTests() {
         </div>
         <div className='bottom-container'>
             <div className='specialist'>
-                <div className='specialist-title'>Health Check-up Packages:</div>
+                <div className='section-title'>Health Check-up Packages:</div>
                 <div className='item-container'>
                     { checkups.map((test, index) => (
                         <Items
@@ -131,7 +131,7 @@ function LabTests() {
                     )}
                 </div>
             </div>
-            <div className='specialist-title'>Test Labs:</div>
+            <div className='section-title'>Test Labs:</div>
             <MapComponent />
         </div>
     </div>

@@ -175,7 +175,7 @@ function FindDoctor() {
             </div>
             <div className='bottom-container'>
                 <div className='specialist'>
-                    <div className='specialist-title'>Specialists:</div>
+                    <div className='section-title'>Specialists:</div>
                     <div className='item-container'>
                         { Object.keys(doctorsBySpecialist).map((specialist, index) => (
                             <Items
@@ -201,10 +201,10 @@ function FindDoctor() {
                         )}
                     </div>
                 </div>
-                <div className='specialist-title'>Clinics:</div>
+                <div className='section-title'>Clinics:</div>
                 <MapComponent />
                 <div className='appointment-container'>
-                    <div className='specialist-title'>Appointment Schedule:</div>
+                    <div className='section-title'>Appointment Schedule:</div>
                     <form action="">
                         <input type="text" placeholder='Patient Name' />
                         <input type="text" placeholder='Patient Phone Number' />

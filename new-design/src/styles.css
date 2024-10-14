@@ -47,6 +47,7 @@ a {
     font-weight: 800;
 }
 
+/* location */
 .location-container {
     width: 10%;
     font-size: .8rem;
@@ -64,6 +65,7 @@ a {
     width: 85%;
 }
 
+/* search */
 .search {
     background-color: rgb(238, 238, 238);
     color: #a4a3a3;
@@ -92,8 +94,8 @@ input:focus {
     outline: none;
 }
 
+/* services navbar */
 .services-container {
-    /* background-color: red; */
     width: 15%;
 }
 
@@ -194,7 +196,8 @@ input:focus {
     height: auto;
     margin-top: 1rem;
     padding: 1.5rem 2rem;
-    border-radius: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
 
 .card-container {
@@ -247,7 +250,7 @@ input:focus {
 }
 
 
-
+/* find doctor */
 .doctor-banner-container {
     /* background-color: #82dde0; */
     height: 5rem;
@@ -290,10 +293,11 @@ input:focus {
     width: 100%;
 }
 
-.specialist-title {
+.section-title {
     color: #1e1b61;
     font-size: 2rem;
     font-weight: 700;
+    margin: 1rem 0;
 }
 
 .item-container {
@@ -422,4 +426,63 @@ input:focus {
 .leaflet-container {
     height: 100%;
     width: 99%;
+}
+
+
+
+
+
+/* footer */
+.footer {
+    background-color: rgb(202, 211, 226);
+    height: 40vh;
+    margin-top: 0;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    display: flex;
+}
+
+.footer-left {
+    width: 50%;
+    height: 100%;
+    align-content: center;
+}
+
+.footer-logo{
+    width: 40vw;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+}
+
+.footer-title {
+    font-weight: 600;
+    font-size: 3rem;
+}
+
+.copyright {
+    text-align: center;
+}
+
+.footer-right {
+    width: 50%;
+    display: flex;
+}
+
+.footer-section {
+    width: 45%;
+    margin: 0 1rem;
+    align-content: center;
+}
+
+.footer-section-title{
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.footer-items {
+    font-size: 1rem;
+    font-weight: 300;
+    margin: 1rem 0;
 }
