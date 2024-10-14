@@ -193,27 +193,34 @@ input:focus {
     background-color: white;
     height: auto;
     margin-top: 1rem;
-    padding: 2rem;
+    padding: 1.5rem 2rem;
     border-radius: 20px;
+}
+
+.card-container {
+    height: 35vh;
 }
 
 .card{
     color: #1e1b61;
     background-color: #e3e37c;
-    height: 95%;
+    height: 100%;
     width: 24%;
     border-radius: 20px;
 }
 
 .card-title {
+    color: #1e1b61;
     font-size: 1.5rem;
     font-weight: 600;
     margin: 2rem 0 .5rem 2rem;
 }
 
 .card-info {
+    color: #1e1b61;
     font-size: 1rem;
     margin: 0 0 .5rem 2rem;
+    font-weight: 300;
 }
 
 .card-bottom {
@@ -238,6 +245,8 @@ input:focus {
     display: flex;
     justify-content: space-between;
 }
+
+
 
 .doctor-banner-container {
     /* background-color: #82dde0; */
