@@ -429,7 +429,55 @@ input:focus {
 }
 
 
+.alphabetical-search-container {
+    display: flex;
+}
 
+.alphabet-container {
+    width: 50%;
+    margin: 0 .5rem;
+}
+
+.section-subtitle {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.letter-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.alphabet {
+    color: rgb(43, 98, 193);
+    width: 3rem;
+    height: 3rem;
+    align-content: center;
+    text-align: center;
+    margin: .3rem;
+    border-radius: 30px;
+    border: 1px solid rgb(170, 193, 231);
+}
+
+.alphabet:hover {
+    border: 1px solid rgb(20, 77, 175);
+}
+
+.selected-letter {
+    border: 1px solid rgb(20, 77, 175);
+}
+
+.alphabetical-search {
+    width: 50%;
+    margin: 0 .5rem;
+}
+
+.disease-item {
+    border: 1px solid rgb(214, 210, 210);
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    border-radius: 20px;
+}
 
 
 /* footer */

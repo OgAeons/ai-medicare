@@ -2,7 +2,7 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import Banner from '../components/Banner'
 import Card from '../components/Card'
-
+import AlphabetSearch from '../components/AlphabetSearch'
 
 function Home() {
     return (
@@ -49,7 +49,11 @@ function Home() {
                             link="/lab-tests"
                         />
                     </div>
-                    
+                    <AlphabetSearch 
+                        title='Disease Info:'
+                        label='Search Diseases and Conditions'
+                        subtitle= 'Find diseases & conditions by first letter:'
+                    />
                     <div className='hospitals'></div>
                     <div className='map'></div>
                 </div>
