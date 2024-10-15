@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medicine Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .medicine-link {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+            display: block;
+            margin: 10px 0;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .medicine-link:hover {
+            color: darkblue;
+            background-color: #f0f0f0;
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            border: 1px solid #d3d3d3;
+            padding: 10px;
+            z-index: 1000;
+            max-width: 250px;
+            border-radius: 5px;
+        }
+        .medicine-container {
+            position: relative;
+            display: inline-block;
+            margin: 10px;
+        }
+        .medicine-container:hover .tooltip {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Medicine Search</h1>
+    <form action="/medicine_info" method="post">
+        <label for="partial_name">Enter Medicine Name:</label>
+        <input type="text" id="partial_name" name="partial_name" required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if matches %}
+        <h2>Multiple matches found. Please select the desired medicine:</h2>
+        <form id="medicineForm" action="/medicine_detail" method="post">
+            {% for match in matches %}
+                <div class="medicine-container">
+                    <a class="medicine-link" data-name="{{ match.name }}" href="#" onclick="selectMedicine('{{ match.name }}')">
+                        {{ match.name }}
+                    </a>
+                    <div class="tooltip">
+                        <p><strong>Use:</strong> {{ match.use }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </form>
+    {% endif %}
+
+    <script>
+        function selectMedicine(medicineName) {
+            const form = document.getElementById('medicineForm');
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'selected_medicine';
+            input.value = medicineName;
+            form.appendChild(input);
+            form.submit();
+        }
+    </script>
+</body>
+</html>
