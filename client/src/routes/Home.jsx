@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar'
 import Banner from '../components/Banner'
 import Card from '../components/Card'
 import AlphabetSearch from '../components/AlphabetSearch'
+import HospitalCard from '../components/HospitalCard'
 
 function Home() {
     return (
@@ -54,7 +55,38 @@ function Home() {
                         label='Search Diseases and Conditions'
                         subtitle= 'Find diseases & conditions by first letter:'
                     />
-                    <div className='hospitals'></div>
+                    <div className='hospitals'>
+                        <div className="hospital-grid">
+                            <div className='section-title' style={{margin: '.5rem 0'}}>Locations:</div>
+                            <div className="section-info"  style={{margin: '.5rem 0'}}>Learn more about Hospitals and cliics or choose a specific location.</div>
+                            <div className="all-hospitals" style={{margin: '1.5rem 0'}}>Explore all locations</div>
+                        </div>
+                        <HospitalCard 
+                            img='/images/hospitals.jpg'
+                            name='Sunrise Hospital'
+                            area='Pune'
+                        />
+                        <HospitalCard 
+                            img='/images/hospitals.jpg'
+                            name='Jupiter Hospital'
+                            area='Wakad'
+                        />
+                        <HospitalCard 
+                            img='/images/hospitals.jpg'
+                            name='MultiSpeciality Hospital'
+                            area='Wakad'
+                        />
+                        <HospitalCard 
+                            img='/images/hospitals.jpg'
+                            name='City Hospital'
+                            area='Pimpri'
+                        />
+                        <HospitalCard 
+                            img='/images/hospitals.jpg'
+                            name='Phoenix Hospital'
+                            area='Hinjewadi'
+                        />
+                    </div>
                     <div className='map'></div>
                 </div>
                 <div className='footer'>

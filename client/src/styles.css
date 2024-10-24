@@ -428,7 +428,8 @@ input:focus {
     width: 99%;
 }
 
-
+ 
+/* alphabet search */
 .alphabetical-search-container {
     display: flex;
 }
@@ -477,6 +478,47 @@ input:focus {
     margin-bottom: 1rem;
     padding-left: 1rem;
     border-radius: 20px;
+}
+
+
+/* hospitals */
+.hospitals {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin: 2rem 0;
+}
+
+.hospital-grid {
+    height: 30vh;
+    /* padding: 1rem; */
+    align-content: end;
+    border-radius: 20px;
+}
+
+.section-info {
+    font-weight: 300;
+    margin-bottom: 1rem;
+}
+
+.all-hospitals {
+    width: fit-content;
+    padding: 1rem;
+    border: 1px solid rgb(61, 82, 177);
+    border-radius: 30px;
+}
+
+.hospital-name {
+    color: white;
+    font-size: 1.8rem;
+    margin: 1rem 1rem .5rem 1.5rem;
+}
+
+.hospital-area {
+    color: white;
+    font-size: 1rem;
+    margin-top: .3rem;
+    margin: .5rem 1rem 1.5rem 1.5rem;
 }
 
 
