@@ -498,6 +498,10 @@ input:focus {
     display: flex;
 }
 
+.navigation a:hover {
+    text-decoration: underline;
+}
+
 
 /* hospitals */
 .hospitals {

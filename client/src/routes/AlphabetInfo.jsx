@@ -6,7 +6,7 @@ function AlphabetInfo(props) {
     const [selectedLetter, setSelectedLetter] = useState(null)
     const [searchQuery, setSearchQuery] = useState("")
 
-    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#".split("")
     const diseases = { 
         A: [
             { name: 'Asthma', info: 'A respiratory condition', treatment: 'Inhalers, lifestyle changes' },
@@ -49,7 +49,7 @@ function AlphabetInfo(props) {
                 <div className="alphabetical-search">
                     <div className="navigation">
                         <Link to='/' style={{color: 'white', fontWeight: '300'}}> Home </Link>
-                        <span style={{margin: '0 2px'}}> &gt; </span>
+                        <span style={{margin: '0 3px'}}> &gt; </span>
                         <Link to='/alphabet-info'  style={{color: 'white', fontWeight: '300'}}> Diseases & Conditions </Link>
                         {(selectedLetter || searchQuery) && ( 
                             <div style={{color: 'white', fontWeight: '300'}}>
