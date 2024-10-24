@@ -87,7 +87,6 @@ function Home() {
                             area='Hinjewadi'
                         />
                     </div>
-                    <div className='map'></div>
                 </div>
                 <div className='footer'>
                     <div className='footer-left'>

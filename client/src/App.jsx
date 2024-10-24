@@ -4,12 +4,14 @@ import Home from './routes/Home'
 import FindDoctor from './routes/FindDoctor'
 import LabTests from './routes/LabTests'
 import Medicine from './routes/Medicine'
+import AlphabetInfo from './routes/AlphabetInfo'
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path='/alphabet-info' element={<AlphabetInfo />} />
         <Route path='/doctor' element={<FindDoctor />} />
         <Route path='/lab-tests' element={<LabTests />} />
         <Route path='/medicine' element={<Medicine />} />
