@@ -17,8 +17,8 @@ function HospitalCard(props) {
   return (
     <div style={customStyle} className="hospital-grid">
         <div style={gradientOverlay}>
-            <div className="hospital-name">{props.name}</div>
-            <div className="hospital-area">{props.area}</div>
+            <div className="hospital-card-name">{props.name}</div>
+            <div className="hospital-card-area">{props.area}</div>
         </div>
     </div>
   )

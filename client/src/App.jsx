@@ -5,6 +5,7 @@ import FindDoctor from './routes/FindDoctor'
 import LabTests from './routes/LabTests'
 import Medicine from './routes/Medicine'
 import AlphabetInfo from './routes/AlphabetInfo'
+import Hospitals from './routes/Hospitals'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/doctor' element={<FindDoctor />} />
         <Route path='/lab-tests' element={<LabTests />} />
         <Route path='/medicine' element={<Medicine />} />
+        <Route path='/hospitals' element={<Hospitals />} />
       </Routes>
     </Router>
   )

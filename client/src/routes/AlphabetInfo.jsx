@@ -40,14 +40,14 @@ function AlphabetInfo(props) {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-      }, [])
+    }, [])
 
     return (
         <div className='home-container'>
             <Navbar />
             <div className="alphabetical-search-container">
                 <div className="alphabetical-search">
-                    <div className="navigation">
+                    <div className="navigation" style={{margin: '1.5rem'}}>
                         <Link to='/' style={{color: 'white', fontWeight: '300'}}> Home </Link>
                         <span style={{margin: '0 3px'}}> &gt; </span>
                         <Link to='/alphabet-info'  style={{color: 'white', fontWeight: '300'}}> Diseases & Conditions </Link>

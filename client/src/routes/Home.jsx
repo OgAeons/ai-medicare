@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Banner from '../components/Banner'
 import Card from '../components/Card'
@@ -59,30 +60,30 @@ function Home() {
                         <div className="hospital-grid">
                             <div className='section-title' style={{margin: '.5rem 0'}}>Locations:</div>
                             <div className="section-info"  style={{margin: '.5rem 0'}}>Learn more about Hospitals and cliics or choose a specific location.</div>
-                            <div className="all-hospitals" style={{margin: '1.5rem 0'}}>Explore all locations</div>
+                            <Link to='/hospitals'><div className="all-hospitals" style={{margin: '1.5rem 0', color: 'black', fontWeight: '300'}}>Explore all locations</div></Link>
                         </div>
                         <HospitalCard 
-                            img='/images/hospitals.jpg'
+                            img='/images/hospital1.jpg'
                             name='Sunrise Hospital'
                             area='Pune'
                         />
                         <HospitalCard 
-                            img='/images/hospitals.jpg'
+                            img='/images/hospital2.png'
                             name='Jupiter Hospital'
                             area='Wakad'
                         />
                         <HospitalCard 
-                            img='/images/hospitals.jpg'
+                            img='/images/hospital3.png'
                             name='MultiSpeciality Hospital'
                             area='Wakad'
                         />
                         <HospitalCard 
-                            img='/images/hospitals.jpg'
+                            img='/images/hospital4.png'
                             name='City Hospital'
                             area='Pimpri'
                         />
                         <HospitalCard 
-                            img='/images/hospitals.jpg'
+                            img='/images/hospital5.png'
                             name='Phoenix Hospital'
                             area='Hinjewadi'
                         />
