@@ -1,0 +1,121 @@
+/* Main Container */
+body {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #FFFFFF;
+  font-family: 'Helvetica', sans-serif;
+}
+
+/* LOGO (Ellipse 2) */
+.logo {
+  position: absolute;
+  width: 12vw;
+  height: 12vw;
+  right: 2vw;
+  top: 2vw;
+  background-color: #D9D9D9;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 2vw;
+  color: #000000;
+}
+
+/* Nurse Icon Circle (Group 1) */
+.nurse-icon {
+  position: absolute;
+  width: 12vw;
+  height: 12vw;
+  left: 20vw;
+  top: 50vh;
+  transform: translateY(-50%);
+  background-color: #D9D9D9;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nurse-icon img {
+  width: 80%;
+  height: auto;
+}
+
+/* Speech Bubble */
+.speech-bubble {
+  position: absolute;
+  width: 35vw;
+  max-width: 70%;
+  height: auto;
+  left: 35vw;
+  top: 45vh;
+  background-color: #D9D9D9;
+  border-radius: 10px;
+  padding: 1.5vw;
+  font-size: 1.8vw;
+  font-weight: 700;
+  color: #000000;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Speech Bubble Arrow */
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  left: -2vw;
+  top: 50%;
+  border-width: 1.5vw;
+  border-style: solid;
+  border-color: transparent #D9D9D9 transparent transparent;
+  transform: translateY(-50%);
+}
+
+/* Typewriter Animation */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: black; }
+}
+
+.typewriter-text, .next-message {
+  overflow: hidden;
+  border-right: 3px solid black;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.typewriter-animation {
+  animation: typewriter 4s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+/* Responsive adjustments for small screens */
+@media (max-width: 768px) {
+  .logo {
+    width: 15vw;
+    height: 15vw;
+    font-size: 3vw;
+  }
+
+  .speech-bubble {
+    width: 50vw;
+    font-size: 1.5vw;
+  }
+
+  .caption {
+    font-size: 2vw;
+  }
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nearest Doctor</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body>
+
+<div id="map" style="height: 600px;"></div>
+
+<script>
+    // Initialize the map and set its view
+    var map = L.map('map').setView([{{ latitude }}, {{ longitude }}], 13);
+
+    // Add a tile layer to the map
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+    }).addTo(map);
+
+    // Add the user's location to the map as a blue marker
+    var userMarker = L.marker([{{ latitude }}, {{ longitude }}], {
+        icon: L.icon({
+            iconUrl: 'https://cdn-icons-png.flaticon.com/512/252/252025.png',  // Blue arrow or marker icon URL
+            iconSize: [38, 38],
+            iconAnchor: [22, 94],
+            popupAnchor: [-3, -76],
+        })
+    }).addTo(map).bindPopup("<b>You are here</b>").openPopup();
+
+    // Check if doctors data is available
+    {% if doctors %}
+    var doctors = {{ doctors | tojson }};
+    doctors.forEach(function(doctor) {
+        var marker = L.marker([doctor.latitude, doctor.longitude], {
+            icon: L.icon({
+                iconUrl: 'https://cdn-icons-png.flaticon.com/512/252/252013.png',  // Red marker icon URL
+                iconSize: [38, 38],
+                iconAnchor: [22, 94],
+                popupAnchor: [-3, -76],
+            })
+        }).addTo(map);
+
+        // Add a popup with the doctor's details
+        marker.bindPopup("<b>" + doctor.name + "</b><br>Department: " + doctor.department);
+    });
+    {% else %}
+    console.log("No doctors data available.");
+    {% endif %}
+</script>
+
+</body>
+</html>
