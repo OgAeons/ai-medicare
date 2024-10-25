@@ -657,3 +657,7 @@ input:focus {
     font-weight: 300;
     margin: 1rem 0;
 }
+
+input {
+    width: 50%;
+}
