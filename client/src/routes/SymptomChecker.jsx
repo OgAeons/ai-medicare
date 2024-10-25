@@ -60,6 +60,7 @@ const SymptomChecker = () => {
               type="checkbox" 
               value={symptom} 
               onChange={() => handleCheckboxChange(symptom)} 
+              style={{width: '2rem', marginLeft: '20vw'}}
             />
             <label>{symptom}</label>
           </div>
