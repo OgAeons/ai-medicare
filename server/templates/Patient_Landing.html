@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='Patient.css') }}" />
+    <title>Nura from AIM</title>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const typewriterText = document.querySelector('.typewriter-text')
+        const nextMessage = document.querySelector('.next-message')
+        const speechBubble = document.querySelector('.speech-bubble')
+      
+        let hasFirstMessageDisplayed = false
+        let hasSecondMessageDisplayed = false
+      
+        // Function to start typewriter effect for the second message
+        function showNextMessage() {
+          typewriterText.style.display = 'none' // Hide the first message
+          nextMessage.style.display = 'inline-block' // Show the second message
+          nextMessage.classList.add('typewriter-animation')
+          hasSecondMessageDisplayed = true
+        }
+      
+        // Function to navigate to a new page
+        function goToNewPage() {
+          window.location.href = '/Patient_Additional_Info' // Adjust this to your actual page URL
+        }
+      
+        // Handle click or keyboard press
+        document.body.addEventListener('click', () => {
+          if (!hasFirstMessageDisplayed) {
+            // Stop the typewriter effect by removing the animation class
+            typewriterText.classList.remove('typewriter-animation')
+            hasFirstMessageDisplayed = true
+          } else if (hasFirstMessageDisplayed && !hasSecondMessageDisplayed) {
+            showNextMessage()
+          } else if (hasSecondMessageDisplayed) {
+            goToNewPage()
+          }
+        })
+      
+        document.body.addEventListener('keydown', (event) => {
+          if (!hasFirstMessageDisplayed) {
+            typewriterText.classList.remove('typewriter-animation')
+            hasFirstMessageDisplayed = true
+          } else if (hasFirstMessageDisplayed && !hasSecondMessageDisplayed) {
+            showNextMessage()
+          } else if (hasSecondMessageDisplayed) {
+            goToNewPage()
+          }
+        })
+      })
+    </script>
+  </head>
+  <body>
+    <!-- LOGO -->
+    <div class="logo">LOGO</div>
+
+    <!-- Nurse Icon in Circle -->
+    <div class="nurse-icon">
+      <img src="https://cdn-icons-png.flaticon.com/512/194/194938.png" alt="Nurse Icon" />
+    </div>
+
+    <!-- Speech Bubble with Typewriter Effect -->
+    <div class="speech-bubble">
+      <span class="typewriter-text typewriter-animation">Hello, {{ user_name }} I Am Nura from AIM</span>
+      <span class="next-message" style="display: none;">Before We get Started Kindly fill this information about you</span>
+    </div>
+  </body>
+</html>
