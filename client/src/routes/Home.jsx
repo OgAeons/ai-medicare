@@ -12,7 +12,7 @@ function Home() {
             <div className='notice'>The health and well-being of our users and their healthcare team will be our first priority.</div>
             <div className='home-container'>
                 <Navbar />
-                <Banner 
+                <Banner
                     slides= {[
                         { bgColor: '#14114d', color: '#b3aff6', title: 'Healthcare', img: '/images/doctor.png', imgWidth: '43%' },
                         { bgColor: '#2bec72', color: '#2b5e3d', title: 'Pharmacy', img: '/images/doctor2.png', imgWidth: '52%' },
@@ -22,7 +22,7 @@ function Home() {
                 />
                 <div className='bottom-container'>
                     <div className='card-container'>
-                        <Card 
+                        <Card
                             title="Virtual Nurse"
                             info="Connect within 60 secs"
                             img="/images/virtual-nurse.png"
@@ -36,14 +36,14 @@ function Home() {
                             bgColor="#c9d1cb"
                             link="/doctor"
                         />
-                        <Card 
+                        <Card
                             title="24/7 Medicines"
                             info="Essentials at your doorstep"
                             img="/images/medicines.png"
                             bgColor="#e88e8e"
                             link="/medicine"
                         />
-                        <Card 
+                        <Card
                             title="Lab Tests"
                             info="Nearest labs in your area"
                             img="/images/lab-tests.png"
@@ -51,7 +51,7 @@ function Home() {
                             link="/lab-tests"
                         />
                     </div>
-                    <AlphabetSearch 
+                    <AlphabetSearch
                         title='Disease Info:'
                         label='Search Diseases and Conditions'
                         subtitle= 'Find diseases & conditions by first letter:'
@@ -62,27 +62,27 @@ function Home() {
                             <div className="section-info"  style={{margin: '.5rem 0'}}>Learn more about Hospitals and cliics or choose a specific location.</div>
                             <Link to='/hospitals'><div className="all-hospitals" style={{margin: '1.5rem 0', color: 'black', fontWeight: '300'}}>Explore all locations</div></Link>
                         </div>
-                        <HospitalCard 
+                        <HospitalCard
                             img='/images/hospital1.jpg'
                             name='Sunrise Hospital'
                             area='Pune'
                         />
-                        <HospitalCard 
+                        <HospitalCard
                             img='/images/hospital2.png'
                             name='Jupiter Hospital'
                             area='Wakad'
                         />
-                        <HospitalCard 
+                        <HospitalCard
                             img='/images/hospital3.png'
                             name='MultiSpeciality Hospital'
                             area='Wakad'
                         />
-                        <HospitalCard 
+                        <HospitalCard
                             img='/images/hospital4.png'
                             name='City Hospital'
                             area='Pimpri'
                         />
-                        <HospitalCard 
+                        <HospitalCard
                             img='/images/hospital5.png'
                             name='Phoenix Hospital'
                             area='Hinjewadi'

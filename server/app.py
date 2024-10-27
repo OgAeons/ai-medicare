@@ -42,6 +42,7 @@ client = MongoClient('mongodb://localhost:27017/')
 db = client['AiM']
 symptoms_collection = db['symptoms']
 mongo = PyMongo(app)
+diseases_collection = db['Diseases']
 
 # Initialize LoginManager
 login_manager = LoginManager(app)
@@ -299,8 +300,6 @@ def register_doctor():
     except Exception as e:
         return jsonify({'success': False, 'message': "Error registering doctor."})
 
-# For File to Upload in the react
-from flask import send_from_directory
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -349,6 +348,34 @@ def predict():
 
     prediction = model.predict([features])
     return jsonify({'disease': prediction[0]})
+# ========================
+# Home Page Disease Prediction (The Alphabets)
+# ========================
+@app.route('/api/diseases', methods=['GET'])
+def get_diseases():
+    letter = request.args.get('letter', '').upper()  # Get letter parameter
+    search_query = request.args.get('search', '').lower()  # Get search parameter
+
+    # Fetch diseases by first letter or search term
+    if search_query:
+        diseases = diseases_collection.find({"disease": {"$regex": f"^{search_query}", "$options": "i"}})
+    elif letter:
+        diseases = diseases_collection.find({"disease": {"$regex": f"^{letter}", "$options": "i"}})
+    else:
+        diseases = diseases_collection.find()
+
+    # Convert results to list of dictionaries
+    disease_list = [
+        {
+            "name": disease["disease"].capitalize(),
+            "info": disease["symptoms"],
+            "treatment": disease["cures"],
+            "doctor": disease["doctor"],
+            "risk level": disease["risk level"]
+        }
+        for disease in diseases
+    ]
+    return jsonify(disease_list)
 
 # ========================
 # Medicine Information

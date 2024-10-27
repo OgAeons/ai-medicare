@@ -1,48 +1,47 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-function AlphabetSearch(props) {
-    const navigate = useNavigate()
+function AlphabetInfo() {
+    const { letter } = useParams();
+    const [diseases, setDiseases] = useState([]);
 
-    const alphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('')
+    useEffect(() => {
+        const fetchDiseases = async () => {
+            const response = await fetch(`/api/diseases?letter=${letter}`);
+            const data = await response.json();
+            setDiseases(data);
+        };
 
-    function handleClick() {
-        navigate('/alphabet-info')
-    }
+        fetchDiseases();
+    }, [letter]);
+
+    const getRiskColor = (riskLevel) => {
+        if (riskLevel.includes('low')) return 'green';
+        if (riskLevel.includes('moderate')) return 'yellow';
+        if (riskLevel.includes('high')) return 'red';
+        return 'black'; // Default color if risk level is not recognized
+    };
 
     return (
-        <div>
-            <div className='section-title' style={{marginTop: '2rem'}}>{props.title}</div>
-            <div className='alphabetical-search-container'> 
-                <div className='alphabet-container'>
-                    <div className='section-subtitle'>{props.subtitle}</div> 
-                    <div className='letter-container'>
-                        { alphabets.map((letter, index) => (
-                            <div 
-                                key={index} 
-                                className={`alphabet`} 
-                                onClick={() => handleClick()} 
-                            >
-                                {letter}
-                            </div>
-                        ))}
+        <div className="disease-info">
+            <h2><strong>Results for {letter}:</strong></h2>
+            {diseases.length > 0 ? (
+                diseases.map((disease, index) => (
+                    <div key={index} className="disease-item">
+                        <h3>{disease.name}</h3>
+                        <p><strong>Symptoms:</strong> {disease.info}</p>
+                        <p><strong>Treatment:</strong> {disease.treatment}</p>
+                        <p style={{ color: getRiskColor(disease['risk level']) }}>
+                            <strong>Risk Level:</strong> {disease['risk level']}
+                        </p>
+                        <p><strong>Recommended Doctors:</strong> {disease.doctor}</p>
                     </div>
-                </div>
-                <div className="alphabetical-search" style={{alignContent: 'center'}}>
-                    <div className='section-subtitle'>{props.label}</div>
-                    <div className='search' style={{width: '95%', margin: '1rem 0rem', padding: '10px 15px' }}>
-                        <img src="/icons/search.png" alt="search" height={"25rem"} style={{margin: "0 0.8rem"}}/>
-                        <input 
-                            type="text" 
-                            placeholder='Search' 
-                            style={{height: '2rem', fontSize: '1.2rem'}}
-                            onChange={handleClick} 
-                        />
-                    </div>
-                </div>
-            </div>
+                ))
+            ) : (
+                <p>No diseases found for the letter {letter}.</p>
+            )}
         </div>
-    )
+    );
 }
 
-export default AlphabetSearch;
+export default AlphabetInfo;
