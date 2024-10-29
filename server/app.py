@@ -10,12 +10,14 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# MongoDB configuration
 client = MongoClient('mongodb://localhost:27017/')
-db = client['AiM']  # Replace with your database name
-symptoms_collection = db['symptoms']  # Replace with your collection name
+db = client['AiM'] 
+symptoms_collection = db['symptoms']
 
-# Global variable to store symptoms
+
+###################################################################
+#              disease prediction based on symptoms               #
+###################################################################
 all_symptoms = []
 
 # Function to populate all_symptoms from the database
@@ -35,30 +37,24 @@ def load_model():
     # Print the DataFrame to check its structure
     print(df.head())  # Print the first few rows to inspect column names
 
-    # Use 'prognosis' instead of 'disease'
     if 'prognosis' in df.columns:
-        X = df.drop(columns=['_id', 'prognosis'])  # Adjust according to your dataset
+        X = df.drop(columns=['_id', 'prognosis'])
         y = df['prognosis']
     else:
         raise ValueError("The 'prognosis' column is not found in the dataset.")
 
-    # Split the dataset into training and test sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    # Initialize the model
     model = RandomForestClassifier()
-
-    # Fit the model
     model.fit(X_train, y_train)
 
-    # Evaluate the model
     predictions = model.predict(X_test)
     accuracy = accuracy_score(y_test, predictions)
     print(f'Model accuracy: {accuracy:.2f}')
 
-    return model  # Return the fitted model
+    return model 
 
-model = load_model()  # Load your trained model
+model = load_model() 
 
 # Route to get all symptoms
 @app.route('/symptoms', methods=['GET'])
