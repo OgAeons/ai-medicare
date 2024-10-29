@@ -1,41 +1,44 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import axios from 'axios'
 
-function AlphabetInfo(props) {
+const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+function AlphabetInfo() {
     const [selectedLetter, setSelectedLetter] = useState(null)
     const [searchQuery, setSearchQuery] = useState("")
+    const [filteredDiseases, setFilteredDiseases] = useState([])
 
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#".split("")
-    const diseases = { 
-        A: [
-            { name: 'Asthma', info: 'A respiratory condition', treatment: 'Inhalers, lifestyle changes' },
-            { name: 'Alzheimer’s', info: 'A brain disorder', treatment: 'Medications, therapies' },
-        ],
-        B: [
-            { name: 'Bronchitis', info: 'Inflammation of bronchial tubes', treatment: 'Rest, fluids, inhalers' },
-        ],
-        C: [
-            { name: 'Cystic Fibrosis', info: 'Affects lungs and digestive system', treatment: 'Airway clearance, enzymes' },
-        ]
-    }
-
-    const filteredDiseases = searchQuery
-        ? Object.values(diseases).flat().filter(disease => 
-            disease.name.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-        : selectedLetter ? diseases[selectedLetter] || [] : []
 
     function handleSearch(e) {
-        setSearchQuery(e.target.value)
-        setSelectedLetter('') 
+        setSearchQuery(e.target.value);
+        setSelectedLetter(''); 
+    
+        axios.get(`http://127.0.0.1:5000/diseases?search=${e.target.value}`)
+            .then(response => {
+                console.log('Search Response:', response.data);
+                setFilteredDiseases(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching diseases by search:', error);
+            });
     }
-
+    
     function handleLetterClick(letter) {
-        if (letter !== selectedLetter) {
-            setSelectedLetter(letter)
-            setSearchQuery('')
-        }
+        setSelectedLetter(letter);
+        setSearchQuery('');
+        axios.get(`http://127.0.0.1:5000/diseases?letter=${letter}`)
+            .then(response => {
+                console.log('Letter Response:', response.data);
+                setFilteredDiseases(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching diseases by letter:', error);
+            });
     }
 
     useEffect(() => {
@@ -65,7 +68,7 @@ function AlphabetInfo(props) {
                         <input 
                             type="text" 
                             placeholder='Search' 
-                            style={{height: '2rem', fontSize: '1.2rem'}}
+                            style={{height: '2rem', width: '90%', fontSize: '1.2rem'}}
                             value={searchQuery}
                             onChange={handleSearch} 
                         />
@@ -86,19 +89,42 @@ function AlphabetInfo(props) {
                     </div>
                 </div>
             </div>
-            <div className="bottom-container" style={{height: '100vh'}}>
+            <div className="bottom-container">
                 <div className='disease-info'>
                     <h2><strong>Results:</strong></h2>
-                    {filteredDiseases.length > 0 ? (
-                        filteredDiseases.map((disease, index) => (
-                            <div key={index} className="disease-item">
-                                <h3>{disease.name}</h3>
-                                <p><strong>Info:</strong> {disease.info}</p>
-                                <p><strong>Treatment:</strong> {disease.treatment}</p>
-                            </div>
-                        ))
+                    {Array.isArray(filteredDiseases) && filteredDiseases.length > 0 ? (
+                        filteredDiseases.map((disease, index) => {
+                            const riskLevel = disease['risk level'];
+                            let riskStyle = {};
+
+                            if (riskLevel.includes('high')) {
+                                riskStyle = { backgroundColor: 'red', color: 'white', padding: '2px 5px', borderRadius: '3px' };
+                            } else if (riskLevel.includes('moderate')) {
+                                riskStyle = { backgroundColor: 'yellow', color: 'black', padding: '2px 5px', borderRadius: '3px' };
+                            } else if (riskLevel.includes('low')) {
+                                riskStyle = { backgroundColor: 'green', color: 'white', padding: '2px 5px', borderRadius: '3px' };
+                            } else {
+                                riskStyle = { backgroundColor: 'gray', color: 'white', padding: '2px 5px', borderRadius: '3px' };
+                            }
+
+                            return (
+                                <div key={index} className="disease-item">
+                                    <h3>{disease.name}</h3>
+                                    <p><strong>Symptoms:</strong> {capitalizeFirstLetter(disease.info)}</p>
+                                    <p><strong>Treatment:</strong> {capitalizeFirstLetter(disease.treatment)}</p>
+                                    <p>
+                                        <strong>Risk: </strong>
+                                        <span style={riskStyle}>{capitalizeFirstLetter(riskLevel)}</span>
+                                    </p>
+
+                                    <p><strong>Refer:</strong> {disease.doctor.split(',').map(doctor =>
+                                        doctor.charAt(0).toUpperCase() + doctor.slice(1).trim()).join(', ')}</p>
+
+                                </div>
+                            );
+                        })
                     ) : (
-                        <div>No diseases found for this letter or search.</div>
+                        <p>No diseases found.</p>
                     )}
                 </div>
             </div>
