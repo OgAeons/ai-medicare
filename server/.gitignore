@@ -11,6 +11,7 @@ lerna-debug.log*
 dist
 dist-ssr
 *.local
+pratikBackendCodes
 
 # Editor directories and files
 .vscode/*
