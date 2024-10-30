@@ -4,6 +4,27 @@ body {
     background-color: rgb(22, 30, 47);
 }
 
+/* cover - login - register */
+.cover-container {
+    background-image: url(../public/images/background-img.jpg);
+    background-size: cover;
+    width: 60%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.cover-logo {
+    color: rgb(255, 255, 255);
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.2rem;
+    margin: 10vh 2rem;
+    display: flex;
+    align-items: flex-end;
+}
+
+
+/* notice */
 .notice {
     display: none;
     background-color: rgb(106, 106, 240);
