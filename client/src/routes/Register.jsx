@@ -47,7 +47,7 @@ function Register() {
             <div className="signup-container">
                 <h2>Create an Account</h2>
                 <p className="description-signup">Fill in the details to create an account</p>
-                {errorMessage && <p className="error-message">{errorMessage}</p>} 
+                {errorMessage && <p  style={{ color: 'red' }}>{errorMessage}</p>} 
                 <div className="input-container">
                     <label htmlFor='role' className="input-label">Role</label>
                     <select
