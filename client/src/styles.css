@@ -23,6 +23,76 @@ body {
     align-items: flex-end;
 }
 
+.signup-container {
+    /* background-color: rgb(194, 241, 23); */
+    width: 70%;
+    height: 70%;
+    margin: 17% auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-container h2 {
+    padding: 0;
+    margin: 0;
+}
+
+.description-signup {
+    margin-bottom: 2rem;
+}
+
+.role-select {
+    width: 90%;
+    height: 2rem;
+    margin-left: 2px;
+    border: 1px solid rgb(174, 174, 174);
+    border-radius: 3px;
+}
+
+.input-container {
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+.input-label {
+    margin-right: auto;
+    margin-bottom: .4rem;
+}
+
+.input-container input {
+    width: 98%;
+    height: 2rem;
+    border: 1px solid rgb(174, 174, 174);
+    border-radius: 3px;
+}
+
+.forgot {
+    color: red;
+    margin: .5rem 0 2rem auto;
+    font-size: .8rem;
+}
+
+.login-button {
+    color: white;
+    background-color: rgb(68, 68, 248);
+    height: 3rem;
+    width: 49%;
+    border: 1px solid transparent;
+    border-radius: 3px;
+}
+
+.login-button:hover {
+    background-color: rgb(21, 21, 35);
+    color: white;
+}
+
+.create-account {
+    font-size: .85rem;
+    margin-top: 1rem;
+}
+
 
 /* notice */
 .notice {

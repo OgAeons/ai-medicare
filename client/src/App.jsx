@@ -7,11 +7,24 @@ import Medicine from './routes/Medicine'
 import AlphabetInfo from './routes/AlphabetInfo'
 import Hospitals from './routes/Hospitals'
 import SymptomChecker from './routes/SymptomChecker'
+import Cover from './components/Cover'
+import Login from './routes/Login'
+
+function LayoutWithCover({ children }) {
+  return (
+      <div style={{display: 'flex'}}>
+          <Cover />
+          {children}
+      </div>
+  )
+}
 
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/login" element={<LayoutWithCover><Login /></LayoutWithCover>} />
+        {/* <Route path="/register" element={<LayoutWithCover><Register /></LayoutWithCover>} /> */}
         <Route path="/" element={<Home />} />
         <Route path='/alphabet-info' element={<AlphabetInfo />} />
         <Route path='/doctor' element={<FindDoctor />} />
