@@ -1,14 +1,18 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { useUser } from '../services/User'
 
 function Login() {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+    const { setUser } = useUser()
 
-    const [user, setUser] = useState({
+    const [user, setUserState] = useState({
         email: '',
         password: '',
         role: 'patient' 
-    });
+    })
+
+    const [errorMessage, setErrorMessage] = useState('')
 
     async function loginUser(e) {
         e.preventDefault()
@@ -18,22 +22,25 @@ function Login() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(user), // Send user data directly
+                body: JSON.stringify(user),
             });
-            const data = await response.json();
+            const data = await response.json()
     
-            if (response.ok) { // Check if the response is successful
-                if (data.success) { // Further check if the login was successful
-                    console.log(data.message); // Log success message
-                    navigate('/'); // Navigate to home on successful login
+            if (response.ok) {
+                if (data.success) { 
+                    console.log(data.message)
+                    setUser({ name: data.user.name, role: user.role })
+                    navigate('/')
                 } else {
-                    console.error('Login failed:', data.message); // Show error message if login fails
+                    setErrorMessage(data.message)
                 }
+            } else if (response.status === 401 || response.status === 400) {
+                setErrorMessage(data.message || 'Invalid email or password.')
             } else {
-                console.error('Server error:', response.status); // Log server errors
+                setErrorMessage('Server error. Please try again later.')
             }
         } catch (error) {
-            console.error('Error logging in:', error.message);
+            setErrorMessage('Error logging in. Please check your connection.')
         }
     }
     
@@ -43,13 +50,16 @@ function Login() {
             <div className="signup-container">
                 <h2>Welcome Back!</h2>
                 <p className="description-signup">Enter your details to log in</p>
+                
+                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} 
+                
                 <div className="input-container">
                     <label htmlFor='role' className="input-label">Role</label>
                     <select
                         className="role-select"
                         name="role"
                         value={user.role}
-                        onChange={(e) => setUser({ ...user, role: e.target.value })}
+                        onChange={(e) => setUserState({ ...user, role: e.target.value })}
                     >
                         <option value="patient">Patient</option>
                         <option value="doctor">Doctor</option>
@@ -62,7 +72,7 @@ function Login() {
                         placeholder="Email Address"
                         name="email"
                         value={user.email}
-                        onChange={(e) => setUser({ ...user, email: e.target.value })}
+                        onChange={(e) => setUserState({ ...user, email: e.target.value })}
                         required
                     />
                 </div>
@@ -73,7 +83,7 @@ function Login() {
                         placeholder="Password"
                         name="password"
                         value={user.password}
-                        onChange={(e) => setUser({ ...user, password: e.target.value })}
+                        onChange={(e) => setUserState({ ...user, password: e.target.value })}
                         required
                     />
                 </div>
@@ -82,7 +92,7 @@ function Login() {
                 <p className="create-account">Don't have an account? <Link to={`/register`}>Sign Up for Free</Link></p>
             </div>
         </div>
-    );
+    )
 }
 
-export default Login;
+export default Login

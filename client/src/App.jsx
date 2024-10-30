@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { UserProvider } from './services/User'
 import Home from './routes/Home'
 import FindDoctor from './routes/FindDoctor'
 import LabTests from './routes/LabTests'
@@ -22,19 +23,21 @@ function LayoutWithCover({ children }) {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<LayoutWithCover><Login /></LayoutWithCover>} />
-        <Route path="/register" element={<LayoutWithCover><Register /></LayoutWithCover>} />
-        <Route path="/" element={<Home />} />
-        <Route path='/alphabet-info' element={<AlphabetInfo />} />
-        <Route path='/doctor' element={<FindDoctor />} />
-        <Route path='/lab-tests' element={<LabTests />} />
-        <Route path='/medicine' element={<Medicine />} />
-        <Route path='/hospitals' element={<Hospitals />} />
-        <Route path='/symptoms' element={<SymptomChecker />} />
-      </Routes>
-    </Router>
+    <UserProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<LayoutWithCover><Login /></LayoutWithCover>} />
+          <Route path="/register" element={<LayoutWithCover><Register /></LayoutWithCover>} />
+          <Route path="/" element={<Home />} />
+          <Route path='/alphabet-info' element={<AlphabetInfo />} />
+          <Route path='/doctor' element={<FindDoctor />} />
+          <Route path='/lab-tests' element={<LabTests />} />
+          <Route path='/medicine' element={<Medicine />} />
+          <Route path='/hospitals' element={<Hospitals />} />
+          <Route path='/symptoms' element={<SymptomChecker />} />
+        </Routes>
+      </Router>
+    </UserProvider>
   )
 }
 

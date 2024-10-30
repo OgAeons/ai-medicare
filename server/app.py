@@ -36,29 +36,42 @@ def register():
     if role not in ["patient", "doctor"]:
         return jsonify({"error": "Invalid role specified"}), 400
 
-    # Check if the user already exists in either collection
     try:
         existing_patient = patients_collection.find_one({"email": email})
         existing_doctor = doctors_collection.find_one({"email": email})
 
         if role == "patient":
             if existing_patient:
-                return jsonify({"error": "Patient already exists"}), 400
+                return jsonify({"error": "A user with this email already exists as a patient."}), 409
+            elif existing_doctor:
+                return jsonify({"error": "A user with this email already exists as a doctor."}), 409
+            
             hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-            patients_collection.insert_one({"name": name, "email": email, "password": hashed_password})
+            patients_collection.insert_one({
+                "name": name,
+                "email": email,
+                "password": hashed_password
+            })
             print(f"Registered {name} as a patient")
 
         elif role == "doctor":
             if existing_doctor:
-                return jsonify({"error": "Doctor already exists"}), 400
+                return jsonify({"error": "A user with this email already exists as a doctor."}), 409
+            elif existing_patient:
+                return jsonify({"error": "A user with this email already exists as a patient."}), 409
+            
             hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-            doctors_collection.insert_one({"name": name, "email": email, "password": hashed_password})
+            doctors_collection.insert_one({
+                "name": name,
+                "email": email,
+                "password": hashed_password
+            })
             print(f"Registered {name} as a doctor")
 
         return jsonify({"message": "User registered successfully"}), 201
-    
+
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "Registration failed due to a server error. Please try again.", "details": str(e)}), 500
 
 
 # =====================================
@@ -81,9 +94,17 @@ def login():
         user = doctors_collection.find_one({"email": email})
 
     if user and check_password_hash(user['password'], password): 
-        return jsonify(success=True, message=f"Welcome, {user['name']}!")  
+        return jsonify({
+            "success": True,
+            "message": f"Welcome, {user['name']}!",
+            "user": {
+                "name": user['name'],
+                "email": user['email'],
+                "role": role  # Return role if needed
+            }
+        }), 200 
     else:
-        return jsonify(success=False, message="Invalid credentials"), 401
+        return jsonify({"success": False, "message": "Invalid credentials"}), 401
 
 
 # =====================================
