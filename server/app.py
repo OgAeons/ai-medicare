@@ -1,11 +1,12 @@
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
+from flask_cors import CORS
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import numpy as np
 import pandas as pd
-from flask_cors import CORS
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 CORS(app)
@@ -14,6 +15,67 @@ client = MongoClient('mongodb://localhost:27017/')
 db = client['AiM'] 
 symptoms_collection = db['symptoms']
 diseases_collection = db['diseases']
+patients_collection = db['patients']
+doctors_collection = db['doctors']
+
+
+# =====================================
+# User Registration Endpoint
+# =====================================
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.json
+    name = data.get('name')
+    email = data.get('email')
+    password = data.get('password')
+    role = data.get('role')
+
+    if not name or not email or not password or not role:
+        return jsonify({"error": "All fields are required"}), 400
+    
+    # Check if the user already exists in either collection
+    existing_patient = patients_collection.find_one({"email": email})
+    existing_doctor = doctors_collection.find_one({"email": email})
+
+    if role == "patient":
+        if existing_patient:
+            return jsonify({"error": "Patient already exists"}), 400
+        hashed_password = generate_password_hash(password)
+        patients_collection.insert_one({"name": name, "email": email, "password": hashed_password})
+        print(f"Registered {name} as a patient")
+
+    if role == "doctor":
+        if existing_doctor:
+            return jsonify({"error": "Doctor already exists"}), 400
+        hashed_password = generate_password_hash(password)
+        doctors_collection.insert_one({"name": name, "email": email, "password": hashed_password})
+        print(f"Registered {name} as a doctor")
+
+    return jsonify({"message": "User registered successfully"}), 201
+
+
+# =====================================
+# User Login Endpoint
+# =====================================
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+    role = data.get('role')
+
+    if not email or not password or not role:
+        return jsonify({"error": "Email, password, and role are required"}), 400
+    
+    user = None
+    if role == "patient":
+        user = patients_collection.find_one({"email": email})
+    elif role == "doctor":
+        user = doctors_collection.find_one({"email": email})
+
+    if user and check_password_hash(user['password'], password):
+        return jsonify({"message": f"Welcome, {user['name']}!"}), 200
+    return jsonify({"error": "Invalid credentials"}), 401
 
 
 # =====================================
