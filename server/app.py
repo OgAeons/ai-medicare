@@ -32,26 +32,33 @@ def register():
 
     if not name or not email or not password or not role:
         return jsonify({"error": "All fields are required"}), 400
-    
+
+    if role not in ["patient", "doctor"]:
+        return jsonify({"error": "Invalid role specified"}), 400
+
     # Check if the user already exists in either collection
-    existing_patient = patients_collection.find_one({"email": email})
-    existing_doctor = doctors_collection.find_one({"email": email})
+    try:
+        existing_patient = patients_collection.find_one({"email": email})
+        existing_doctor = doctors_collection.find_one({"email": email})
 
-    if role == "patient":
-        if existing_patient:
-            return jsonify({"error": "Patient already exists"}), 400
-        hashed_password = generate_password_hash(password)
-        patients_collection.insert_one({"name": name, "email": email, "password": hashed_password})
-        print(f"Registered {name} as a patient")
+        if role == "patient":
+            if existing_patient:
+                return jsonify({"error": "Patient already exists"}), 400
+            hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+            patients_collection.insert_one({"name": name, "email": email, "password": hashed_password})
+            print(f"Registered {name} as a patient")
 
-    if role == "doctor":
-        if existing_doctor:
-            return jsonify({"error": "Doctor already exists"}), 400
-        hashed_password = generate_password_hash(password)
-        doctors_collection.insert_one({"name": name, "email": email, "password": hashed_password})
-        print(f"Registered {name} as a doctor")
+        elif role == "doctor":
+            if existing_doctor:
+                return jsonify({"error": "Doctor already exists"}), 400
+            hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+            doctors_collection.insert_one({"name": name, "email": email, "password": hashed_password})
+            print(f"Registered {name} as a doctor")
 
-    return jsonify({"message": "User registered successfully"}), 201
+        return jsonify({"message": "User registered successfully"}), 201
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 # =====================================
@@ -73,9 +80,10 @@ def login():
     elif role == "doctor":
         user = doctors_collection.find_one({"email": email})
 
-    if user and check_password_hash(user['password'], password):
-        return jsonify({"message": f"Welcome, {user['name']}!"}), 200
-    return jsonify({"error": "Invalid credentials"}), 401
+    if user and check_password_hash(user['password'], password): 
+        return jsonify(success=True, message=f"Welcome, {user['name']}!")  
+    else:
+        return jsonify(success=False, message="Invalid credentials"), 401
 
 
 # =====================================
@@ -193,6 +201,11 @@ def get_diseases():
         for disease in diseases
     ]
     return jsonify(disease_list)
+
+
+@app.route('/<path:path>', methods=['OPTIONS', 'POST', 'GET'])
+def catch_all(path):
+    return jsonify({"error": "Path not found", "path": path}), 404
 
 
 if __name__ == '__main__':
