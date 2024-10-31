@@ -6,7 +6,7 @@ body {
 
 /* cover - login - register */
 .cover-container {
-    background-image: url(../public/images/background-img.jpg);
+    background-image: url(/images/background-img.jpg);
     background-size: cover;
     width: 60%;
     height: 100vh;

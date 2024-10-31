@@ -18,6 +18,8 @@ diseases_collection = db['diseases']
 patients_collection = db['patients']
 doctors_collection = db['doctors']
 
+# Global dictionary to store user data during registration
+user_data = {}
 
 # =====================================
 # User Registration Endpoint
@@ -25,52 +27,105 @@ doctors_collection = db['doctors']
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
-    name = data.get('name')
-    email = data.get('email')
-    password = data.get('password')
-    role = data.get('role')
+    print(f"Received data: {data}")  # Log incoming data
 
-    if not name or not email or not password or not role:
+    user_id = data.get('user_id')  # Unique identifier for the registration session
+    question = data.get('question')  # Current question to ask
+    answer = data.get('answer')  # User's answer to the current question
+    role = data.get('role')  # Role can be either 'patient' or 'doctor'
+
+    global user_data  # Use the global variable
+
+    if user_id not in user_data:
+        user_data[user_id] = {"role": role, "answers": {}}
+
+    # Store the answer for the current question
+    if question:
+        user_data[user_id]['answers'][question] = answer
+
+    questions = {
+        "patient": ["name", "email", "password", "additional_info"],
+        "doctor": [
+            "name", "email", "password", "specialization", "yearsOfExperience",
+            "clinicAddress", "contactNumber", "licenseNumber", "consultationFees",
+            "availableTimings", "qualification", "languagesSpoken", "bio"
+        ]
+    }
+
+    print(f"User ID: {user_id}, Role: {role}, Answers: {user_data[user_id]['answers']}")  # Log user data
+
+    if all(q in user_data[user_id]['answers'] for q in questions[role]):
+        print("All questions answered, finalizing registration...")
+        return finalize_registration(user_data[user_id], role, user_id)
+    else:
+        print("Not all questions answered:", user_data[user_id]['answers'])
+
+
+    next_question = next((q for q in questions[role] if q not in user_data[user_id]['answers']), None)
+    return jsonify({"next_question": next_question}), 200
+
+def finalize_registration(user_data, role, user_id):
+    # Retrieve all answers
+    answers = user_data['answers']
+    name = answers.get('name')
+    email = answers.get('email')
+    password = answers.get('password')
+
+    # Default to empty additional_info dictionary
+    additional_info = {k: answers[k] for k in answers if k not in ['name', 'email', 'password']}
+
+    # Validation
+    if not name or not email or not password:
         return jsonify({"error": "All fields are required"}), 400
-
-    if role not in ["patient", "doctor"]:
-        return jsonify({"error": "Invalid role specified"}), 400
 
     try:
         existing_patient = patients_collection.find_one({"email": email})
         existing_doctor = doctors_collection.find_one({"email": email})
 
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+
         if role == "patient":
             if existing_patient:
                 return jsonify({"error": "A user with this email already exists as a patient."}), 409
-            elif existing_doctor:
+            if existing_doctor:
                 return jsonify({"error": "A user with this email already exists as a doctor."}), 409
             
-            hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-            patients_collection.insert_one({
+            # Log the data before insertion
+            print(f"Inserting patient data: Name: {name}, Email: {email}, Additional Info: {additional_info}")
+
+            # Attempt to insert patient data
+            result = patients_collection.insert_one({
                 "name": name,
                 "email": email,
-                "password": hashed_password
+                "password": hashed_password,
+                **additional_info
             })
-            print(f"Registered {name} as a patient")
+
+            print(f"Inserted patient with ID: {result.inserted_id}")  # Log the inserted ID
 
         elif role == "doctor":
             if existing_doctor:
                 return jsonify({"error": "A user with this email already exists as a doctor."}), 409
-            elif existing_patient:
+            if existing_patient:
                 return jsonify({"error": "A user with this email already exists as a patient."}), 409
             
-            hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-            doctors_collection.insert_one({
+            # Log the data before insertion
+            print(f"Inserting doctor data: Name: {name}, Email: {email}, Additional Info: {additional_info}")
+
+            result = doctors_collection.insert_one({
                 "name": name,
                 "email": email,
-                "password": hashed_password
+                "password": hashed_password,
+                **additional_info
             })
-            print(f"Registered {name} as a doctor")
 
+            print(f"Inserted doctor with ID: {result.inserted_id}")  # Log the inserted ID
+
+        del user_data[user_id]  # Clean up user data after registration
         return jsonify({"message": "User registered successfully"}), 201
 
     except Exception as e:
+        print(f"Error during registration: {str(e)}")  # Log the error
         return jsonify({"error": "Registration failed due to a server error. Please try again.", "details": str(e)}), 500
 
 
@@ -108,7 +163,7 @@ def login():
 
 
 # =====================================
-# disease prediction based on symptoms               
+# Disease prediction based on symptoms               
 # =====================================
 all_symptoms = []
 
@@ -186,47 +241,10 @@ def predict():
 
     # Ensure features length matches the model input shape
     if len(features) != model.n_features_in_:
-        return jsonify({'error': 'Feature vector length does not match the model input shape.'}), 400
+        return jsonify({'error': 'Mismatch in number of features.'}), 400
 
-    # Perform prediction using the model
     prediction = model.predict([features])
-    print(f"Prediction output: {prediction[0]}")  # Log the prediction
-    return jsonify({'disease': prediction[0]})
-
-
-# =====================================
-# disease info (Alphabet Info)               
-# =====================================
-@app.route('/diseases', methods=['GET'])
-def get_diseases():
-    letter = request.args.get('letter', '').upper()  # Get letter parameter
-    search_query = request.args.get('search', '').lower()  # Get search parameter
-
-    # Fetch diseases by first letter or search term
-    if search_query:
-        diseases = diseases_collection.find({"disease": {"$regex": f"^{search_query}", "$options": "i"}})
-    elif letter:
-        diseases = diseases_collection.find({"disease": {"$regex": f"^{letter}", "$options": "i"}})
-    else:
-        diseases = diseases_collection.find()
-
-    # Convert results to list of dictionaries
-    disease_list = [
-        {
-            "name": disease["disease"].capitalize(),
-            "info": disease["symptoms"],
-            "treatment": disease["cures"],
-            "doctor": disease["doctor"],
-            "risk level": disease["risk level"]
-        }
-        for disease in diseases
-    ]
-    return jsonify(disease_list)
-
-
-@app.route('/<path:path>', methods=['OPTIONS', 'POST', 'GET'])
-def catch_all(path):
-    return jsonify({"error": "Path not found", "path": path}), 404
+    return jsonify({'predicted_disease': prediction[0]})
 
 
 if __name__ == '__main__':
