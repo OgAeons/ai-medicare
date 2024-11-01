@@ -20,7 +20,9 @@ function DoctorRegistrationForm({ registrationData }) {
     const [submitMessage, setSubmitMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [currentStep, setCurrentStep] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
+    // Define all fields in an array for easy iteration
     const fields = [
         { name: 'specialization', label: 'Specialization', type: 'text', required: true },
         { name: 'yearsOfExperience', label: 'Years of Experience', type: 'number', required: true },
@@ -34,39 +36,46 @@ function DoctorRegistrationForm({ registrationData }) {
         { name: 'bio', label: 'Bio', type: 'textarea', required: true }
     ];
 
-    const handleChange = (e, field) => {
-        setDoctorDetails({ ...doctorDetails, [field.name]: e.target.value });
+    // Handle input changes
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setDoctorDetails(prevDetails => ({ ...prevDetails, [name]: value }));
     };
 
+    // Move to the next step if current field is valid
     const handleNext = () => {
-        if (currentStep < fields.length - 1) {
-            setCurrentStep(currentStep + 1);
-        } else {
-            submitDoctorDetails();
+        const currentField = fields[currentStep];
+        if (currentField.required && !doctorDetails[currentField.name]) {
+            setErrorMessage(`Please fill out the ${currentField.label}.`);
+            return;
         }
+        setErrorMessage(''); // Clear error if validation passes
+        setCurrentStep(prevStep => prevStep + 1);
     };
 
+    // Go back to the previous step
     const handleBack = () => {
-        if (currentStep > 0) {
-            setCurrentStep(currentStep - 1);
-        }
+        setErrorMessage('');
+        setCurrentStep(prevStep => Math.max(prevStep - 1, 0));
     };
 
-    async function submitDoctorDetails() {
-        const completeDoctorData = { ...registrationData, ...doctorDetails };
-
+    // Submit form data
+    const submitDoctorDetails = async () => {
+        const completeDoctorData = { ...registrationData, ...doctorDetails, role: 'doctor' }; // Include role
+    
+        setIsLoading(true); // Set loading state
         try {
             const response = await fetch('http://127.0.0.1:5000/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(completeDoctorData),
             });
+    
             if (response.ok) {
-                console.log("Doctor details submitted successfully!");
                 setSubmitMessage("Doctor details submitted successfully!");
                 setErrorMessage('');
-                setDoctorDetails(initialDoctorDetails); // Clear form
-                setCurrentStep(0); // Reset to the first step
+                setDoctorDetails(initialDoctorDetails); // Reset form
+                setCurrentStep(0); // Reset step
                 navigate("/"); // Navigate to home on successful registration
             } else {
                 const errorData = await response.json();
@@ -74,30 +83,34 @@ function DoctorRegistrationForm({ registrationData }) {
                 setSubmitMessage('');
             }
         } catch (error) {
-            console.error("Error submitting doctor details", error);
+            console.error("Error submitting doctor details:", error);
             setErrorMessage('Error submitting doctor details. Please try again.');
             setSubmitMessage('');
+        } finally {
+            setIsLoading(false); // Reset loading state
         }
     }
 
     return (
-        <form>
+        <form onSubmit={(e) => e.preventDefault()}>
             <h2>Complete Doctor Registration</h2>
             <div>
                 <label htmlFor={fields[currentStep].name}>{fields[currentStep].label}:</label>
                 {fields[currentStep].type === 'textarea' ? (
                     <textarea
                         id={fields[currentStep].name}
+                        name={fields[currentStep].name}
                         value={doctorDetails[fields[currentStep].name]}
-                        onChange={(e) => handleChange(e, fields[currentStep])}
+                        onChange={handleChange}
                         required={fields[currentStep].required}
                     />
                 ) : (
                     <input
                         id={fields[currentStep].name}
+                        name={fields[currentStep].name}
                         type={fields[currentStep].type}
                         value={doctorDetails[fields[currentStep].name]}
-                        onChange={(e) => handleChange(e, fields[currentStep])}
+                        onChange={handleChange}
                         required={fields[currentStep].required}
                     />
                 )}
@@ -108,9 +121,15 @@ function DoctorRegistrationForm({ registrationData }) {
                         Back
                     </button>
                 )}
-                <button type="button" onClick={handleNext}>
-                    {currentStep < fields.length - 1 ? "Next" : "Submit"}
-                </button>
+                {currentStep < fields.length - 1 ? (
+                    <button type="button" onClick={handleNext}>
+                        Next
+                    </button>
+                ) : (
+                    <button type="button" onClick={submitDoctorDetails} disabled={isLoading}>
+                        {isLoading ? "Submitting..." : "Submit"}
+                    </button>
+                )}
             </div>
             {submitMessage && <p style={{ color: 'green' }}>{submitMessage}</p>}
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}

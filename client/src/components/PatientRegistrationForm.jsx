@@ -1,27 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
+import { useNavigate } from "react-router-dom";
 
 function PatientRegistrationForm({ registrationData }) {
-    const navigate = useNavigate(); // Create navigate instance
+    const navigate = useNavigate();
     const initialPatientDetails = {
-        age: '',
-        gender: '',
-        contact: '',
-        address: '',
-        allergies: '',
-        medications: '',
-        chronicConditions: '',
-        surgeries: '',
-        smoking: false,
-        alcohol: false,
-        exercise: '',
-        diet: '',
-        familyHistory: '',
-        healthConcern: '',
-        recentSymptoms: '',
-        emergencyContactName: '',
-        emergencyContactRelation: '',
-        emergencyContactPhone: '',
+        age: '', gender: '', contact: '', address: '', allergies: '', medications: '',
+        chronicConditions: '', surgeries: '', smoking: false, alcohol: false, exercise: '',
+        diet: '', familyHistory: '', healthConcern: '', recentSymptoms: '',
+        emergencyContactName: '', emergencyContactRelation: '', emergencyContactPhone: ''
     };
 
     const [patientDetails, setPatientDetails] = useState(initialPatientDetails);
@@ -56,6 +42,13 @@ function PatientRegistrationForm({ registrationData }) {
     };
 
     const handleNext = () => {
+        // Required field validation
+        const { name, required } = fields[currentStep];
+        if (required && !patientDetails[name]) {
+            setErrorMessage(`Please fill in the required field: ${fields[currentStep].label}`);
+            return;
+        }
+        setErrorMessage('');  // Clear previous error messages
         if (currentStep < fields.length - 1) {
             setCurrentStep(currentStep + 1);
         } else {
@@ -70,33 +63,32 @@ function PatientRegistrationForm({ registrationData }) {
     };
 
     async function submitPatientDetails() {
-        const completePatientData = { ...registrationData, ...patientDetails };
-
+        const completePatientData = { ...registrationData, ...patientDetails, role: 'patient' }; // Include role
+    
         try {
-            const response = await fetch('http://127.0.0.1:5000/register', {
+            const response = await fetch('http://127.0.0.1:5000/register', { // Updated endpoint
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(completePatientData),
             });
+    
             if (response.ok) {
-                const responseData = await response.json(); // Get the response data
-                alert("Patient successfully registered!"); // Show alert
-                setSubmitMessage("Patient details submitted successfully!");
+                const responseData = await response.json();
+                setSubmitMessage("Patient successfully registered!");
                 setErrorMessage('');
                 setPatientDetails(initialPatientDetails); // Clear form
                 setCurrentStep(0); // Reset to the first step
-                navigate("/"); // Use navigate to go to home
+                navigate("/"); // Navigate to the home page
             } else {
                 const errorData = await response.json();
-                setErrorMessage(errorData.message || 'Failed to submit patient details.');
+                setErrorMessage(errorData.error || 'Failed to submit patient details.'); // Use the specific error message
                 setSubmitMessage('');
             }
         } catch (error) {
-            console.error("Error submitting patient details", error);
             setErrorMessage('Error submitting patient details. Please try again.');
             setSubmitMessage('');
         }
-    }
+    }    
 
     return (
         <form>
