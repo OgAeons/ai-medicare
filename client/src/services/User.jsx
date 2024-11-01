@@ -1,9 +1,11 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react';
 
-const UserContext = createContext()
+// Create a UserContext
+const UserContext = createContext();
 
+// UserProvider component to wrap around your app
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(null); // State to hold user data
 
     return (
         <UserContext.Provider value={{ user, setUser }}>
@@ -12,6 +14,11 @@ export const UserProvider = ({ children }) => {
     );
 };
 
+// Custom hook to use UserContext
 export const useUser = () => {
-    return useContext(UserContext);
+    const context = useContext(UserContext);
+    if (!context) {
+        throw new Error("useUser must be used within a UserProvider");
+    }
+    return context;
 };

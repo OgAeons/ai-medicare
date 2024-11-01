@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PatientRegistrationForm from "../components/PatientRegistrationForm";
 import DoctorRegistrationForm from "../components/DoctorRegistrationForm";
+import { useUser } from '../services/User'; // Import useUser
 
 function Register() {
     const navigate = useNavigate();
+    const { setUser } = useUser(); // Use setUser from context
     const [user, setUserState] = useState({
         name: '',
         email: '',
@@ -15,7 +17,6 @@ function Register() {
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
-    const [nextQuestion, setNextQuestion] = useState('');
 
     async function handleRegister(e) {
         e.preventDefault();
@@ -29,10 +30,11 @@ function Register() {
                 body: JSON.stringify(user),
             });
             const data = await response.json();
-
             setLoading(false);
 
             if (response.ok) {
+                // Update the user context with the new user data
+                setUser({ name: user.name, email: user.email, role: user.role });
                 // Proceed to the next step for additional information form
                 setIsFormSubmitted(true);
             } else {
@@ -53,7 +55,6 @@ function Register() {
         <div style={{ width: '40%', height: '100vh', backgroundColor: 'white' }}>
             <div className="signup-container">
                 {isFormSubmitted ? (
-                    // Render the additional form based on user role
                     user.role === 'patient' ? (
                         <PatientRegistrationForm registrationData={user} />
                     ) : (
@@ -65,7 +66,6 @@ function Register() {
                         <p className="description-signup">Fill in the details to create an account</p>
                         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                         {loading && <p style={{ color: 'blue' }}>Registering...</p>}
-
                         <div className="input-container">
                             <label htmlFor='role' className="input-label">Role</label>
                             <select
