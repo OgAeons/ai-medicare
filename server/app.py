@@ -7,6 +7,7 @@ from sklearn.metrics import accuracy_score
 import numpy as np
 import pandas as pd
 from werkzeug.security import generate_password_hash, check_password_hash
+import traceback
 
 app = Flask(__name__)
 CORS(app)
@@ -30,8 +31,6 @@ def register():
     print(f"Received data: {data}")  # Log incoming data
 
     user_id = data.get('user_id')  # Unique identifier for the registration session
-    question = data.get('question')  # Current question to ask
-    answer = data.get('answer')  # User's answer to the current question
     role = data.get('role')  # Role can be either 'patient' or 'doctor'
 
     global user_data  # Use the global variable
@@ -40,11 +39,16 @@ def register():
         user_data[user_id] = {"role": role, "answers": {}}
 
     # Store the answer for the current question
-    if question:
-        user_data[user_id]['answers'][question] = answer
+    for key in data:
+        if key != "role" and key != "user_id":
+            user_data[user_id]['answers'][key] = data[key]
 
     questions = {
-        "patient": ["name", "email", "password", "additional_info"],
+        "patient": ["name", "email", "password", "age", "gender", "contact", "address",
+                    "allergies", "medications", "chronicConditions", "surgeries", 
+                    "smoking", "alcohol", "exercise", "diet", "familyHistory", 
+                    "healthConcern", "recentSymptoms", "emergencyContactName", 
+                    "emergencyContactRelation", "emergencyContactPhone"],
         "doctor": [
             "name", "email", "password", "specialization", "yearsOfExperience",
             "clinicAddress", "contactNumber", "licenseNumber", "consultationFees",
@@ -52,14 +56,10 @@ def register():
         ]
     }
 
-    print(f"User ID: {user_id}, Role: {role}, Answers: {user_data[user_id]['answers']}")  # Log user data
-
+    # Check if all questions are answered
     if all(q in user_data[user_id]['answers'] for q in questions[role]):
         print("All questions answered, finalizing registration...")
         return finalize_registration(user_data[user_id], role, user_id)
-    else:
-        print("Not all questions answered:", user_data[user_id]['answers'])
-
 
     next_question = next((q for q in questions[role] if q not in user_data[user_id]['answers']), None)
     return jsonify({"next_question": next_question}), 200
@@ -71,17 +71,18 @@ def finalize_registration(user_data, role, user_id):
     email = answers.get('email')
     password = answers.get('password')
 
-    # Default to empty additional_info dictionary
-    additional_info = {k: answers[k] for k in answers if k not in ['name', 'email', 'password']}
-
     # Validation
     if not name or not email or not password:
         return jsonify({"error": "All fields are required"}), 400
 
     try:
+        # Check if user already exists
+        patients_collection = db['patients']
+        doctors_collection = db['doctors']
         existing_patient = patients_collection.find_one({"email": email})
         existing_doctor = doctors_collection.find_one({"email": email})
 
+        # Hash the password
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
 
         if role == "patient":
@@ -89,44 +90,51 @@ def finalize_registration(user_data, role, user_id):
                 return jsonify({"error": "A user with this email already exists as a patient."}), 409
             if existing_doctor:
                 return jsonify({"error": "A user with this email already exists as a doctor."}), 409
-            
-            # Log the data before insertion
-            print(f"Inserting patient data: Name: {name}, Email: {email}, Additional Info: {additional_info}")
 
-            # Attempt to insert patient data
-            result = patients_collection.insert_one({
-                "name": name,
-                "email": email,
-                "password": hashed_password,
-                **additional_info
-            })
+            # Prepare patient data
+            patient_data = {
+                'name': name,
+                'email': email,
+                'password': hashed_password,
+                **{key: answers[key] for key in answers if key != 'name' and key != 'email' and key != 'password'}
+            }
 
-            print(f"Inserted patient with ID: {result.inserted_id}")  # Log the inserted ID
+            # Insert patient data into MongoDB
+            patients_collection.insert_one(patient_data)
+            print(f"Inserted patient data: {patient_data}")  # Log the inserted data
+            if user_id in user_data:
+                del user_data[user_id]   # Clean up user data after registration
+                print("Current user_data:", user_data)
+            return jsonify({'message': 'Patient registered successfully!'}), 201
 
         elif role == "doctor":
             if existing_doctor:
                 return jsonify({"error": "A user with this email already exists as a doctor."}), 409
             if existing_patient:
                 return jsonify({"error": "A user with this email already exists as a patient."}), 409
-            
-            # Log the data before insertion
-            print(f"Inserting doctor data: Name: {name}, Email: {email}, Additional Info: {additional_info}")
 
-            result = doctors_collection.insert_one({
-                "name": name,
-                "email": email,
-                "password": hashed_password,
-                **additional_info
-            })
+            # Prepare doctor data
+            doctor_data = {
+                'name': name,
+                'email': email,
+                'password': hashed_password,
+                **{key: answers[key] for key in answers if key != 'name' and key != 'email' and key != 'password'}
+            }
 
-            print(f"Inserted doctor with ID: {result.inserted_id}")  # Log the inserted ID
-
-        del user_data[user_id]  # Clean up user data after registration
-        return jsonify({"message": "User registered successfully"}), 201
+            # Insert doctor data into MongoDB
+            doctors_collection.insert_one(doctor_data)
+            print(f"Inserted doctor data: {doctor_data}")  # Log the inserted data
+            if user_id in user_data:
+                del user_data[user_id]   # Clean up user data after registration
+                print("Current user_data:", user_data)
+            return jsonify({'message': 'Doctor registered successfully!'}), 201
 
     except Exception as e:
-        print(f"Error during registration: {str(e)}")  # Log the error
+        print(f"Error during registration: {str(e)}")  # Log the error message
+        traceback.print_exc()  # This will print the traceback of the error
         return jsonify({"error": "Registration failed due to a server error. Please try again.", "details": str(e)}), 500
+
+
 
 
 # =====================================
