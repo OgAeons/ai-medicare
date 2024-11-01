@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 import Location from '../services/Location';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../services/User';
 
 function Navbar() {
+    const navigate = useNavigate()
+
     const { user } = useUser();
     const [userLocation, setUserLocation] = useState({ latitude: null, longitude: null, area: '' });
     
     function handleLocationChange(location) {
         setUserLocation(location);
+    }
+
+    const handleLoginClick = () => {
+        if (!user) {
+            navigate('/login'); // Navigate to login if user is not logged in
+        }
     }
 
     return (
@@ -59,10 +67,10 @@ function Navbar() {
                     {user.name}
                 </div>
             ) : (
-                <Link to="/login" className='login-container' style={{color: 'black', fontWeight: '400'}}>
-                    <img src="/icons/user.png" alt="user icon" height="15rem" />
+                <div className='login-container' onClick={handleLoginClick}>
+                    <img src="/icons/user.png" alt="user-icon" height={"15rem"}/>
                     Login
-                </Link>
+                </div>
             )}
         </nav>
     );

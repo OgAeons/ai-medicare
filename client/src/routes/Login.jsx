@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from '../services/User';
 
@@ -49,6 +49,12 @@ function Login() {
             setErrorMessage('Error logging in. Please check your connection.');
         }
     }
+
+    useEffect(() => {
+        if (user) {
+            navigate('/'); // Redirect to homepage if user is logged in
+        }
+    }, [user, navigate])
 
     return (
         <div style={{ width: '40%', height: '100vh', backgroundColor: 'white' }}>

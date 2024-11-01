@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PatientRegistrationForm from "../components/PatientRegistrationForm";
 import DoctorRegistrationForm from "../components/DoctorRegistrationForm";
@@ -50,6 +50,12 @@ function Register() {
         const { name, value } = e.target;
         setUserState((prev) => ({ ...prev, [name]: value }));
     };
+
+    useEffect(() => {
+        if (user) {
+            navigate('/'); // Redirect to homepage if user is logged in
+        }
+    }, [user, navigate])
 
     return (
         <div style={{ width: '40%', height: '100vh', backgroundColor: 'white' }}>
