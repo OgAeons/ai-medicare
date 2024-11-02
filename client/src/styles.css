@@ -4,6 +4,10 @@ body {
     background-color: rgb(22, 30, 47);
 }
 
+a {
+    text-decoration: none;
+}
+
 /* cover - login - register */
 .cover-container {
     background-image: url(/images/background-img.jpg);
@@ -126,27 +130,23 @@ body {
 }
 
 .navbar-logo {
-    width: 16%;
+    width: 15%;
     font-size: .9rem;
+    font-weight: 800;
     display: flex;
     align-items: center;
     text-decoration: none;
-}
-
-a {
-    /* color: rgb(87, 101, 90); */
-    text-decoration: none;
-    font-weight: 800;
 }
 
 /* location */
 .location-container {
     width: 10%;
     font-size: .8rem;
+    padding: 10px 5px;
     display: flex;
     align-items: center;
     border: 1px solid transparent;
-    border-radius: 5px;
+    border-radius: 30px;
 }
 
 .location-container:hover {
@@ -154,7 +154,7 @@ a {
 }
 
 .location {
-    width: 85%;
+    width: 90%;
 }
 
 /* search */
@@ -227,10 +227,10 @@ input:focus {
 .services-container:hover .services-content {display: block;}
 
 .login-container {
-    width: 4%;
+    width: 10%;
     padding: 10px 1rem;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     border: 1px solid transparent;
     border-radius: 30px;
@@ -241,10 +241,10 @@ input:focus {
 }
 
 .user-container {
-    width: 11%;
+    width: 10%;
     padding: 10px 1rem;
     display: flex;
-    justify-content: space-around;
+    justify-content: end;
     align-items: center;
     border: 1px solid transparent;
     border-radius: 30px;

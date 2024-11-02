@@ -4,9 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../services/User';
 
 function Navbar() {
-    const navigate = useNavigate()
-
-    const { user } = useUser();
+    const navigate = useNavigate();
+    const { user, logout } = useUser(); // Destructure logout function
     const [userLocation, setUserLocation] = useState({ latitude: null, longitude: null, area: '' });
     
     function handleLocationChange(location) {
@@ -17,6 +16,11 @@ function Navbar() {
         if (!user) {
             navigate('/login'); // Navigate to login if user is not logged in
         }
+    }
+
+    const handleLogout = () => {
+        logout(); // Call logout from context
+        navigate('/'); // Navigate to home or another page after logout
     }
 
     return (
@@ -55,20 +59,21 @@ function Navbar() {
                     <Link to="/doctor-at-doorstep">Doctor at Doorstep</Link>
                 </div>
             </div>
-            <div className='login-container'>
+            {/* <div className='login-container'>
                 <Link to="/cart" style={{color: 'black', fontWeight: '400'}}>
                     <img src="/icons/shopping-bag.png" alt="shopping cart" height="15rem" />
                     Cart
                 </Link>
-            </div>
+            </div> */}
             {user ? (
                 <div className='user-container'>
-                    <img src="/icons/user.png" alt="user icon" height="15rem" />
+                    <img src="/icons/user.png" alt="user icon" height="15rem"  style={{marginRight: '.5rem'}} />
                     {user.name}
+                    <button onClick={handleLogout} style={{ marginLeft: '10px' }}>Logout</button> {/* Logout button */}
                 </div>
             ) : (
                 <div className='login-container' onClick={handleLoginClick}>
-                    <img src="/icons/user.png" alt="user-icon" height={"15rem"}/>
+                    <img src="/icons/user.png" alt="user icon" height={"15rem"} style={{marginRight: '.5rem'}} />
                     Login
                 </div>
             )}
