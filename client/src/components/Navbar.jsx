@@ -5,23 +5,28 @@ import { useUser } from '../services/User';
 
 function Navbar() {
     const navigate = useNavigate();
-    const { user, logout } = useUser(); // Destructure logout function
+    const { user, logout } = useUser();
     const [userLocation, setUserLocation] = useState({ latitude: null, longitude: null, area: '' });
-    
+    const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown state
+
     function handleLocationChange(location) {
         setUserLocation(location);
     }
 
     const handleLoginClick = () => {
         if (!user) {
-            navigate('/login'); // Navigate to login if user is not logged in
+            navigate('/login');
         }
-    }
+    };
 
     const handleLogout = () => {
-        logout(); // Call logout from context
-        navigate('/'); // Navigate to home or another page after logout
-    }
+        logout();
+        navigate('/register');
+    };
+
+    const toggleDropdown = () => {
+        setDropdownOpen(prevState => !prevState);
+    };
 
     return (
         <nav className='navbar'>
@@ -54,26 +59,24 @@ function Navbar() {
                     <Link to="/hospitals">Hospitals</Link>
                     <Link to="/medicines">Medicines</Link>
                     <Link to="/lab-tests">Lab Tests</Link>
-                    <Link to="/medical-equipment">Medical Equipment on Rent</Link>
+                    <Link to="#">Medical Equipment on Rent</Link>
                     <Link to="/tests-recommendations">Tests Recommendations</Link>
                     <Link to="/doctor-at-doorstep">Doctor at Doorstep</Link>
                 </div>
             </div>
-            {/* <div className='login-container'>
-                <Link to="/cart" style={{color: 'black', fontWeight: '400'}}>
-                    <img src="/icons/shopping-bag.png" alt="shopping cart" height="15rem" />
-                    Cart
-                </Link>
-            </div> */}
             {user ? (
-                <div className='user-container'>
-                    <img src="/icons/user.png" alt="user icon" height="15rem"  style={{marginRight: '.5rem'}} />
+                <div className='user-container' onClick={toggleDropdown}>
+                    <img src="/icons/user.png" alt="user icon" height="15rem" style={{ marginRight: '.5rem' }} />
                     {user.name}
-                    <button onClick={handleLogout} style={{ marginLeft: '10px' }}>Logout</button> {/* Logout button */}
+                    {dropdownOpen && (
+                        <div className="dropdown-menu">
+                            <button onClick={handleLogout}>Logout</button>
+                        </div>
+                    )}
                 </div>
             ) : (
                 <div className='login-container' onClick={handleLoginClick}>
-                    <img src="/icons/user.png" alt="user icon" height={"15rem"} style={{marginRight: '.5rem'}} />
+                    <img src="/icons/user.png" alt="user icon" height="15rem" style={{ marginRight: '.5rem' }} />
                     Login
                 </div>
             )}

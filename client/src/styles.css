@@ -226,14 +226,15 @@ input:focus {
 
 .services-container:hover .services-content {display: block;}
 
+/* login btn */
 .login-container {
     width: 10%;
     padding: 10px 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: relative;
+    text-align: center;
     border: 1px solid transparent;
     border-radius: 30px;
+    cursor: pointer;
 }
 
 .login-container:hover {
@@ -243,15 +244,38 @@ input:focus {
 .user-container {
     width: 10%;
     padding: 10px 1rem;
-    display: flex;
-    justify-content: end;
-    align-items: center;
+    display: relative;
+    cursor: pointer;
     border: 1px solid transparent;
     border-radius: 30px;
 }
 
 .user-container:hover {
     border: 1px solid black;
+}
+
+.dropdown-menu {
+    background-color: white;
+    width: 10vw;
+    padding: 10px;
+    position: absolute;
+    top: 8vh; 
+    right: 6vw; 
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: block; 
+    z-index: 1;
+}
+
+.dropdown-menu button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #eb2323; /* Optional styling for the logout button */
+}
+
+.dropdown-menu button:hover {
+    text-decoration: underline; /* Optional hover effect */
 }
 
 

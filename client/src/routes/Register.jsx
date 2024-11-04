@@ -51,11 +51,11 @@ function Register() {
         setUserState((prev) => ({ ...prev, [name]: value }));
     };
 
-    useEffect(() => {
-        if (user) {
-            navigate('/'); // Redirect to homepage if user is logged in
-        }
-    }, [user, navigate])
+    // useEffect(() => {
+    //     if (user) {
+    //         navigate('/'); // Redirect to homepage if user is logged in
+    //     }
+    // }, [user, navigate])
 
     return (
         <div style={{ width: '40%', height: '100vh', backgroundColor: 'white' }}>
