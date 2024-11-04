@@ -255,5 +255,35 @@ def predict():
     return jsonify({'predicted_disease': prediction[0]})
 
 
+# =====================================
+# disease info (Alphabet Info)               
+# =====================================
+@app.route('/diseases', methods=['GET'])
+def get_diseases():
+    letter = request.args.get('letter', '').upper()  # Get letter parameter
+    search_query = request.args.get('search', '').lower()  # Get search parameter
+
+    # Fetch diseases by first letter or search term
+    if search_query:
+        diseases = diseases_collection.find({"disease": {"$regex": f"^{search_query}", "$options": "i"}})
+    elif letter:
+        diseases = diseases_collection.find({"disease": {"$regex": f"^{letter}", "$options": "i"}})
+    else:
+        diseases = diseases_collection.find()
+
+    # Convert results to list of dictionaries
+    disease_list = [
+        {
+            "name": disease["disease"].capitalize(),
+            "info": disease["symptoms"],
+            "treatment": disease["cures"],
+            "doctor": disease["doctor"],
+            "risk level": disease["risk level"]
+        }
+        for disease in diseases
+    ]
+    return jsonify(disease_list)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
