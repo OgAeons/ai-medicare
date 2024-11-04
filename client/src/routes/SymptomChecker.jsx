@@ -42,7 +42,8 @@ const SymptomChecker = () => {
         symptoms: selectedSymptoms,
       });
       console.log('Prediction response:', response.data); // Log the response
-      setPredictedDisease(response.data.disease); // Update to match the API response
+      // Update to match the API response
+      setPredictedDisease(response.data.predicted_disease); 
     } catch (error) {
       console.error('Error predicting disease:', error);
       setPredictedDisease('Error predicting disease'); // Optionally handle error display
