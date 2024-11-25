@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import Location from '../services/Location';
-import { Link, useNavigate } from 'react-router-dom';
-import { useUser } from '../services/User';
+import React, { useState } from 'react'
+import Location from '../services/Location'
+import { Link, useNavigate } from 'react-router-dom'
+import { useUser } from '../services/User'
 
 function Navbar() {
-    const navigate = useNavigate();
-    const { user, logout } = useUser();
-    const [userLocation, setUserLocation] = useState({ latitude: null, longitude: null, area: '' });
-    const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown state
+    const navigate = useNavigate()
+    const { user, logout } = useUser()
+    const [userLocation, setUserLocation] = useState({ latitude: null, longitude: null, area: '' })
+    const [dropdownOpen, setDropdownOpen] = useState(false)
 
     function handleLocationChange(location) {
         setUserLocation(location);
@@ -29,29 +29,29 @@ function Navbar() {
     };
 
     return (
-        <nav className='navbar'>
-            <div className='navbar-logo'>
-                <Link to='/'>
-                    <img src="/images/Aim-logo.png" alt="Artificial Intelligence Medicare logo" height='50vh' />
+        <nav className='navbar bg-white text-gray-800 w-full h-16 flex'>
+            <div className='navbar-logo w-1/6'>
+                <Link to='/' className='flex items-center'>
+                    <img src="/images/Aim-logo.png" className="w-1/5 h-12" alt="Artificial Intelligence Medicare logo" />
+                    <span className='font-bold w-4/5'>Artificial Intelligence Medicare</span>
                 </Link>
-                <Link to='/'>Artificial Intelligence Medicare</Link>
+                <img src="/icons/line.png" className='w-8' alt="divider" />
             </div>
-            <img src="/icons/line.png" alt="divider" height="20rem" style={{ color: 'grey' }} />
-            <div className='location-container'>
-                <img src="/icons/pin.png" alt="location pin" height="20rem" />
-                <div className='location'>
+            <div className='text-sm w-1/6 px-4 py-2 flex items-center border border-transparent hover:border-black rounded-3xl'>
+                <img src="/icons/pin.png" className="w-6" alt="location pin" />
+                <div className='text-sm px-2'>
                     {userLocation.area || 'Select Location'}
                     <Location onLocationChange={handleLocationChange} />
                 </div>
             </div>
-            <div className='search'>
-                <img src="/icons/search.png" alt="search icon" height="20rem" style={{ margin: "0 .8rem" }} />
-                <input type="text" placeholder="Search Doctor, Hospitals, and Medicines" />
+            <div className='bg-gray-200 text-sm w-2/6 px-4 py-2 flex items-center border border-transparent hover:border-black rounded-3xl outline-none'>
+                <img src="/icons/search.png" className='w-6' alt="search icon" />
+                <input type="text" className='bg-gray-200 px-2' placeholder="Search Doctor, Hospitals, and Medicines" />
             </div>
-            <div className="services-container">
-                <div className="servicesBtn">
+            <div className="text-sm w-1/6 mx-4 py-2 border border-transparent hover:border-black rounded-3xl">
+                <div className="flex px-2">
                     Healthcare Services
-                    <img src="/icons/down.png" alt="dropdown arrow" height="15rem" />
+                    <img src="/icons/down.png" className='w-4' alt="dropdown arrow" />
                 </div>
                 <div className="services-content">
                     <Link to="/find-doctor">Find Doctor</Link>
@@ -65,8 +65,8 @@ function Navbar() {
                 </div>
             </div>
             {user ? (
-                <div className='user-container' onClick={toggleDropdown}>
-                    <img src="/icons/user.png" alt="user icon" height="15rem" style={{ marginRight: '.5rem' }} />
+                <div className='text-sm w-1/6 px-4 py-2 flex items-center border border-black rounded-3xl' onClick={toggleDropdown}>
+                    <img src="/icons/user.png" className='w-6' alt="user icon" />
                     {user.name}
                     {dropdownOpen && (
                         <div className="dropdown-menu">
@@ -75,8 +75,8 @@ function Navbar() {
                     )}
                 </div>
             ) : (
-                <div className='login-container' onClick={handleLoginClick}>
-                    <img src="/icons/user.png" alt="user icon" height="15rem" style={{ marginRight: '.5rem' }} />
+                <div className='text-sm w-1/6 px-4 py-2 flex items-center border border-black rounded-3xl' onClick={handleLoginClick}>
+                    <img src="/icons/user.png" className='w-6 mx-2' alt="user icon" />
                     Login
                 </div>
             )}
