@@ -1,57 +1,59 @@
 import React, { useState } from 'react'
-import Location from '../services/Location'
+import { useLocation } from '../services/LocationContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { useUser } from '../services/User'
 
 function Navbar() {
+    const { location } = useLocation()
     const navigate = useNavigate()
     const { user, logout } = useUser()
-    const [userLocation, setUserLocation] = useState({ latitude: null, longitude: null, area: '' })
     const [dropdownOpen, setDropdownOpen] = useState(false)
-
-    function handleLocationChange(location) {
-        setUserLocation(location);
-    }
 
     const handleLoginClick = () => {
         if (!user) {
-            navigate('/login');
+            navigate('/login')
         }
-    };
+    }
 
     const handleLogout = () => {
-        logout();
-        navigate('/register');
-    };
+        logout()
+        navigate('/register')
+    }
 
     const toggleDropdown = () => {
-        setDropdownOpen(prevState => !prevState);
-    };
+        setDropdownOpen((prevState) => !prevState)
+    }
 
     return (
-        <nav className='navbar bg-white text-gray-800 w-full h-16 flex'>
-            <div className='navbar-logo w-1/6'>
-                <Link to='/' className='flex items-center'>
+        <nav className="navbar bg-white text-gray-800 w-full h-16 flex">
+            {/* Logo Section */}
+            <div className="navbar-logo w-1/6">
+                <Link to="/" className="flex items-center">
                     <img src="/images/Aim-logo.png" className="w-1/5 h-12" alt="Artificial Intelligence Medicare logo" />
-                    <span className='font-bold w-4/5'>Artificial Intelligence Medicare</span>
+                    <span className="font-bold w-4/5">Artificial Intelligence Medicare</span>
                 </Link>
-                <img src="/icons/line.png" className='w-8' alt="divider" />
+                <img src="/icons/line.png" className="w-8" alt="divider" />
             </div>
-            <div className='text-sm w-1/6 px-4 py-2 flex items-center border border-transparent hover:border-black rounded-3xl'>
+
+            {/* Location Display */}
+            <div className="text-sm w-1/6 px-4 py-2 flex items-center border border-transparent rounded-3xl">
                 <img src="/icons/pin.png" className="w-6" alt="location pin" />
-                <div className='text-sm px-2'>
-                    {userLocation.area || 'Select Location'}
-                    <Location onLocationChange={handleLocationChange} />
+                <div className="text-sm px-2">
+                    {location.area || 'Fetching location...'} 
                 </div>
             </div>
-            <div className='bg-gray-200 text-sm w-2/6 px-4 py-2 flex items-center border border-transparent hover:border-black rounded-3xl outline-none'>
-                <img src="/icons/search.png" className='w-6' alt="search icon" />
-                <input type="text" className='bg-gray-200 px-2' placeholder="Search Doctor, Hospitals, and Medicines" />
+
+            {/* Search Input */}
+            <div className="bg-gray-200 text-sm w-2/6 px-4 py-2 flex items-center border border-transparent hover:border-black rounded-3xl outline-none">
+                <img src="/icons/search.png" className="w-6" alt="search icon" />
+                <input type="text" className="bg-gray-200 px-2" placeholder="Search Doctor, Hospitals, and Medicines" />
             </div>
+
+            {/* Healthcare Services Dropdown */}
             <div className="text-sm w-1/6 mx-4 py-2 border border-transparent hover:border-black rounded-3xl">
                 <div className="flex px-2">
                     Healthcare Services
-                    <img src="/icons/down.png" className='w-4' alt="dropdown arrow" />
+                    <img src="/icons/down.png" className="w-4" alt="dropdown arrow" />
                 </div>
                 <div className="services-content">
                     <Link to="/find-doctor">Find Doctor</Link>
@@ -64,9 +66,14 @@ function Navbar() {
                     <Link to="/doctor-at-doorstep">Doctor at Doorstep</Link>
                 </div>
             </div>
+
+            {/* User Login/Logout */}
             {user ? (
-                <div className='text-sm w-1/6 px-4 py-2 flex items-center border border-black rounded-3xl' onClick={toggleDropdown}>
-                    <img src="/icons/user.png" className='w-6' alt="user icon" />
+                <div
+                    className="text-sm w-1/6 px-4 py-2 flex items-center border border-black rounded-3xl"
+                    onClick={toggleDropdown}
+                >
+                    <img src="/icons/user.png" className="w-6" alt="user icon" />
                     {user.name}
                     {dropdownOpen && (
                         <div className="dropdown-menu">
@@ -75,13 +82,16 @@ function Navbar() {
                     )}
                 </div>
             ) : (
-                <div className='text-sm w-1/6 px-4 py-2 flex items-center border border-black rounded-3xl' onClick={handleLoginClick}>
-                    <img src="/icons/user.png" className='w-6 mx-2' alt="user icon" />
+                <div
+                    className="text-sm w-1/6 px-4 py-2 flex items-center border border-black rounded-3xl"
+                    onClick={handleLoginClick}
+                >
+                    <img src="/icons/user.png" className="w-6 mx-2" alt="user icon" />
                     Login
                 </div>
             )}
         </nav>
-    );
+    )
 }
 
-export default Navbar;
+export default Navbar
