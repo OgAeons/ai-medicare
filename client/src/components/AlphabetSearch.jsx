@@ -13,15 +13,15 @@ function AlphabetSearch(props) {
     return (
         <div>
             <div className='section-title' style={{marginTop: '2rem'}}>{props.title}</div>
-            <div className='alphabetical-search-container'> 
+            <div className='alphabetical-search-container'>
                 <div className='alphabet-container'>
-                    <div className='section-subtitle'>{props.subtitle}</div> 
+                    <div className='section-subtitle'>{props.subtitle}</div>
                     <div className='letter-container'>
                         { alphabets.map((letter, index) => (
-                            <div 
-                                key={index} 
-                                className={`alphabet`} 
-                                onClick={() => handleClick()} 
+                            <div
+                                key={index}
+                                className={`alphabet`}
+                                onClick={() => handleClick()}
                             >
                                 {letter}
                             </div>
@@ -32,11 +32,11 @@ function AlphabetSearch(props) {
                     <div className='section-subtitle'>{props.label}</div>
                     <div className='search' style={{width: '95%', margin: '1rem 0rem', padding: '10px 15px' }}>
                         <img src="/icons/search.png" alt="search" height={"25rem"} style={{margin: "0 0.8rem"}}/>
-                        <input 
-                            type="text" 
-                            placeholder='Search' 
+                        <input
+                            type="text"
+                            placeholder='Search'
                             style={{height: '2rem', fontSize: '1.2rem'}}
-                            onChange={handleClick} 
+                            onChange={handleClick}
                         />
                     </div>
                 </div>

@@ -9,7 +9,7 @@ function Login() {
     const [user, setUserState] = useState({
         email: '',
         password: '',
-        role: 'patient', 
+        role: 'patient',
     });
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -61,9 +61,9 @@ function Login() {
             <div className="signup-container">
                 <h2>Welcome Back!</h2>
                 <p className="description-signup">Enter your details to log in</p>
-                
-                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} 
-                
+
+                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+
                 <div className="input-container">
                     <label htmlFor='role' className="input-label">Role</label>
                     <select

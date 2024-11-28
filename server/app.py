@@ -1,19 +1,26 @@
-from flask import Flask, jsonify, request
+from flask import Flask, render_template, request, session, flash, redirect, url_for, jsonify, send_from_directory
 from pymongo import MongoClient
 from flask_cors import CORS
+from medicine import get_medicine_details
+from Lang_long import get_lat_long
+from flask_login import LoginManager, UserMixin
+from flask_pymongo import PyMongo
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from werkzeug.security import generate_password_hash, check_password_hash
+from bson.objectid import ObjectId
 import numpy as np
 import pandas as pd
-from werkzeug.security import generate_password_hash, check_password_hash
+import os
+import re
 import traceback
 
 app = Flask(__name__)
 CORS(app)
-
+app.secret_key = '#123456789' # Secret key for session management
 client = MongoClient('mongodb://localhost:27017/')
-db = client['AiM'] 
+db = client['AiM']
 symptoms_collection = db['symptoms']
 diseases_collection = db['diseases']
 patients_collection = db['patients']
@@ -45,9 +52,9 @@ def register():
 
     questions = {
         "patient": ["name", "email", "password", "age", "gender", "contact", "address",
-                    "allergies", "medications", "chronicConditions", "surgeries", 
-                    "smoking", "alcohol", "exercise", "diet", "familyHistory", 
-                    "healthConcern", "recentSymptoms", "emergencyContactName", 
+                    "allergies", "medications", "chronicConditions", "surgeries",
+                    "smoking", "alcohol", "exercise", "diet", "familyHistory",
+                    "healthConcern", "recentSymptoms", "emergencyContactName",
                     "emergencyContactRelation", "emergencyContactPhone"],
         "doctor": [
             "name", "email", "password", "specialization", "yearsOfExperience",
@@ -113,14 +120,23 @@ def finalize_registration(user_data, role, user_id):
             if existing_patient:
                 return jsonify({"error": "A user with this email already exists as a patient."}), 409
 
+            # Get clinic address and compute latitude and longitude
+            clinic_address = answers.get('clinicAddress')
+            latitude, longitude = get_lat_long(clinic_address)
+
+            if latitude is None or longitude is None:
+                return jsonify({'success': False, 'message': "Address could not be geocoded."}), 400
+
             # Prepare doctor data
             doctor_data = {
                 'name': name,
                 'email': email,
                 'password': hashed_password,
-                **{key: answers[key] for key in answers if key != 'name' and key != 'email' and key != 'password'}
+                **{key: answers[key] for key in answers if key not in ['name', 'email', 'password']},
+                'latitude': latitude,
+                'longitude': longitude
             }
-
+            
             # Insert doctor data into MongoDB
             doctors_collection.insert_one(doctor_data)
             print(f"Inserted doctor data: {doctor_data}")  # Log the inserted data
@@ -149,14 +165,14 @@ def login():
 
     if not email or not password or not role:
         return jsonify({"error": "Email, password, and role are required"}), 400
-    
+
     user = None
     if role == "patient":
         user = patients_collection.find_one({"email": email})
     elif role == "doctor":
         user = doctors_collection.find_one({"email": email})
 
-    if user and check_password_hash(user['password'], password): 
+    if user and check_password_hash(user['password'], password):
         return jsonify({
             "success": True,
             "message": f"Welcome, {user['name']}!",
@@ -165,13 +181,14 @@ def login():
                 "email": user['email'],
                 "role": role  # Return role if needed
             }
-        }), 200 
+        }), 200
     else:
         return jsonify({"success": False, "message": "Invalid credentials"}), 401
 
 
+
 # =====================================
-# Disease prediction based on symptoms               
+# Disease prediction based on symptoms
 # =====================================
 all_symptoms = []
 
@@ -207,9 +224,9 @@ def load_model():
     accuracy = accuracy_score(y_test, predictions)
     print(f'Model accuracy: {accuracy:.2f}')
 
-    return model 
+    return model
 
-model = load_model() 
+model = load_model()
 
 # Route to get all symptoms
 @app.route('/symptoms', methods=['GET'])
@@ -256,7 +273,7 @@ def predict():
 
 
 # =====================================
-# disease info (Alphabet Info)               
+# disease info (Alphabet Info)
 # =====================================
 @app.route('/diseases', methods=['GET'])
 def get_diseases():
@@ -284,6 +301,65 @@ def get_diseases():
     ]
     return jsonify(disease_list)
 
+#=========
+# Doctor Information
+# The one used to render map
+#=========
+@app.route('/doctors', methods=['GET'])
+def get_doctors():
+    try:
+        doctors = db.doctors.find()  # Fetch all doctor documents from MongoDB
+        doctors_list = []
+        for doctor in doctors:
+            # Ensure ObjectId is converted to string for JSON serialization
+            doctor['_id'] = str(doctor['_id'])
+
+            # Include latitude and longitude if they exist; default to None
+            doctor_data = {
+                'id': doctor['_id'],
+                'name': doctor.get('name', ''),
+                'specialization': doctor.get('specialization', ''),
+                'clinicAddress': doctor.get('clinicAddress', ''),
+                'contactNumber': doctor.get('contactNumber', ''),
+                'latitude': doctor.get('latitude'),  # Will return None if not set
+                'longitude': doctor.get('longitude')  # Will return None if not set
+            }
+
+            doctors_list.append(doctor_data)
+
+        return jsonify({'success': True, 'doctors': doctors_list}), 200  # Return the list of doctors as JSON
+    except Exception as e:
+        print(f"Error fetching doctors: {str(e)}")  # Log the error
+        traceback.print_exc()  # Print the full traceback for debugging
+        return jsonify({'success': False, 'message': "Error fetching doctors."}), 500
+
+#================================
+# Function for Image
+#================================
+from flask import send_from_directory
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory('uploads', filename)
+#================================
+# Medicine Details
+#================================
+# Search for medicine by partial name
+@app.route('/medicine', methods=['POST'])
+def medicine_info():
+    partial_name = request.json.get('partial_name', '')
+    matches = get_medicine_details(partial_name)
+    return jsonify({'matches': matches})
+
+# Get detailed info of selected medicine
+@app.route('/medicine_detail/<medicine_name>', methods=['GET'])
+def medicine_detail(medicine_name):
+    print(f"Looking for medicine: {medicine_name}")  # Log the received medicine name
+    details = get_medicine_details(medicine_name)
+    if 'error' not in details:
+        return jsonify(details)
+    else:
+        return jsonify(details), 404
 
 if __name__ == '__main__':
     app.run(debug=True)

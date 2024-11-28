@@ -62,7 +62,7 @@ function DoctorRegistrationForm({ registrationData }) {
     // Submit form data
     const submitDoctorDetails = async () => {
         const completeDoctorData = { ...registrationData, ...doctorDetails, role: 'doctor' }; // Include role
-    
+
         setIsLoading(true); // Set loading state
         try {
             const response = await fetch('http://127.0.0.1:5000/register', {
@@ -70,7 +70,7 @@ function DoctorRegistrationForm({ registrationData }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(completeDoctorData),
             });
-    
+
             if (response.ok) {
                 setSubmitMessage("Doctor details submitted successfully!");
                 setErrorMessage('');

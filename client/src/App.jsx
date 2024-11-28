@@ -11,13 +11,16 @@ import SymptomChecker from './routes/SymptomChecker'
 import Cover from './components/Cover'
 import Login from './routes/Login'
 import Register from './routes/Register'
+import MedicineDetail from './routes/MedicineDetail';
+import Profiles from './routes/Profiles';
+
 
 function LayoutWithCover({ children }) {
   return (
-      <div style={{display: 'flex'}}>
-          <Cover />
-          {children}
-      </div>
+    <div style={{ display: 'flex' }}>
+      <Cover />
+      {children}
+    </div>
   )
 }
 
@@ -35,6 +38,9 @@ function App() {
           <Route path='/medicine' element={<Medicine />} />
           <Route path='/hospitals' element={<Hospitals />} />
           <Route path='/symptoms' element={<SymptomChecker />} />
+          <Route path="/medicine_detail/:medicineName" element={<MedicineDetail />} />
+          {/* <Route path="/contact_pharmacist" element={<ContactPharmacist />} /> Contact page */}
+          <Route path="/profile" element={<Profiles />} />
         </Routes>
       </Router>
     </UserProvider>

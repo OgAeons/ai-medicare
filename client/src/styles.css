@@ -210,7 +210,7 @@ input:focus {
     display: none;
     position: absolute;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -222,9 +222,13 @@ input:focus {
     display: block;
 }
 
-.services-content a:hover {background-color: #1a1a1a;}
+.services-content a:hover {
+    background-color: #1a1a1a;
+}
 
-.services-container:hover .services-content {display: block;}
+.services-container:hover .services-content {
+    display: block;
+}
 
 /* login btn */
 .login-container {
@@ -259,11 +263,11 @@ input:focus {
     width: 10vw;
     padding: 10px;
     position: absolute;
-    top: 8vh; 
-    right: 6vw; 
+    top: 8vh;
+    right: 6vw;
     border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: block; 
+    display: block;
     z-index: 1;
 }
 
@@ -271,11 +275,13 @@ input:focus {
     border: none;
     background: none;
     cursor: pointer;
-    color: #eb2323; /* Optional styling for the logout button */
+    color: #eb2323;
+    /* Optional styling for the logout button */
 }
 
 .dropdown-menu button:hover {
-    text-decoration: underline; /* Optional hover effect */
+    text-decoration: underline;
+    /* Optional hover effect */
 }
 
 
@@ -285,7 +291,7 @@ input:focus {
     background-color: #f38c8c;
     height: 400px;
     /* margin-top: 1rem; */
-    position: relative; 
+    position: relative;
     border-radius: 20px;
     text-align: center;
     overflow: hidden;
@@ -294,13 +300,13 @@ input:focus {
 .slide-container h1 {
     margin: 0;
     font-size: 10rem;
-    position: relative; 
+    position: relative;
 }
 
 .slide-container img {
-    position: absolute; 
-    top: 80%; 
-    left: 50%; 
+    position: absolute;
+    top: 80%;
+    left: 50%;
     transform: translate(-50%, -50%);
     width: 45%;
     z-index: 2;
@@ -320,7 +326,7 @@ input:focus {
     height: 35vh;
 }
 
-.card{
+.card {
     color: #1e1b61;
     background-color: #e3e37c;
     height: 100%;
@@ -423,7 +429,7 @@ input:focus {
 }
 
 .item-container::-webkit-scrollbar {
-    display: none; 
+    display: none;
 }
 
 .specialist-items {
@@ -434,7 +440,7 @@ input:focus {
     border: 1px solid transparent;
 }
 
-.specialist-items:hover{
+.specialist-items:hover {
     background-color: rgb(105, 121, 112);
     color: white;
     border: 1px solid transparent;
@@ -506,7 +512,7 @@ input:focus {
     margin: .5rem 1rem;
 }
 
-.banner-container{
+.banner-container {
     background-color: #14114d;
     color: #b3aff6;
     height: 45vh;
@@ -517,17 +523,17 @@ input:focus {
     /* border: 1px solid white; */
 }
 
-.banner-title-container{
+.banner-title-container {
     /* background-color: red; */
     width: 55vw;
 }
 
-.banner-title{
+.banner-title {
     font-size: 5rem;
     font-weight: 700;
 }
 
-.book-now{
+.book-now {
     background-color: white;
     color: black;
     margin-top: 8rem;
@@ -544,7 +550,7 @@ input:focus {
     width: 99%;
 }
 
- 
+
 /* alphabet search */
 .alphabetical-search-container {
     /* background: linear-gradient(135deg, #0d86dc, #0050a0); */
@@ -699,7 +705,7 @@ input:focus {
     margin: 1rem;
 }
 
-.hospital-contact{
+.hospital-contact {
     color: #2663f3;
     font-size: 1rem;
     margin: 1rem;
@@ -735,7 +741,7 @@ input:focus {
     align-content: center;
 }
 
-.footer-logo{
+.footer-logo {
     width: 40vw;
     margin-left: auto;
     margin-right: auto;
@@ -763,7 +769,7 @@ input:focus {
     align-content: center;
 }
 
-.footer-section-title{
+.footer-section-title {
     font-size: 2rem;
     font-weight: 400;
 }

@@ -54,7 +54,7 @@ function Navbar() {
                     <img src="/icons/down.png" alt="dropdown arrow" height="15rem" />
                 </div>
                 <div className="services-content">
-                    <Link to="/find-doctor">Find Doctor</Link>
+                    <Link to="/doctor">Find Doctor</Link>
                     <Link to="/virtual-nurse">Virtual Nurse</Link>
                     <Link to="/hospitals">Hospitals</Link>
                     <Link to="/medicines">Medicines</Link>
@@ -70,6 +70,7 @@ function Navbar() {
                     {user.name}
                     {dropdownOpen && (
                         <div className="dropdown-menu">
+                            <Link to="/profile">Profile</Link>
                             <button onClick={handleLogout}>Logout</button>
                         </div>
                     )}

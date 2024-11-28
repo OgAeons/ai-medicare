@@ -16,8 +16,8 @@ function AlphabetInfo() {
 
     function handleSearch(e) {
         setSearchQuery(e.target.value);
-        setSelectedLetter(''); 
-    
+        setSelectedLetter('');
+
         axios.get(`http://127.0.0.1:5000/diseases?search=${e.target.value}`)
             .then(response => {
                 console.log('Search Response:', response.data);
@@ -27,7 +27,7 @@ function AlphabetInfo() {
                 console.error('Error fetching diseases by search:', error);
             });
     }
-    
+
     function handleLetterClick(letter) {
         setSelectedLetter(letter);
         setSearchQuery('');
@@ -54,7 +54,7 @@ function AlphabetInfo() {
                         <Link to='/' style={{color: 'white', fontWeight: '300'}}> Home </Link>
                         <span style={{margin: '0 3px'}}> &gt; </span>
                         <Link to='/alphabet-info'  style={{color: 'white', fontWeight: '300'}}> Diseases & Conditions </Link>
-                        {(selectedLetter || searchQuery) && ( 
+                        {(selectedLetter || searchQuery) && (
                             <div style={{color: 'white', fontWeight: '300'}}>
                                 <span  style={{margin: '0 0 0 2px'}}> &gt; </span>
                                 Begins with {searchQuery ? `'${searchQuery}'` : `'${selectedLetter}'`}
@@ -65,12 +65,12 @@ function AlphabetInfo() {
                     <div className='section-subtitle' style={{margin: '1.3rem', marginBottom: '.5rem', color: 'white'}}>Search Diseases and Conditions</div>
                     <div className='search' style={{width: '90%', margin: '0rem 1.3rem', padding: '10px 15px' }}>
                         <img src="/icons/search.png" alt="search" height={"25rem"} style={{margin: "0 0.8rem"}}/>
-                        <input 
-                            type="text" 
-                            placeholder='Search' 
+                        <input
+                            type="text"
+                            placeholder='Search'
                             style={{height: '2rem', width: '90%', fontSize: '1.2rem'}}
                             value={searchQuery}
-                            onChange={handleSearch} 
+                            onChange={handleSearch}
                         />
                     </div>
                 </div>
@@ -78,10 +78,10 @@ function AlphabetInfo() {
                     <div className="section-subtitle" style={{color: 'white'}}>Find diseases & conditions by first letter</div>
                     <div className='letter-container'>
                         { alphabet.map((letter, index) => (
-                            <div 
-                                key={index} 
-                                className={`alphabet ${letter === selectedLetter ? 'selected-letter' : ''}`} 
-                                onClick={() => handleLetterClick(letter)} 
+                            <div
+                                key={index}
+                                className={`alphabet ${letter === selectedLetter ? 'selected-letter' : ''}`}
+                                onClick={() => handleLetterClick(letter)}
                             >
                                 {letter}
                             </div>
@@ -155,7 +155,7 @@ function AlphabetInfo() {
                     </div>
                 </div>
         </div>
-        
+
     )
 }
 
