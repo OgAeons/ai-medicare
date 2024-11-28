@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from werkzeug.security import generate_password_hash, check_password_hash
 import traceback
+import random
 
 app = Flask(__name__)
 CORS(app)
@@ -18,6 +19,7 @@ symptoms_collection = db['symptoms']
 diseases_collection = db['diseases']
 patients_collection = db['patients']
 doctors_collection = db['doctors']
+doctors_by_speciality_collection = db['doctors-by-speciality']
 
 # Global dictionary to store user data during registration
 user_data = {}
@@ -283,6 +285,30 @@ def get_diseases():
         for disease in diseases
     ]
     return jsonify(disease_list)
+
+
+# =====================================
+# Doctors by speciality
+# =====================================
+@app.route('/api/doctors', methods=['GET'])
+def get_doctors():
+    speciality = request.args.get('speciality', '')
+    print(f"Specialty received: {speciality}") 
+
+    doctors = list(doctors_by_speciality_collection.find({'speciality': speciality}, {'_id': 0}))
+    # print(f"Doctors found: {doctors}") 
+
+    for doctor in doctors:
+        # Add random working hours
+        doctor['working_hours'] = f"{random.randint(8, 10)}:00 AM - {random.randint(5, 7)}:00 PM"
+        # Add the doctor's name, if available, or use "Unknown" if not
+        doctor['name'] = doctor.get("Doctor's Name", "Unknown")
+
+    return jsonify({'data': doctors})
+
+
+
+
 
 
 if __name__ == '__main__':
