@@ -9,6 +9,8 @@ import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import DoctorsList from '../components/DoctorsList'
 import { useLocation } from '../services/LocationContext'
+import UserLocation from '../services/UserLocation'
+import AppointmentConfirmation from '../components/AppointmentConfirmation'
 
 function FindDoctor() {
     const { location } = useLocation()
@@ -19,6 +21,12 @@ function FindDoctor() {
     const [showAppointmentType, setShowAppointmentType] = useState(false)
     const [showDoctorsList, setShowDoctorsList] = useState(false)
     const [showLocationFetch, setShowLocationFetch] = useState(false)
+    const [appointmentDetails, setAppointmentDetails] = useState({
+        doctorName: '',
+        date: '',
+        appointmentType: '',
+    })
+    const [showAppointmentConfirmation, setShowAppointmentConfirmation] = useState(false)
 
     const specializations = [
         "Family Physician", "Acupuncturist", "Allergist", "Anesthesiologist", "Cardiologist", "Chiropractor", 
@@ -70,6 +78,15 @@ function FindDoctor() {
 
     function handleDoctorsList() {
         setShowDoctorsList(true)
+    }
+
+    function handleBookAppointment(doctorName) {
+        setAppointmentDetails({
+            doctorName, 
+            date: date.toDateString(), 
+            appointmentType,  
+        })
+        setShowAppointmentConfirmation(true)  // Show the confirmation modal
     }
 
 
@@ -174,6 +191,7 @@ function FindDoctor() {
                                     <Calendar
                                         onChange={handleDateChange}
                                         value={date}
+                                        minDate={new Date()}
                                     />
                                 </div>
                             )}
@@ -206,10 +224,15 @@ function FindDoctor() {
                         </div>
                     </div>
                 </div>
-                <DoctorsList activeSpecialization={activeSpecialization} showDoctorsList={showDoctorsList} /> 
+                <DoctorsList activeSpecialization={activeSpecialization} showDoctorsList={showDoctorsList} onAppointmentBooked={(doctorName) => handleBookAppointment(doctorName)} /> 
+                <AppointmentConfirmation
+                    show={showAppointmentConfirmation}
+                    onClose={() => setShowAppointmentConfirmation(false)}
+                    appointmentDetails={appointmentDetails}
+                />
 
-                
 
+                <h2 className="text-emerald-600 text-3xl font-semibold mb-6 mt-8">Nearby Hospitals, Clinics and Labs</h2>
                 <MapComponent />
                 
                 

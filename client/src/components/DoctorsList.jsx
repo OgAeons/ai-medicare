@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-function DoctorsList({ activeSpecialization, showDoctorsList }) {
+function DoctorsList({ activeSpecialization, showDoctorsList, onAppointmentBooked }) {
   const [doctors, setDoctors] = useState([])
 
   useEffect(() => {
@@ -40,14 +40,14 @@ function DoctorsList({ activeSpecialization, showDoctorsList }) {
     }
 
     function handleBookAppointment(doctorName) {
-        alert(`Appointment booked with Dr. ${doctorName}`)
+        onAppointmentBooked(doctorName)
     }
 
     return (
         <div className="mt-4 mb-12">
             <h2 className="text-emerald-600 text-3xl font-semibold mb-4 mt-8">Doctors Available</h2>
             {showDoctorsList === false ? (
-                <p>Please select the speciality, appointment date and appointment type.</p> 
+                <p className='h-[50vh]'>Please select the speciality, appointment date and appointment type.</p> 
             ) : (
                 <ul className="space-y-4 h-[50vh] overflow-y-auto">
                     {doctors.map((doctor) => (

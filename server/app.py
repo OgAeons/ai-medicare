@@ -20,6 +20,7 @@ diseases_collection = db['diseases']
 patients_collection = db['patients']
 doctors_collection = db['doctors']
 doctors_by_speciality_collection = db['doctors-by-speciality']
+appointments_collection = db["appointments"]
 
 # Global dictionary to store user data during registration
 user_data = {}
@@ -307,7 +308,18 @@ def get_doctors():
     return jsonify({'data': doctors})
 
 
-
+# =====================================
+# appointments
+# =====================================
+@app.route("/confirm-appointment", methods=["POST"])
+def confirm_appointment():
+    appointment_details = request.json
+    try:
+        # Save the appointment details into MongoDB
+        result = appointments_collection.insert_one(appointment_details)
+        return jsonify({"message": "Appointment confirmed", "appointmentId": str(result.inserted_id)}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 

@@ -18,3 +18,12 @@ six==1.16.0
 threadpoolctl==3.5.0
 tzdata==2024.2
 Werkzeug==3.0.4
+# geocoder==1.38.1
+# requests==2.32.3
+# certifi==2024.8.30
+# charset_normalizer==3.4.0
+# idna==3.10
+# urllib3==2.2.3
+# future==1.0.0
+# ratelim==0.1.6
+# decorator==5.1.1
