@@ -1,64 +1,77 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import { Icon } from 'leaflet';
-import Location from '../services/Location';
+import L from 'leaflet';
 
-function MapComponent() {
-    const [userLocation, setUserLocation] = useState(null); 
+const MapComponent = () => {
+  const [location, setLocation] = useState({ latitude: null, longitude: null });
+  const [markers, setMarkers] = useState([]);
 
-    const handleLocationChange = (locationData) => {
-        setUserLocation(locationData);
+  // Fetch user's current location when the component mounts
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          console.log('User location:', latitude, longitude); // Log the coordinates
+          setLocation({ latitude, longitude });
+        },
+        (error) => {
+          console.error('Error fetching location:', error);
+          setLocation({ latitude: 19.0760, longitude: 72.8777 }); // Default location (Mumbai) if geolocation fails
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
+  }, []);
+
+  // Simulate fetching nearby places (this can be replaced with a real API call)
+  useEffect(() => {
+    const fetchNearbyPlaces = async () => {
+      const places = [
+        { lat: 19.0760, lon: 72.8777, name: 'Nearby Hospital' },
+        { lat: 19.0880, lon: 72.8890, name: 'Nearby Clinic' },
+        { lat: 19.0950, lon: 72.8900, name: 'Nearby Doctor' },
+        { lat: 19.0800, lon: 72.8800, name: 'Nearby Lab Test Clinic' },
+      ];
+      setMarkers(places);
     };
 
-    const markers = [
-        {
-            geocode: [18.619893726057885, 73.74988316737976],
-            popUp: 'JSPMs Rajarshi Shahu College of Engineering'
-        },
-        {
-            geocode: [18.618938000659224, 73.7479627056685],
-            popUp: 'Clinic A'
-        },
-        {
-            geocode: [18.618968502616635, 73.75231861323707],
-            popUp: 'Clinic B'
-        }
-    ];
+    if (location.latitude && location.longitude) {
+      fetchNearbyPlaces();
+    }
+  }, [location]);
 
-    const customIcon = new Icon({
-        iconUrl: '/icons/pin2.png',
-        iconSize: [38, 38]
-    });
+  // Return null or a loading spinner until the location is available
+  if (!location.latitude || !location.longitude) {
+    return <div>Loading...</div>;
+  }
 
-    const userLocationIcon = new Icon({
-        iconUrl: '/icons/user-pin.png', 
-        iconSize: [38, 38]
-    })
+  return (
+    <div className='h-[50vh] w-full overflow-auto'>
+      <MapContainer
+        center={[location.latitude, location.longitude]}
+        zoom={13}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
 
-    return (
-        <div className='map'>
-            {userLocation ? ( 
-                <MapContainer center={[userLocation.latitude, userLocation.longitude]} zoom={16}>
-                    <TileLayer 
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                    />
-                    {markers.map((marker, index) => (
-                        <Marker key={index} position={marker.geocode} icon={customIcon}>
-                            <Popup>{marker.popUp}</Popup>
-                        </Marker>
-                    ))}
-                    <Marker position={[userLocation.latitude, userLocation.longitude]} icon={userLocationIcon}>
-                        <Popup>{`Your Location`}</Popup>
-                    </Marker>
-                </MapContainer>
-            ) : (
-                <p>Loading map...</p> 
-            )}
-            <Location onLocationChange={handleLocationChange} />
-        </div>
-    );
-}
+        {/* Marker for User Location */}
+        <Marker position={[location.latitude, location.longitude]}>
+          <Popup>Your Current Location</Popup>
+        </Marker>
+
+        {/* Markers for Nearby Places */}
+        {markers.map((place, index) => (
+          <Marker key={index} position={[place.lat, place.lon]}>
+            <Popup>{place.name}</Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+    </div>
+  );
+};
 
 export default MapComponent;
