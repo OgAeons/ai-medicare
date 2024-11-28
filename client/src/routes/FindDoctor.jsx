@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
-import Items from '../components/Items'
-import DoctorCard from '../components/DoctorCard'
 import MapComponent from '../components/MapComponent'
 import { FaMapMarkerAlt, FaCalendarAlt, FaHospital, FaHome, FaUserMd, FaLightbulb } from 'react-icons/fa'
 import { BiSearch } from 'react-icons/bi'
@@ -86,7 +84,7 @@ function FindDoctor() {
             date: date.toDateString(), 
             appointmentType,  
         })
-        setShowAppointmentConfirmation(true)  // Show the confirmation modal
+        setShowAppointmentConfirmation(true) 
     }
 
 
@@ -94,50 +92,48 @@ function FindDoctor() {
         <div className='no-select h-auto mx-[3rem] my-[1rem]'>
             <Navbar />
 
-            <div className='bg-gray-100 text-gray-800 w-full h-[57vh] rounded-2xl flex flex-col items-center justify-start shadow-md'>
-                <div className='relative w-full px-8 py-4'>
-                    <div className='bg-emerald-600 mt-4 p-8 w-full h-[35vh] flex items-start justify-center rounded-2xl shadow-md'>
-                        <div className='flex items-center'>
-                            <span className='text-white text-4xl font-medium w-2/5 mx-4 leading-relaxed'>Easy Steps To Get Your Solution</span>
-                            <span className='text-white text-lg font-thin w-2/5 text-center px-4'>Easily book your appointment with our expert doctors for your family in the same day or next day</span>
-                            <a href='#make-appointment' className='bg-white text-emerald-600 mx-8 py-4 text-md w-1/5 text-center rounded-2xl shadow-lg'>Make an Appointment </a>
-                        </div>
+            <div className='relative text-gray-800 w-full h-[57vh] mt-6 rounded-2xl flex flex-col items-center justify-start shadow-md'>
+                <div className='bg-emerald-600 p-8 w-full h-[43vh] flex items-start justify-center rounded-2xl shadow-md'>
+                    <div className='flex items-center'>
+                        <span className='text-white text-4xl font-medium w-2/5 mx-4 leading-relaxed'>Easy Steps To Get Your Solution</span>
+                        <span className='text-white text-lg font-thin w-2/5 text-center pr-16'>Easily book your appointment with our expert doctors for your family in the same day or next day</span>
+                        <a href='#make-appointment' className='bg-white text-emerald-600 mx-8 py-4 text-md w-1/5 text-center rounded-2xl shadow-lg'>Make an Appointment </a>
                     </div>
+                </div>
                     
-                    <div className='absolute top-48 w-[85vw] right-14 flex items-center justify-center'>
-                        <div className='bg-white w-1/4 h-[30vh] mx-4 py-8 px-6 flex flex-col items-center rounded-2xl shadow-md'>
-                            <div className='bg-emerald-300 p-4 mb-4 w-fit rounded-xl'>
-                                <FaUserMd size={24} color='white' />
-                            </div>
-                            <span className='text-lg font-semibold'>Search Doctor</span>
-                            <span className='font-thin text-center'>Before booking an appointment, search doctors based on their specialization, location, and availability</span>
+                <div className='absolute top-48 w-[90vw] right-5 flex items-center justify-center'>
+                    <div className='bg-white w-1/4 h-[30vh] mx-4 py-8 px-6 flex flex-col items-center rounded-2xl shadow-md'>
+                        <div className='bg-emerald-300 p-4 mb-4 w-fit rounded-xl'>
+                            <FaUserMd size={24} color='white' />
                         </div>
-                        <div className='bg-white w-1/4 h-[30vh] mx-4 py-8 px-6 flex flex-col items-center rounded-2xl shadow-md'>
-                            <div className='bg-emerald-300 p-4 mb-4 w-fit rounded-xl'>
-                                <FaMapMarkerAlt size={24} color='white' />
-                            </div>
-                            <span className='text-lg font-semibold'>Choose Your Location</span>
-                            <span className='font-thin text-center'>Then enter your location, and we will help find the appointment nearby</span>
+                        <span className='text-lg font-semibold'>Search Doctor</span>
+                        <span className='font-thin text-center'>Before booking an appointment, search doctors based on their specialization, location, and availability</span>
+                    </div>
+                    <div className='bg-white w-1/4 h-[30vh] mx-4 py-8 px-6 flex flex-col items-center rounded-2xl shadow-md'>
+                        <div className='bg-emerald-300 p-4 mb-4 w-fit rounded-xl'>
+                            <FaMapMarkerAlt size={24} color='white' />
                         </div>
-                        <div className='bg-white w-1/4 h-[30vh] mx-4 py-8 px-6 flex flex-col items-center rounded-2xl shadow-md'>
-                            <div className='bg-emerald-300 p-4 mb-4 w-fit rounded-xl'>
-                                <FaCalendarAlt size={24} color='white' />
-                            </div>
-                            <span className='text-lg font-semibold'>Schedule Appointment</span>
-                            <span className='font-thin text-center'>Then enter your location, and we will help find the appointment nearby</span>
+                        <span className='text-lg font-semibold'>Choose Your Location</span>
+                        <span className='font-thin text-center'>Then enter your location, and we will help find the appointment nearby</span>
+                    </div>
+                    <div className='bg-white w-1/4 h-[30vh] mx-4 py-8 px-6 flex flex-col items-center rounded-2xl shadow-md'>
+                        <div className='bg-emerald-300 p-4 mb-4 w-fit rounded-xl'>
+                            <FaCalendarAlt size={24} color='white' />
                         </div>
-                        <div className='bg-white w-1/4 h-[30vh] mx-4 py-8 px-6 flex flex-col items-center rounded-2xl shadow-md'>
-                            <div className='bg-emerald-300 p-4 mb-4 w-fit rounded-xl'>
-                                <FaLightbulb size={24} color='white' />
-                            </div>
-                            <span className='text-lg font-semibold'>Get Your Solution</span>
-                            <span className='font-thin text-center'>We will help you find and provide solutions for your health</span>
+                        <span className='text-lg font-semibold'>Schedule Appointment</span>
+                        <span className='font-thin text-center'>Then enter your location, and we will help find the appointment nearby</span>
+                    </div>
+                    <div className='bg-white w-1/4 h-[30vh] mx-4 py-8 px-6 flex flex-col items-center rounded-2xl shadow-md'>
+                        <div className='bg-emerald-300 p-4 mb-4 w-fit rounded-xl'>
+                            <FaLightbulb size={24} color='white' />
                         </div>
+                        <span className='text-lg font-semibold'>Get Your Solution</span>
+                        <span className='font-thin text-center'>We will help you find and provide solutions for your health</span>
                     </div>
                 </div>
             </div>
 
-            <div id='make-appointment' className='bg-gray-100 h-auto mt-[1rem] py-[1.5rem] px-[2rem] rounded-t-2xl'>
+            <div id='make-appointment' className='bg-gray-100 h-auto py-[1.5rem] px-[2rem] rounded-t-2xl'>
                 <div className='bg-white text-gray-800 w-full py-4 mb-4 rounded-2xl flex flex-col items-center justify-center shadow-md'>
                     <div className='py-2 mt-2 w-[90%] flex items-center'>
                         <span className='text-2xl w-2/6'>Search Doctors and Clinics</span>
