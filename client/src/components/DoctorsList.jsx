@@ -44,7 +44,7 @@ function DoctorsList({ activeSpecialization, showDoctorsList }) {
     }
 
     return (
-        <div className="mt-4">
+        <div className="mt-4 mb-12">
             <h2 className="text-emerald-600 text-3xl font-semibold mb-4 mt-8">Doctors Available</h2>
             {showDoctorsList === false ? (
                 <p>Please select the speciality, appointment date and appointment type.</p> 

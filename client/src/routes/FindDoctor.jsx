@@ -8,179 +8,17 @@ import { BiSearch } from 'react-icons/bi'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import DoctorsList from '../components/DoctorsList'
-
-// import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-// import 'leaflet/dist/leaflet.css'
-// import {Icon} from 'leaflet'
+import { useLocation } from '../services/LocationContext'
 
 function FindDoctor() {
-    const [selectedBanner, setSelectedBanner] = useState()
-    const [selectedItem, setSelectedItem] = useState([
-        { name: 'Dr. Sanjana Mehta1', img: '/images/doctor5.png', speciality: 'Orthopedists' },
-        { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Orthopedists' },
-        { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Orthopedists' },
-        { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Orthopedists' },
-        { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Orthopedists' }
-    ])
-    const [isSelected, setIsSelected] = useState('Orthopedists')
-
-    const doctorsBySpecialist = {
-        'Orthopedists': [
-            { name: 'Dr. Sanjana Mehta1', img: '/images/doctor5.png', speciality: 'Orthopedists' },
-            { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Orthopedists' },
-            { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Orthopedists' },
-            { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Orthopedists' },
-            { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Orthopedists' }
-        ],
-        'Obesity': [
-            { name: 'Dr. Sanjana Mehta2', img: '/images/doctor5.png', speciality: 'Obesity' },
-            { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Obesity' },
-            { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Obesity' },
-            { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Obesity' },
-            { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Obesity' }
-        ],
-        'Neck Pain': [
-            { name: 'Dr. Sanjana Mehta3', img: '/images/doctor5.png', speciality: 'Neck Pain' },
-            { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Neck Pain' },
-            { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Neck Pain' },
-            { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Neck Pain' },
-            { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Neck Pain' }
-        ],
-        'Back Pain': [
-            { name: 'Dr. Sanjana Mehta4', img: '/images/doctor5.png', speciality: 'Back Pain' },
-            { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Back Pain' },
-            { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Back Pain' },
-            { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Back Pain' },
-            { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Back Pain' }
-        ],
-        'Neurology': [
-            { name: 'Dr. Sanjana Mehta5', img: '/images/doctor5.png', speciality: 'Neurology' },
-            { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Neurology' },
-            { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Neurology' },
-            { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Neurology' },
-            { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Neurology' }
-        ],
-        'Headache': [
-            { name: 'Dr. Sanjana Mehta6', img: '/images/doctor5.png', speciality: 'Headache' },
-            { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Headache' },
-            { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Headache' },
-            { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Headache' },
-            { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Headache' }
-        ],
-        'Eye Care': [
-            { name: 'Dr. Sanjana Mehta7', img: '/images/doctor5.png', speciality: 'Eye Care' },
-            { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Eye Care' },
-            { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Eye Care' },
-            { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Eye Care' },
-            { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Eye Care' }
-        ],
-        'Dermatologist': [
-            { name: 'Dr. Sanjana Mehta8', img: '/images/doctor5.png', speciality: 'Dermatologist' },
-            { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Dermatologist' },
-            { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Dermatologist' },
-            { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Dermatologist' },
-            { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Dermatologist' }
-        ],
-        'Allergists': [
-            { name: 'Dr. Sanjana Mehta9', img: '/images/doctor5.png', speciality: 'Allergists' },
-            { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Allergists' },
-            { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Allergists' },
-            { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Allergists' },
-            { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Allergists' }
-        ],
-        'Cardiologists': [
-            { name: 'Dr. Sanjana Mehta10', img: '/images/doctor5.png', speciality: 'Cardiologists' },
-            { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Cardiologists' },
-            { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Cardiologists' },
-            { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Cardiologists' },
-            { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Cardiologists' }
-        ],
-        'Physicians': [
-            { name: 'Dr. Sanjana Mehta11', img: '/images/doctor5.png', speciality: 'Physicians' },
-            { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Physicians' },
-            { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Physicians' },
-            { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Physicians' },
-            { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Physicians' }
-        ],
-        'Gastroenterologists': [
-            { name: 'Dr. Sanjana Mehta12', img: '/images/doctor5.png', speciality: 'Gastroenterologists' },
-            { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Gastroenterologists' },
-            { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Gastroenterologists' },
-            { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Gastroenterologists' },
-            { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Gastroenterologists' }
-        ],
-        'Gynecologists': [
-            { name: 'Dr. Sanjana Mehta13', img: '/images/doctor5.png', speciality: 'Gynecologists' },
-            { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Gynecologists' },
-            { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Gynecologists' },
-            { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Gynecologists' },
-            { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Gynecologists' }
-        ],
-        'Pediatricians': [
-            { name: 'Dr. Sanjana Mehta14', img: '/images/doctor5.png', speciality: 'Pediatricians' },
-            { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Pediatricians' },
-            { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Pediatricians' },
-            { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Pediatricians' },
-            { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Pediatricians' }
-        ],
-        'Plastic Surgeons': [
-            { name: 'Dr. Sanjana Mehta15', img: '/images/doctor5.png', speciality: 'Plastic Surgeons' },
-            { name: 'Dr. Raj Sharma', img: '/images/doctor6.png', speciality: 'Plastic Surgeons' },
-            { name: 'Dr. Meena Dixit', img: '/images/doctor7.png', speciality: 'Plastic Surgeons' },
-            { name: 'Dr. Aditya Rao', img: '/images/doctor8.png', speciality: 'Plastic Surgeons' },
-            { name: 'Dr. Shivam Ghorpade', img: '/images/doctor9.png', speciality: 'Plastic Surgeons' }
-        ]
-    }
-
-    const clinicsBySpeciality = {
-        'Orthopedists': [
-            { name: 'Orthopedics Clinic A', lat: 37.773972, lng: -122.431297  },
-            { name: 'Orthopedics Clinic B', lat: 37.773972, lng: -122.431297 }
-        ],
-        'Obesity': [
-            { name: 'Obesity Clinic A', lat: 37.773972, lng: -122.431297  },
-            { name: 'Obesity Clinic B', lat: 37.773972, lng: -122.431297 }
-        ]
-    }
-
-    // const markers = [
-    //     {
-    //         geocode: [18.619893726057885, 73.74988316737976],
-    //         popUp: 'JSPMs Rajarshi Shahu College of Engineering'
-    //     },
-    //     {
-    //         geocode: [18.618938000659224, 73.7479627056685],
-    //         popUp: 'Clinic A'
-    //     },
-    //     {
-    //         geocode: [18.618968502616635, 73.75231861323707],
-    //         popUp: 'Clinic B'
-    //     }
-    // ]
-    
-    // const customIcon = new Icon({
-    //     iconUrl: '/icons/pin2.png',
-    //     iconSize: [38,38]
-    // })
-
-    function handleItemClick(specialist) {
-        setSelectedItem(doctorsBySpecialist[specialist] || [])
-        setIsSelected(specialist)
-    }
-
-    function handleBannerClick(banner) {
-        setSelectedBanner(banner)
-    }
-
-
-
-
+    const { location } = useLocation()
     const [activeSpecialization, setActiveSpecialization] = useState('Family Physician')
     const [date, setDate] = useState(new Date())
     const [showCalendar, setShowCalendar] = useState(false)
     const [appointmentType, setAppointmentType] = useState('Clinic Appointment')
     const [showAppointmentType, setShowAppointmentType] = useState(false)
     const [showDoctorsList, setShowDoctorsList] = useState(false)
+    const [showLocationFetch, setShowLocationFetch] = useState(false)
 
     const specializations = [
         "Family Physician", "Acupuncturist", "Allergist", "Anesthesiologist", "Cardiologist", "Chiropractor", 
@@ -245,7 +83,7 @@ function FindDoctor() {
                         <div className='flex items-center'>
                             <span className='text-white text-4xl font-medium w-2/5 mx-4 leading-relaxed'>Easy Steps To Get Your Solution</span>
                             <span className='text-white text-lg font-thin w-2/5 text-center px-4'>Easily book your appointment with our expert doctors for your family in the same day or next day</span>
-                            <div className='bg-white text-emerald-600 mx-8 py-4 text-md w-1/5 text-center rounded-2xl shadow-lg'>Make an Appointment</div>
+                            <a href='#make-appointment' className='bg-white text-emerald-600 mx-8 py-4 text-md w-1/5 text-center rounded-2xl shadow-lg'>Make an Appointment </a>
                         </div>
                     </div>
                     
@@ -282,7 +120,7 @@ function FindDoctor() {
                 </div>
             </div>
 
-            <div className='bg-gray-100 h-auto mt-[1rem] py-[1.5rem] px-[2rem] rounded-t-2xl'>
+            <div id='make-appointment' className='bg-gray-100 h-auto mt-[1rem] py-[1.5rem] px-[2rem] rounded-t-2xl'>
                 <div className='bg-white text-gray-800 w-full py-4 mb-4 rounded-2xl flex flex-col items-center justify-center shadow-md'>
                     <div className='py-2 mt-2 w-[90%] flex items-center'>
                         <span className='text-2xl w-2/6'>Search Doctors and Clinics</span>
@@ -300,14 +138,25 @@ function FindDoctor() {
                     </div>
 
                     <div className='py-2 my-2 w-[90%] flex items-center justify-between'>
-                        <div className='w-1/4 py-2 px-6 mr-6 flex items-center border rounded-2xl shadow-md'>
+                        <div className='relative w-1/4 py-2 px-6 mr-6 flex items-center border rounded-2xl shadow-md'>
                             <div className='bg-emerald-600 rounded-3xl w-10 h-10 flex items-center justify-center'>
                                 <FaMapMarkerAlt size={24} color='white' />
                             </div>
                             <div className='ml-4 flex flex-col'>
                                 <span className='text-gray-400 text-sm'>Location</span>
-                                <span  className='text-md'>Wakad, Pune</span>
+                                <span  className='text-md'>
+                                    {location ? (
+                                        <p>{location.area}</p>
+                                    ) : (
+                                        <p>Loading location...</p>
+                                    )}
+                                </span>
                             </div>
+                            {showLocationFetch && (
+                                <div className="absolute top-full mt-2 left-0 z-50 bg-white shadow-lg rounded-lg p-4">
+                                    <UserLocation onLocationSelect={handleLocationSelect} />
+                                </div>
+                            )}
                         </div>
                         <div className='relative w-1/4 py-2 px-4 mr-6 flex items-center border rounded-2xl shadow-md cursor-pointer'>
                             <div className='rounded-3xl w-10 h-10 flex items-center justify-center border border-emerald-600' onClick={toggleCalendar}>
@@ -357,58 +206,13 @@ function FindDoctor() {
                         </div>
                     </div>
                 </div>
-
                 <DoctorsList activeSpecialization={activeSpecialization} showDoctorsList={showDoctorsList} /> 
 
+                
 
-
-
-
-
-
-                <div className='specialist'>
-                    <div className='section-title'>Specialists:</div>
-                    <div className='item-container'>
-                        { Object.keys(doctorsBySpecialist).map((specialist, index) => (
-                            <Items
-                                key={index}
-                                name={specialist}
-                                onClick={ () => handleItemClick(specialist)}
-                                isSelected={isSelected === specialist}
-                            />
-                        ))}
-                    </div>
-                    <div className='doctor-card-container'>
-                        { selectedItem.length > 0 ? (
-                            selectedItem.map((doctor, index) => (
-                                <DoctorCard 
-                                    key={index}
-                                    name={doctor.name}
-                                    img={doctor.img}
-                                    speciality={doctor.speciality}
-                                />
-                            ))
-                        ) : (
-                            <div>Please select a specialist to view doctors.</div>
-                        )}
-                    </div>
-                </div>
-                <div className='section-title'>Clinics:</div>
                 <MapComponent />
-                <div className='appointment-container'>
-                    <div className='section-title'>Appointment Schedule:</div>
-                    <form action="">
-                        <input type="text" placeholder='Patient Name' />
-                        <input type="text" placeholder='Patient Phone Number' />
-                        <select id="time" name="time">
-                            <option value="morning">9:00am - 10:00am</option>
-                            <option value="noon">11:00am - 12:00pm</option>
-                            <option value="evening">3:00pm - 5:00pm</option>
-                            <option value="night">6:00pm - 8:00pm</option>
-                        </select>
-                        <button type="submit">Confirm Appointment</button>
-                    </form>
-                </div>
+                
+                
             </div>
         </div>
     )
