@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocation } from '../services/LocationContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { useUser } from '../services/User'
@@ -24,6 +24,12 @@ function Navbar() {
         setDropdownOpen((prevState) => !prevState)
     }
 
+    useEffect(() => {
+        if (location) {
+            console.log('User location:', location);
+        }
+    }, [location]);
+
     return (
         <nav className="navbar bg-white text-gray-800 w-full h-16 flex">
             {/* Logo Section */}
@@ -39,7 +45,11 @@ function Navbar() {
             <div className="text-sm w-1/6 px-4 py-2 flex items-center border border-transparent rounded-3xl">
                 <img src="/icons/pin.png" className="w-6" alt="location pin" />
                 <div className="text-sm px-2">
-                    {location.area || 'Fetching location...'} 
+                {location ? (
+                        <p>{location.area}</p>
+                    ) : (
+                        <p>Loading location...</p>
+                    )}
                 </div>
             </div>
 
