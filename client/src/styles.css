@@ -781,3 +781,26 @@ input:focus {
 input {
     width: 50%;
 }
+
+/* Find-Doctor */
+.find-dashboard {
+    background-color: white;
+    border-radius: 30px;
+}
+
+.find-dashboard-navbar {
+    display: flex;
+}
+
+
+
+
+
+.no-select {
+    user-select: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+}
