@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import axios from 'axios'
+import Footer from './Footer'
 
 const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1)
@@ -64,7 +65,7 @@ function AlphabetInfo() {
                     <div className="section-title" style={{margin: '1.3rem'}}>Diseases & Conditions</div>
                     <div className='section-subtitle' style={{margin: '1.3rem', marginBottom: '.5rem', color: 'white'}}>Search Diseases and Conditions</div>
                     <div className='search' style={{width: '90%', margin: '0rem 1.3rem', padding: '10px 15px' }}>
-                        <img src="/icons/search.png" alt="search" height={"25rem"} style={{margin: "0 0.8rem"}}/>
+                        <img src="/icons/search.png" alt="search" className='w-6 h-6'/>
                         <input 
                             type="text" 
                             placeholder='Search' 
@@ -129,31 +130,7 @@ function AlphabetInfo() {
                 </div>
             </div>
 
-            <div className='footer'>
-                    <div className='footer-left'>
-                        <div className='footer-logo'>
-                            <img src="/images/Aim-logo-removebg.png" alt="logo" height={'300vh'} />
-                            <div className='footer-title'>Artificial Intelligence Medicare</div>
-                        </div>
-                        <div className='copyright'>©2024 AiM: Artificial Intelligence Medicare</div>
-                    </div>
-                    <div className='footer-right'>
-                        <div className='footer-section'>
-                            <div className='footer-section-title'>Healthcare Team</div>
-                            <div className='footer-items'>Doctors</div>
-                            <div className='footer-items'>Nurses</div>
-                            <div className='footer-items'>Consultants</div>
-                            <div className='footer-items'>Health Plans</div>
-                        </div>
-                        <div className='footer-section'>
-                            <div className='footer-section-title'>Need Support?</div>
-                            <div className='footer-items'>Chat with us</div>
-                            <div className='footer-items'>Call Support</div>
-                            <div className='footer-items'>Email</div>
-                            <div className='footer-items'>Feedback</div>
-                        </div>
-                    </div>
-                </div>
+            <Footer />
         </div>
         
     )

@@ -15,7 +15,7 @@ function AlphabetSearch(props) {
             <div className='section-title' style={{marginTop: '2rem'}}>{props.title}</div>
             <div className='alphabetical-search-container'> 
                 <div className='alphabet-container'>
-                    <div className='section-subtitle'>{props.subtitle}</div> 
+                    <div className='section-subtitle ml-4 mb-4 text-white'>{props.subtitle}</div> 
                     <div className='letter-container'>
                         { alphabets.map((letter, index) => (
                             <div 
@@ -29,9 +29,9 @@ function AlphabetSearch(props) {
                     </div>
                 </div>
                 <div className="alphabetical-search" style={{alignContent: 'center'}}>
-                    <div className='section-subtitle'>{props.label}</div>
+                    <div className='section-subtitle text-white'>{props.label}</div>
                     <div className='search' style={{width: '95%', margin: '1rem 0rem', padding: '10px 15px' }}>
-                        <img src="/icons/search.png" alt="search" height={"25rem"} style={{margin: "0 0.8rem"}}/>
+                        <img src="/icons/search.png" alt="search" className='w-6 h-6'/>
                         <input 
                             type="text" 
                             placeholder='Search' 

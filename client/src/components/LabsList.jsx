@@ -68,7 +68,7 @@ function LabsList({ activeTest, showLabsList, onAppointmentBooked }) {
     return (
         <div>
             <div className="mt-4 mb-12">
-                <h2 className="text-emerald-600 text-3xl font-semibold mb-4 mt-8">Labs Available</h2>
+                <h2 className="text-blue-600 text-3xl font-semibold mb-4 mt-8">Labs Available</h2>
                 {showLabsList === false ? (
                     <p className="h-[50vh]">Please select a test to view available labs.</p>
                 ) : (
@@ -87,7 +87,7 @@ function LabsList({ activeTest, showLabsList, onAppointmentBooked }) {
                                         <p>Fees: ₹{lab.Fees}</p>
                                     </div>
                                     <button
-                                        className="bg-emerald-600 text-white px-4 py-2 rounded-lg"
+                                        className="bg-blue-600 text-white px-4 py-2 rounded-lg"
                                         onClick={() => handleBookAppointment(lab.labName, lab.Address, lab.contactNumber, lab.tests, lab.Fees)}
                                     >
                                         Book Appointment
@@ -101,7 +101,7 @@ function LabsList({ activeTest, showLabsList, onAppointmentBooked }) {
                 )}
             </div>
 
-            <h2 className="text-emerald-600 text-3xl font-semibold mb-6 mt-8">Nearby Labs on Map</h2>
+            <h2 className="text-blue-600 text-3xl font-semibold mb-6 mt-8">Nearby Labs on Map</h2>
             {showLabsList === false ? (
                 <p className="h-[50vh]">Please select a test to view nearby labs.</p>
             ) : (

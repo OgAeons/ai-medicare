@@ -8,6 +8,7 @@ import DoctorsList from '../components/DoctorsList'
 import { useLocation } from '../services/LocationContext'
 import UserLocation from '../services/UserLocation'
 import AppointmentConfirmation from '../components/AppointmentConfirmation'
+import Footer from './Footer'
 
 function FindDoctor() {
     const { location } = useLocation()
@@ -243,12 +244,8 @@ function FindDoctor() {
                     onClose={() => setShowAppointmentConfirmation(false)}
                     appointmentDetails={appointmentDetails}
                 />
-
-
-
-                
-                
             </div>
+            <Footer />
         </div>
     )
 }
