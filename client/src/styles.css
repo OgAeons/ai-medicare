@@ -821,3 +821,15 @@ html, body, #root {
   .flex {
     display: flex;
   }
+
+  .medicine-search-container {
+    background: linear-gradient(135deg, #f16161, #e91010);
+    height: 40vh;
+    display: flex;
+    border-radius: 20px;
+}
+
+.medicine-selected-letter {
+    background-color: white;
+    color: rgb(221, 16, 36);
+}

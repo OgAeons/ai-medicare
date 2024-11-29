@@ -6,7 +6,6 @@ import UserLocation from './services/UserLocation'
 import Home from './routes/Home'
 import FindDoctor from './routes/FindDoctor'
 import LabTests from './routes/LabTests'
-import Medicine from './routes/Medicine'
 import AlphabetInfo from './routes/AlphabetInfo'
 import Hospitals from './routes/Hospitals'
 import SymptomChecker from './routes/SymptomChecker'
@@ -15,7 +14,8 @@ import Login from './routes/Login'
 import Register from './routes/Register'
 import MapComponent from './components/MapComponent'
 import Navbar from './components/Navbar'
-import Footer from './components/Footer'
+import Footer from './routes/Footer'
+import MedicineInfo from './routes/MedicineInfo'
 
 function LayoutWithCover({ children }) {
   return (
@@ -38,7 +38,7 @@ function App() {
             <Route path='/alphabet-info' element={<AlphabetInfo />} />
             <Route path='/doctor' element={<FindDoctor />} />
             <Route path='/lab-tests' element={<LabTests />} />
-            <Route path='/medicine' element={<Medicine />} />
+            <Route path='/medicine' element={<MedicineInfo />} />
             <Route path='/hospitals' element={<Hospitals />} />
             <Route path='/symptoms' element={<SymptomChecker />} />
             <Route path="/map" element={<MapComponent />} />

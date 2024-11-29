@@ -27,6 +27,7 @@ patients_collection = db['patients']
 doctors_collection = db['doctors']
 doctors_by_speciality_collection = db['doctors-by-speciality']
 appointments_collection = db["appointments"]
+medicines_collection = db['medicines']
 
 # Global dictionary to store user data during registration
 user_data = {}
@@ -365,7 +366,55 @@ def confirm_appointment():
         return jsonify({"message": "Appointment confirmed", "appointmentId": str(result.inserted_id)}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
 
+# =====================================
+# medicine info
+# =====================================
+# Helper function to format the results
+def format_medicine_data(medicine):
+    return {
+        "id": medicine.get("id"),
+        "name": medicine.get("name"),
+        "substitutes": [
+            medicine.get("substitute0"), medicine.get("substitute1"),
+            medicine.get("substitute2"), medicine.get("substitute3"),
+            medicine.get("substitute4")
+        ],
+        "sideEffects": [
+            medicine.get(f"sideEffect{i}") for i in range(42)
+            if medicine.get(f"sideEffect{i}")
+        ],
+        "uses": [
+            medicine.get("use0"), medicine.get("use1"),
+            medicine.get("use2"), medicine.get("use3"),
+            medicine.get("use4")
+        ],
+        "chemicalClass": medicine.get("Chemical Class"),
+        "habitForming": medicine.get("Habit Forming"),
+        "therapeuticClass": medicine.get("Therapeutic Class"),
+        "actionClass": medicine.get("Action Class")
+    }
+
+# Endpoint to fetch medicines by search query
+@app.route('/medicines', methods=['GET'])
+def get_medicines():
+    search = request.args.get('search', '')
+    letter = request.args.get('letter', '')
+
+    query = {}
+    if search:
+        query['name'] = {'$regex': f'^{search}', '$options': 'i'}
+    elif letter:
+        if letter == '#':
+            query['name'] = {'$regex': '^[^A-Za-z]', '$options': 'i'}
+        else:
+            query['name'] = {'$regex': f'^{letter}', '$options': 'i'}
+
+    medicines = medicines_collection.find(query)
+    results = [format_medicine_data(medicine) for medicine in medicines]
+
+    return jsonify(results)
 
 
 if __name__ == '__main__':
