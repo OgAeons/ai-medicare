@@ -5,7 +5,7 @@ function Footer() {
     <div className='footer'>
         <div className='footer-left'>
             <div className='footer-logo'>
-                <img src="/images/Aim-logo-removebg.png" alt="logo" height={'300vh'} />
+                <img src="/images/Aim-logo-removebg.png" alt="logo" className='h-[40vh]' />
                 <div className='footer-title'>Artificial Intelligence Medicare</div>
             </div>
             <div className='copyright'>©2024 AiM: Artificial Intelligence Medicare</div>
