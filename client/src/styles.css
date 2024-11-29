@@ -467,6 +467,16 @@ input:focus {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.doctor-card:hover {
+    background-color: #f9f871;
+    /* Light yellow highlight */
+}
+
+.doctor-card.highlight {
+    background-color: #fce57e;
+    /* Golden background for nearest doctor */
+}
+
 .doctor-card img {
     height: 30vh;
     margin-top: 1rem;

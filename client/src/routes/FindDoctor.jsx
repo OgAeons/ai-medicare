@@ -5,10 +5,13 @@ import DoctorCard from '../components/DoctorCard';
 import MapComponent from '../components/MapComponent';
 
 function FindDoctor() {
-    const [selectedBanner, setSelectedBanner] = useState(null); // State for banner selection
-    const [allDoctors, setAllDoctors] = useState([]); // State for all doctors
-    const [filteredDoctors, setFilteredDoctors] = useState([]); // State for filtered doctors
-    const [isSelected, setIsSelected] = useState('All'); // Default selected specialization
+    const [selectedBanner, setSelectedBanner] = useState(null);
+    const [allDoctors, setAllDoctors] = useState([]);
+    const [filteredDoctors, setFilteredDoctors] = useState([]);
+    const [isSelected, setIsSelected] = useState('All');
+    const [nearestDoctor, setNearestDoctor] = useState(null);
+    const [userLocation, setUserLocation] = useState(null);
+    const [hoveredDoctorId, setHoveredDoctorId] = useState(null);
 
     // Fetch all doctors on component mount
     useEffect(() => {
@@ -17,8 +20,10 @@ function FindDoctor() {
                 const response = await fetch(`http://127.0.0.1:5000/doctors`);
                 const data = await response.json();
                 if (data.success) {
-                    setAllDoctors(data.doctors); // Use the `doctors` array from the response
-                    setFilteredDoctors(data.doctors); // Initially set filtered doctors to all doctors
+                    setAllDoctors(data.doctors);
+                    setFilteredDoctors(data.doctors);
+                    // Calculate nearest doctor when doctors are fetched
+                    calculateNearestDoctor(data.doctors, userLocation);
                 } else {
                     console.error('Failed to fetch doctors:', data.message);
                 }
@@ -26,20 +31,69 @@ function FindDoctor() {
                 console.error('Error fetching doctors:', error);
             }
         }
+
+        // Get user's current location
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                setUserLocation({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                });
+            },
+            (error) => console.error('Error getting user location:', error)
+        );
+
         fetchDoctors();
     }, []);
+
+    // Calculate distance using Haversine formula
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; // Radius of the Earth in km
+        const dLat = ((lat2 - lat1) * Math.PI) / 180;
+        const dLon = ((lon2 - lon1) * Math.PI) / 180;
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos((lat1 * Math.PI) / 180) *
+            Math.cos((lat2 * Math.PI) / 180) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c; // Distance in km
+    }
+
+    // Find nearest doctor based on the current user location and filtered doctors
+    function calculateNearestDoctor(doctors, location) {
+        if (location && doctors.length > 0) {
+            const nearest = doctors.reduce((closest, doctor) => {
+                const distance = calculateDistance(
+                    location.latitude,
+                    location.longitude,
+                    doctor.latitude,
+                    doctor.longitude
+                );
+                return !closest || distance < closest.distance
+                    ? { ...doctor, distance }
+                    : closest;
+            }, null);
+            setNearestDoctor(nearest);
+        } else {
+            setNearestDoctor(null); // Reset nearest doctor if no doctors are available
+        }
+    }
 
     // Handle specialist item click
     function handleItemClick(specialist) {
         setIsSelected(specialist);
-        // Filter doctors based on selected specialization
+
         if (specialist === 'All') {
             setFilteredDoctors(allDoctors);
+            calculateNearestDoctor(allDoctors, userLocation);  // Recalculate nearest for all doctors
         } else {
             const filtered = allDoctors.filter(
-                doctor => doctor.specialization === specialist
+                (doctor) => doctor.specialization === specialist
             );
             setFilteredDoctors(filtered);
+            calculateNearestDoctor(filtered, userLocation);  // Recalculate nearest for filtered doctors
         }
     }
 
@@ -52,7 +106,6 @@ function FindDoctor() {
         <div className="home-container">
             <Navbar />
             <div className="doctor-banner-container">
-                {/* Clinic and Doorstep banners */}
                 <div
                     className={`doctor-banner ${selectedBanner === 'clinic' ? 'selected-banner' : ''}`}
                     onClick={() => handleBannerClick('clinic')}
@@ -92,55 +145,66 @@ function FindDoctor() {
                     </div>
                     <div className="doctor-card-container">
                         {filteredDoctors.length > 0 ? (
-                            filteredDoctors.map((doctor, index) => {
-                                const imgSrc = `http://localhost:5000/uploads/${doctor.name.replace(
-                                    /[^a-zA-Z0-9]/g,
-                                    '_'
-                                )}_${doctor.specialization.replace(/[^a-zA-Z0-9]/g, '_')}.jpg`;
-                                return (
-                                    <DoctorCard
-                                        key={index}
-                                        name={doctor.name}
-                                        img={imgSrc}
-                                        specialization={doctor.specialization}
-                                        onError={(e) => {
-                                            e.target.onerror = null;
-                                            e.target.src = '/images/default_image.jpg';
-                                        }}
-                                    />
-                                );
-                            })
+                            filteredDoctors
+                                .filter((doctor) => !nearestDoctor || doctor.name !== nearestDoctor.name)
+                                .map((doctor, index) => {
+                                    const imgSrc = `http://localhost:5000/uploads/${doctor.name.replace(
+                                        /[^a-zA-Z0-9]/g,
+                                        '_'
+                                    )}_${doctor.specialization.replace(/[^a-zA-Z0-9]/g, '_')}.jpg`;
+                                    return (
+                                        <DoctorCard
+                                            key={index}
+                                            name={doctor.name}
+                                            img={imgSrc}
+                                            specialization={doctor.specialization}
+                                            onMouseEnter={() => setHoveredDoctorId(doctor.name)}
+                                            onMouseLeave={() => setHoveredDoctorId(null)}
+                                            style={{
+                                                backgroundColor:
+                                                    hoveredDoctorId === doctor.name ? '#f0f8ff' : '',
+                                            }}
+                                        />
+                                    );
+                                })
                         ) : (
                             <div>No doctors found for the selected specialization.</div>
+                        )}
+                        {nearestDoctor && filteredDoctors.length > 0 && (
+                            <div className="nearest-doctor">
+                                <h3>Nearest Doctor:</h3>
+                                <DoctorCard
+                                    name={nearestDoctor.name}
+                                    img={`http://localhost:5000/uploads/${nearestDoctor.name.replace(
+                                        /[^a-zA-Z0-9]/g,
+                                        '_'
+                                    )}_${nearestDoctor.specialization.replace(/[^a-zA-Z0-9]/g, '_')}.jpg`}
+                                    specialization={nearestDoctor.specialization}
+                                    distance={`${nearestDoctor.distance.toFixed(2)} km away`}
+                                    onMouseEnter={() => setHoveredDoctorId(nearestDoctor.name)}
+                                    onMouseLeave={() => setHoveredDoctorId(null)}
+                                    style={{
+                                        backgroundColor:
+                                            hoveredDoctorId === nearestDoctor.name ? '#f0f8ff' : '',
+                                    }}
+                                />
+                            </div>
                         )}
                     </div>
                 </div>
 
                 <div className="section-title">Clinics:</div>
-                {/* Pass filtered doctors to MapComponent */}
                 <MapComponent
                     doctors={filteredDoctors.map((doctor) => ({
                         name: doctor.name,
                         specialization: doctor.specialization,
-                        latitude: doctor.latitude || 0, // Default to 0 if missing
-                        longitude: doctor.longitude || 0, // Default to 0 if missing
+                        latitude: doctor.latitude || 0,
+                        longitude: doctor.longitude || 0,
+                        isNearest: nearestDoctor && doctor.name === nearestDoctor.name,
                     }))}
+                    onPinHover={(doctorName) => setHoveredDoctorId(doctorName)}
+                    onPinLeave={() => setHoveredDoctorId(null)}
                 />
-
-                <div className="appointment-container">
-                    <div className="section-title">Appointment Schedule:</div>
-                    <form>
-                        <input type="text" placeholder="Patient Name" required />
-                        <input type="text" placeholder="Patient Phone Number" required />
-                        <select id="time" name="time" required>
-                            <option value="morning">9:00am - 10:00am</option>
-                            <option value="noon">11:00am - 12:00pm</option>
-                            <option value="evening">3:00pm - 5:00pm</option>
-                            <option value="night">6:00pm - 8:00pm</option>
-                        </select>
-                        <button type="submit">Confirm Appointment</button>
-                    </form>
-                </div>
             </div>
         </div>
     );
