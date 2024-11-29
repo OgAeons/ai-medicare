@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
-import { FaMapMarkerAlt, FaCalendarAlt, FaHospital, FaHome, FaUserMd, FaLightbulb } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaCalendarAlt, FaFlask, FaBabyCarriage, FaUserMd, FaLightbulb } from 'react-icons/fa';
 import { BiSearch } from 'react-icons/bi';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -99,7 +99,7 @@ function LabTests() {
             <span className='text-white text-lg font-thin w-2/5 text-center pr-16'>
               Easily book your appointment with our expert test labs for your family in the same day or next day
             </span>
-            <a href='#make-appointment' className='bg-white text-emerald-600 mx-8 py-4 text-md w-1/5 text-center rounded-2xl shadow-lg'>
+            <a href='/symptoms' className='bg-white text-emerald-600 mx-8 py-4 text-md w-1/5 text-center rounded-2xl shadow-lg'>
               Test Recommendations
             </a>
           </div>
@@ -108,30 +108,30 @@ function LabTests() {
         <div className='absolute top-48 w-[90vw] right-5 flex items-center justify-center'>
             <div className='bg-white w-1/4 h-[30vh] mx-4 py-8 px-6 flex flex-col items-center rounded-2xl shadow-md'>
                 <div className='bg-emerald-300 p-4 mb-4 w-fit rounded-xl'>
-                    <FaUserMd size={24} color='white' />
+                    <FaFlask size={24} color='white' />
                 </div>
-                <span className='text-lg font-semibold'>Search Doctor</span>
-                <span className='font-thin text-center'>Before booking an appointment, search doctors based on their specialization, location, and availability</span>
+                <span className='text-lg font-semibold'>Symptom Analyzer</span>
+                <span className='font-thin text-center'>Before booking an appointment, use our symptom analyzer so that you get the knowledge of what tests you should take</span>
             </div>
             <div className='bg-white w-1/4 h-[30vh] mx-4 py-8 px-6 flex flex-col items-center rounded-2xl shadow-md'>
                 <div className='bg-emerald-300 p-4 mb-4 w-fit rounded-xl'>
                     <FaMapMarkerAlt size={24} color='white' />
                 </div>
                 <span className='text-lg font-semibold'>Choose Your Location</span>
-                <span className='font-thin text-center'>Then enter your location, and we will help find the appointment nearby</span>
+                <span className='font-thin text-center'>Then enter your location, and we will help find the test appointment nearby</span>
             </div>
             <div className='bg-white w-1/4 h-[30vh] mx-4 py-8 px-6 flex flex-col items-center rounded-2xl shadow-md'>
                 <div className='bg-emerald-300 p-4 mb-4 w-fit rounded-xl'>
                     <FaCalendarAlt size={24} color='white' />
                 </div>
                 <span className='text-lg font-semibold'>Schedule Appointment</span>
-                <span className='font-thin text-center'>Then enter your location, and we will help find the appointment nearby</span>
+                <span className='font-thin text-center'>Then select the appointnment date, and you your appointment on the same day or the next day</span>
             </div>
             <div className='bg-white w-1/4 h-[30vh] mx-4 py-8 px-6 flex flex-col items-center rounded-2xl shadow-md'>
                 <div className='bg-emerald-300 p-4 mb-4 w-fit rounded-xl'>
                     <FaLightbulb size={24} color='white' />
                 </div>
-                <span className='text-lg font-semibold'>Get Your Solution</span>
+                <span className='text-lg font-semibold'>Get Examined, Stay Safe</span>
                 <span className='font-thin text-center'>We will help you find and provide solutions for your health</span>
             </div>
         </div>
@@ -192,7 +192,7 @@ function LabTests() {
             </div>
             <div className='relative w-1/4 py-2 px-6 mr-6 flex items-center border rounded-2xl shadow-md cursor-pointer'>
               <div className='rounded-3xl w-10 h-10 flex items-center justify-center border border-emerald-600' onClick={toggleAppointmentGender}>
-                {appointmentGender === 'Adult Male' ? <FaHospital size={24} color='#569c72' /> : <FaHome size={24} color='#569c72' />}
+                {appointmentGender === 'Kids' ? <FaBabyCarriage size={24} color='#569c72' /> : <FaUserMd size={24} color='#569c72' />}
               </div>
               <div className='ml-4 flex flex-col' onClick={toggleAppointmentGender}>
                 <span className='text-gray-400 text-sm'>Age Group</span>
