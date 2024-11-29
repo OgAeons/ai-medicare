@@ -18,6 +18,10 @@ six==1.16.0
 threadpoolctl==3.5.0
 tzdata==2024.2
 Werkzeug==3.0.4
+flask_session==0.8.0
+msgspec==0.18.6
+cachelib==0.13.0
+python-dotenv==1.0.1
 # geocoder==1.38.1
 # requests==2.32.3
 # certifi==2024.8.30

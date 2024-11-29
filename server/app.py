@@ -1,17 +1,28 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session
 from pymongo import MongoClient
 from flask_cors import CORS
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_session import Session
+import os
+from dotenv import load_dotenv
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import numpy as np
 import pandas as pd
-from werkzeug.security import generate_password_hash, check_password_hash
 import traceback
 import random
 
+load_dotenv()
+
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SESSION_TYPE'] = 'mongodb'
+app.config['SESSION_MONGODB'] = MongoClient('mongodb://localhost:27017/')
+app.config['SESSION_MONGODB_DB'] = 'AiM'
+app.config['SESSION_MONGODB_COLLECT'] = 'sessions'
+Session(app)
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client['AiM'] 
@@ -31,10 +42,10 @@ user_data = {}
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
-    print(f"Received data: {data}")  # Log incoming data
+    print(f"Received data: {data}") 
 
-    user_id = data.get('user_id')  # Unique identifier for the registration session
-    role = data.get('role')  # Role can be either 'patient' or 'doctor'
+    user_id = data.get('user_id')   #unique user id
+    role = data.get('role')   #patient or doctor
 
     global user_data  # Use the global variable
 
@@ -67,14 +78,13 @@ def register():
     next_question = next((q for q in questions[role] if q not in user_data[user_id]['answers']), None)
     return jsonify({"next_question": next_question}), 200
 
+# finalize the user registration
 def finalize_registration(user_data, role, user_id):
-    # Retrieve all answers
     answers = user_data['answers']
     name = answers.get('name')
     email = answers.get('email')
     password = answers.get('password')
 
-    # Validation
     if not name or not email or not password:
         return jsonify({"error": "All fields are required"}), 400
 
@@ -138,8 +148,6 @@ def finalize_registration(user_data, role, user_id):
         return jsonify({"error": "Registration failed due to a server error. Please try again.", "details": str(e)}), 500
 
 
-
-
 # =====================================
 # User Login Endpoint
 # =====================================
@@ -153,25 +161,62 @@ def login():
     if not email or not password or not role:
         return jsonify({"error": "Email, password, and role are required"}), 400
     
-    user = None
-    if role == "patient":
-        user = patients_collection.find_one({"email": email})
-    elif role == "doctor":
-        user = doctors_collection.find_one({"email": email})
+    try: 
+        user = None
+        if role == "patient":
+            user = patients_collection.find_one({"email": email})
+        elif role == "doctor":
+            user = doctors_collection.find_one({"email": email})
 
-    if user and check_password_hash(user['password'], password): 
+        if user and check_password_hash(user['password'], password): 
+            session['user_id'] = str(user['_id'])
+            session['role'] = role
+            session['name'] = user['name']
+
+            return jsonify({
+                "success": True,
+                "message": f"Welcome, {user['name']}!",
+                "user": {
+                    "name": user['name'],
+                    "email": user['email'],
+                    "role": role
+                }
+            }), 200 
+        else:
+            return jsonify({"success": False, "message": "Invalid credentials"}), 401
+        
+    except Exception as e:
+        print(f"Error during login: {str(e)}")
+        traceback.print_exc()
+        return jsonify({"error": "Login failed due to a server error"}), 500
+    
+
+# =====================================
+# user logout endpoint              
+# =====================================
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.clear()  # Clear session data
+    return jsonify({"message": "Logged out successfully"}), 200
+
+
+# =====================================
+# Check Session Endpoint
+# =====================================
+@app.route('/session', methods=['GET'])
+def check_session():
+    if 'user_id' in session:
         return jsonify({
-            "success": True,
-            "message": f"Welcome, {user['name']}!",
+            "logged_in": True,
             "user": {
-                "name": user['name'],
-                "email": user['email'],
-                "role": role  # Return role if needed
+                "name": session.get('name'),
+                "role": session.get('role'),
             }
-        }), 200 
+        }), 200
     else:
-        return jsonify({"success": False, "message": "Invalid credentials"}), 401
-
+        return jsonify({"logged_in": False}), 200
+    
+    
 
 # =====================================
 # Disease prediction based on symptoms               
