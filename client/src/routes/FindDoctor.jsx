@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Navbar from '../components/Navbar'
 import MapComponent from '../components/MapComponent'
 import { FaMapMarkerAlt, FaCalendarAlt, FaHospital, FaHome, FaUserMd, FaLightbulb } from 'react-icons/fa'
@@ -27,30 +27,40 @@ function FindDoctor() {
     const [showAppointmentConfirmation, setShowAppointmentConfirmation] = useState(false)
 
     const specializations = [
-        "Family Physician", "Acupuncturist", "Allergist", "Anesthesiologist", "Cardiologist", "Chiropractor", 
-        "Dentist", "Dermatologist", "Dietitian", "Audiologist", "Bariatric Surgeon", "Child and Adolescent Psychiatrist",
-        "Clinical Neurophysiologist", "Colorectal Surgeon", "Cornea & External Diseases Specialist", "Diagnostic Radiologist",
-        "Ear, Nose & Throat Doctor", "Emergency Medicine Physician", "Endocrinologist", "Endodontist",
-        "Facial Plastic & Reconstructive Surgeon", "Family Nurse Practitioner", "Family Psychiatric & Mental Health Nurse Practitioner",
-        "Foot & Ankle Specialist", "Forensic Psychiatrist", "Gastroenterologist", "Geriatrician", "Glaucoma Specialist",
-        "Gynecologist", "Hand & Microsurgery Specialist", "Hand Surgeon", "Head & Neck Surgeon", "Hematologist",
-        "Hip and Knee Surgeon", "Infectious Disease Specialist", "Internist", "Interventional Cardiologist", "Laryngologist",
-        "Midwife", "Nephrologist", "Neuro-Ophthalmologist", "Neuro-Otologist", "Neurologist", "Neurosurgeon",
-        "Nuclear Medicine Specialist", "Nurse Practitioner", "Nutritionist", "OB-GYN", "Occupational Therapist",
-        "Oculoplastic Surgeon", "Oncologist", "Ophthalmologist", "Optometrist", "Oral Surgeon", "Orthodontist",
-        "Orthopedic Surgeon", "Pain Management Specialist", "Pediatric / Strabismus Eye Doctor", "Pediatric Cardiologist",
-        "Pediatric Dentist", "Pediatric Dermatologist", "Pediatric Emergency Medicine Specialist", "Pediatric Nurse Practitioner",
-        "Pediatric Orthopedic Surgeon", "Pediatric Otolaryngologist", "Pediatric Sports Medicine Specialist",
-        "Pediatrician", "Periodontist", "Physiatrist", "Physical Therapist", "Physician Assistant", "Plastic Surgeon",
-        "Podiatrist", "Primary Care Doctor", "Prosthodontist", "Psychiatrist", "Psychologist", "Psychosomatic Medicine Specialist",
-        "Psychotherapist", "Pulmonary Diseases and Critical Care Medicine Specialist", "Pulmonologist", "Radiation Oncologist",
-        "Radiologist", "Refractive Surgeon", "Reproductive Endocrinologist", "Retina Specialist (Medical)",
-        "Rheumatologist", "Shoulder & Elbow Surgeon", "Sinus Surgeon / Rhinologist", "Sleep Medicine Specialist",
-        "Spine Specialist", "Sports Medicine Specialist", "Surgeon", "Travel Medicine Specialist", "Urgent Care Specialist",
-        "Urological Surgeon", "Urologist", "Vascular Surgeon", "Women's Health Nurse Practitioner", "Addiction Specialist", 
-        "Adult Nurse Practitioner", "Adult Psychiatric & Mental Health Nurse Practitioner",
+        "Acupuncturist", "Family Physician", "Psychiatrist", "Chiropractor", "Allergist", "Dermatologist", 
+        "Radiologist", "Dentist", "Ear Nose & Throat Doctor","Cardiologist", "Dietitian", "Refractive Surgeon",
+        "Facial Plastic & Reconstructive Surgeon", "Oncologist", "Urologist", "Reproductive Endocrinologist",
+        "Gynecologist", 
     ]
+
+    // const specializations = [
+    //     "Family Physician", "Acupuncturist", "Allergist", "Anesthesiologist", "Cardiologist", "Chiropractor", 
+    //     "Dentist", "Dermatologist", "Dietitian", "Audiologist", "Bariatric Surgeon", "Child and Adolescent Psychiatrist",
+    //     "Clinical Neurophysiologist", "Colorectal Surgeon", "Cornea & External Diseases Specialist", "Diagnostic Radiologist",
+    //     "Ear, Nose & Throat Doctor", "Emergency Medicine Physician", "Endocrinologist", "Endodontist",
+    //     "Facial Plastic & Reconstructive Surgeon", "Family Nurse Practitioner", "Family Psychiatric & Mental Health Nurse Practitioner",
+    //     "Foot & Ankle Specialist", "Forensic Psychiatrist", "Gastroenterologist", "Geriatrician", "Glaucoma Specialist",
+    //     "Gynecologist", "Hand & Microsurgery Specialist", "Hand Surgeon", "Head & Neck Surgeon", "Hematologist",
+    //     "Hip and Knee Surgeon", "Infectious Disease Specialist", "Internist", "Interventional Cardiologist", "Laryngologist",
+    //     "Midwife", "Nephrologist", "Neuro-Ophthalmologist", "Neuro-Otologist", "Neurologist", "Neurosurgeon",
+    //     "Nuclear Medicine Specialist", "Nurse Practitioner", "Nutritionist", "OB-GYN", "Occupational Therapist",
+    //     "Oculoplastic Surgeon", "Oncologist", "Ophthalmologist", "Optometrist", "Oral Surgeon", "Orthodontist",
+    //     "Orthopedic Surgeon", "Pain Management Specialist", "Pediatric / Strabismus Eye Doctor", "Pediatric Cardiologist",
+    //     "Pediatric Dentist", "Pediatric Dermatologist", "Pediatric Emergency Medicine Specialist", "Pediatric Nurse Practitioner",
+    //     "Pediatric Orthopedic Surgeon", "Pediatric Otolaryngologist", "Pediatric Sports Medicine Specialist",
+    //     "Pediatrician", "Periodontist", "Physiatrist", "Physical Therapist", "Physician Assistant", "Plastic Surgeon",
+    //     "Podiatrist", "Primary Care Doctor", "Prosthodontist", "Psychiatrist", "Psychologist", "Psychosomatic Medicine Specialist",
+    //     "Psychotherapist", "Pulmonary Diseases and Critical Care Medicine Specialist", "Pulmonologist", "Radiation Oncologist",
+    //     "Radiologist", "Refractive Surgeon", "Reproductive Endocrinologist", "Retina Specialist (Medical)",
+    //     "Rheumatologist", "Shoulder & Elbow Surgeon", "Sinus Surgeon / Rhinologist", "Sleep Medicine Specialist",
+    //     "Spine Specialist", "Sports Medicine Specialist", "Surgeon", "Travel Medicine Specialist", "Urgent Care Specialist",
+    //     "Urological Surgeon", "Urologist", "Vascular Surgeon", "Women's Health Nurse Practitioner", "Addiction Specialist", 
+    //     "Adult Nurse Practitioner", "Adult Psychiatric & Mental Health Nurse Practitioner",
+    // ]
     
+
+
+
     function handleSpecializationChange(specialization) {
         setActiveSpecialization(specialization)
     }
@@ -74,17 +84,25 @@ function FindDoctor() {
         setShowAppointmentType(!showAppointmentType)
     }
 
-    function handleDoctorsList() {
+    async function handleSearch() {
         setShowDoctorsList(true)
     }
 
-    function handleBookAppointment(doctorName) {
+    function handleBookAppointment(doctorName, doctorSpecialization, doctorAddress, doctorPhone, doctorFees) {
         setAppointmentDetails({
             doctorName, 
+            doctorSpecialization,
             date: date.toDateString(), 
             appointmentType,  
+            doctorAddress, 
+            doctorPhone, 
+            doctorFees
         })
         setShowAppointmentConfirmation(true) 
+    }
+
+    function toggleLocationDetails() {
+        setShowLocationFetch(!showLocationFetch)
     }
 
 
@@ -152,22 +170,22 @@ function FindDoctor() {
 
                     <div className='py-2 my-2 w-[90%] flex items-center justify-between'>
                         <div className='relative w-1/4 py-2 px-6 mr-6 flex items-center border rounded-2xl shadow-md'>
-                            <div className='bg-emerald-600 rounded-3xl w-10 h-10 flex items-center justify-center'>
+                            <div className='bg-emerald-600 rounded-3xl w-10 h-10 flex items-center justify-center' onClick={toggleLocationDetails}>
                                 <FaMapMarkerAlt size={24} color='white' />
                             </div>
-                            <div className='ml-4 flex flex-col'>
+                            <div className='ml-4 flex flex-col' onClick={toggleLocationDetails}>
                                 <span className='text-gray-400 text-sm'>Location</span>
-                                <span  className='text-md'>
+                                <div  className='text-md overflow-x-auto'>
                                     {location ? (
                                         <p>{location.area}</p>
                                     ) : (
                                         <p>Loading location...</p>
                                     )}
-                                </span>
+                                </div>
                             </div>
                             {showLocationFetch && (
                                 <div className="absolute top-full mt-2 left-0 z-50 bg-white shadow-lg rounded-lg p-4">
-                                    <UserLocation onLocationSelect={handleLocationSelect} />
+                                    <UserLocation />
                                 </div>
                             )}
                         </div>
@@ -214,13 +232,13 @@ function FindDoctor() {
                                 </div>
                             )}
                         </div>
-                        <div className='bg-emerald-600 text-white w-1/4 py-4 px-6 mr-6 flex items-center justify-center border rounded-2xl shadow-md cursor-pointer' onClick={handleDoctorsList}>
+                        <div className='bg-emerald-600 text-white w-1/4 py-4 px-6 mr-6 flex items-center justify-center border rounded-2xl shadow-md cursor-pointer' onClick={handleSearch}>
                             <BiSearch size={24} color='white' />
                             <span className='text-lg ml-2'>Search</span>
                         </div>
                     </div>
                 </div>
-                <DoctorsList activeSpecialization={activeSpecialization} showDoctorsList={showDoctorsList} onAppointmentBooked={(doctorName) => handleBookAppointment(doctorName)} /> 
+                <DoctorsList activeSpecialization={activeSpecialization} showDoctorsList={showDoctorsList} onAppointmentBooked={(doctorName, doctorSpecialization, doctorAddress, doctorPhone, doctorFees) => handleBookAppointment(doctorName, doctorSpecialization, doctorAddress, doctorPhone, doctorFees)} /> 
                 <AppointmentConfirmation
                     show={showAppointmentConfirmation}
                     onClose={() => setShowAppointmentConfirmation(false)}
@@ -228,8 +246,7 @@ function FindDoctor() {
                 />
 
 
-                <h2 className="text-emerald-600 text-3xl font-semibold mb-6 mt-8">Nearby Hospitals, Clinics and Labs</h2>
-                <MapComponent />
+
                 
                 
             </div>

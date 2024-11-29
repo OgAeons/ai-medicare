@@ -312,21 +312,45 @@ def get_diseases():
 # =====================================
 # Doctors by speciality
 # =====================================
-@app.route('/api/doctors', methods=['GET'])
+@app.route('/doctors', methods=['GET'])
 def get_doctors():
-    speciality = request.args.get('speciality', '')
-    print(f"Specialty received: {speciality}") 
+    try: 
+        # Get the specialization from the request arguments
+        specialization = request.args.get('specialization')
+        
+        # Query the database based on specialization if provided
+        query = {"specialization": specialization} if specialization else {}
+        doctors = doctors_collection.find(query, {
+            "name": 1,
+            "specialization": 1,
+            "clinicAddress": 1,
+            "latitude": 1,
+            "longitude": 1,
+            "contactNumber": 1,
+            "consultationFees": 1,
+            "_id": 0
+        })
 
-    doctors = list(doctors_by_speciality_collection.find({'speciality': speciality}, {'_id': 0}))
-    # print(f"Doctors found: {doctors}") 
+        # Convert the cursor to a list of dictionaries
+        doctor_list = list(doctors)
 
-    for doctor in doctors:
-        # Add random working hours
-        doctor['working_hours'] = f"{random.randint(8, 10)}:00 AM - {random.randint(5, 7)}:00 PM"
-        # Add the doctor's name, if available, or use "Unknown" if not
-        doctor['name'] = doctor.get("Doctor's Name", "Unknown")
+        return jsonify({"success": True, "data": doctor_list})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
 
-    return jsonify({'data': doctors})
+    # speciality = request.args.get('speciality', '')
+    # print(f"Specialty received: {speciality}") 
+
+    # doctors = list(doctors_by_speciality_collection.find({'speciality': speciality}, {'_id': 0}))
+    # # print(f"Doctors found: {doctors}") 
+
+    # for doctor in doctors:
+    #     # Add random working hours
+    #     doctor['working_hours'] = f"{random.randint(8, 10)}:00 AM - {random.randint(5, 7)}:00 PM"
+    #     # Add the doctor's name, if available, or use "Unknown" if not
+    #     doctor['name'] = doctor.get("Doctor's Name", "Unknown")
+
+    # return jsonify({'data': doctors})
 
 
 # =====================================
