@@ -34,8 +34,7 @@ a {
     align-items: flex-end;
 }
 
-.signup-container {
-    /* background-color: rgb(194, 241, 23); */
+/* .signup-container {
     width: 70%;
     height: 70%;
     margin: 17% auto 0 auto;
@@ -43,16 +42,16 @@ a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
+} */
 
-.signup-container h2 {
+/* .signup-container h2 {
     padding: 0;
     margin: 0;
-}
+} */
 
-.description-signup {
+/* .description-signup {
     margin-bottom: 2rem;
-}
+} */
 
 .role-select {
     width: 90%;
@@ -67,10 +66,10 @@ a {
     margin-top: 1.5rem;
 }
 
-.input-label {
+/* .input-label {
     margin-right: auto;
     margin-bottom: .4rem;
-}
+} */
 
 .input-container input {
     width: 98%;

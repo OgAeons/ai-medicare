@@ -1,23 +1,29 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation } from '../services/LocationContext'
 import { Link, useNavigate } from 'react-router-dom'
-import { useUser } from '../services/User'
+import { useLocation } from '../services/LocationContext'
+import axios from 'axios'
 
 function Navbar() {
-    const { location } = useLocation()
+    const [user, setUser] = useState()
     const navigate = useNavigate()
-    const { user, logout } = useUser()
+    const { location } = useLocation()
     const [dropdownOpen, setDropdownOpen] = useState(false)
+
+
+    async function handleLogout() {
+        try {
+            await axios.post('/logout')
+            setUser(null)
+            navigate('/login') // Redirect to login page after logout
+        } catch (error) {
+            console.error('Error during logout:', error)
+        }
+    }
 
     const handleLoginClick = () => {
         if (!user) {
             navigate('/login')
         }
-    }
-
-    const handleLogout = () => {
-        logout()
-        navigate('/register')
     }
 
     const toggleDropdown = () => {
@@ -26,9 +32,9 @@ function Navbar() {
 
     useEffect(() => {
         if (location) {
-            console.log('User location:', location);
+            console.log('User location:', location)
         }
-    }, [location]);
+    }, [location])
 
     return (
         <nav className="navbar bg-white text-gray-800 w-full h-16 flex">
@@ -79,12 +85,9 @@ function Navbar() {
 
             {/* User Login/Logout */}
             {user ? (
-                <div
-                    className="text-sm w-1/6 px-4 py-2 flex items-center border border-black rounded-3xl"
-                    onClick={toggleDropdown}
-                >
+                <div className="text-sm w-1/6 px-4 py-2 flex items-center border border-black rounded-3xl" onClick={toggleDropdown}>
                     <img src="/icons/user.png" className="w-6" alt="user icon" />
-                    {user.name}
+                    <span>{`Welcome, ${user.name} (${user.role})`}</span>
                     {dropdownOpen && (
                         <div className="dropdown-menu">
                             <button onClick={handleLogout}>Logout</button>
@@ -92,14 +95,12 @@ function Navbar() {
                     )}
                 </div>
             ) : (
-                <div
-                    className="text-sm w-1/6 px-4 py-2 flex items-center border border-black rounded-3xl"
-                    onClick={handleLoginClick}
-                >
+                <div className="text-sm w-1/6 px-4 py-2 flex items-center border border-black rounded-3xl" onClick={handleLoginClick}>
                     <img src="/icons/user.png" className="w-6 mx-2" alt="user icon" />
                     Login
                 </div>
             )}
+
         </nav>
     )
 }

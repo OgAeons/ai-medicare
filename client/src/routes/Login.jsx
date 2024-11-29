@@ -1,24 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useUser } from '../services/User';
+import React, { useState, useEffect } from "react"
+import { Link, useNavigate } from "react-router-dom"
 
 function Login() {
-    const navigate = useNavigate();
-    const { setUser } = useUser();
+    const navigate = useNavigate()
 
-    const [user, setUserState] = useState({
-        email: '',
-        password: '',
+    const [user, setUser] = useState({
+        name: '',
         role: 'patient', 
-    });
+        password: '',
+    })
 
-    const [errorMessage, setErrorMessage] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('')
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user")
+        if (storedUser) {
+            navigate('/')
+        }
+    }, [navigate])
 
     async function loginUser(e) {
-        e.preventDefault();
-        setLoading(true);
-        setErrorMessage('');
+        e.preventDefault()
+        setLoading(true)
+        setErrorMessage('')
 
         try {
             const response = await fetch('http://127.0.0.1:5000/login', {
@@ -27,74 +32,71 @@ function Login() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(user),
-            });
+            })
 
-            const data = await response.json();
-            setLoading(false);
+            const data = await response.json()
+            setLoading(false)
 
             if (response.ok) {
                 if (data.success) {
-                    console.log(data.message);
-                    // Assuming the API returns the user's name and role
-                    setUser({ name: data.user.name, role: data.user.role });
-                    navigate('/');
+                    console.log(data.message)
+                    const userLoggedIn = {
+                        name: data.user.name,
+                        role: data.user.role,
+                    }
+                    localStorage.setItem("user", JSON.stringify(userLoggedIn))
+                    navigate('/')
                 } else {
-                    setErrorMessage(data.message);
+                    setErrorMessage(data.message)
                 }
             } else {
-                setErrorMessage(data.message || 'Invalid email or password.');
+                setErrorMessage(data.message || 'Invalid email or password.')
             }
         } catch (error) {
-            setLoading(false);
-            setErrorMessage('Error logging in. Please check your connection.');
+            setLoading(false)
+            setErrorMessage('Error logging in. Please check your connection.')
         }
     }
 
-    // useEffect(() => {
-    //     if (user) {
-    //         navigate('/'); // Redirect to homepage if user is logged in
-    //     }
-    // }, [user, navigate])
-
     return (
-        <div style={{ width: '40%', height: '100vh', backgroundColor: 'white' }}>
-            <div className="signup-container">
-                <h2>Welcome Back!</h2>
-                <p className="description-signup">Enter your details to log in</p>
+        <div className="bg-white w-[40%] h-[100vh]">
+            <div className="w-[70%] h-[70%] mt-[17%] mx-auto mb-0 flex flex-col justify-center items-center">
+                <h2 className="text-2xl font-semibold">Welcome Back!</h2>
+                <p className="mb-[2rem]">Enter your details to log in</p>
                 
-                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} 
+                {errorMessage && <p className="text-red-600">{errorMessage}</p>} 
                 
-                <div className="input-container">
-                    <label htmlFor='role' className="input-label">Role</label>
+                <div className="w-full mt-[1.5rem]">
+                    <label htmlFor='role' className="mr-auto mb-[0.4rem]">Role</label>
                     <select
                         className="role-select"
                         name="role"
                         value={user.role}
-                        onChange={(e) => setUserState({ ...user, role: e.target.value })}
+                        onChange={(e) => setUser({ ...user, role: e.target.value })}
                     >
                         <option value="patient">Patient</option>
                         <option value="doctor">Doctor</option>
                     </select>
                 </div>
                 <div className="input-container">
-                    <label htmlFor='email' className="input-label">Email Address</label>
+                    <label htmlFor='email' className="mr-auto mb-[0.4rem]">Email Address</label>
                     <input
                         type="email"
                         placeholder="Email Address"
                         name="email"
                         value={user.email}
-                        onChange={(e) => setUserState({ ...user, email: e.target.value })}
+                        onChange={(e) => setUser({ ...user, email: e.target.value })}
                         required
                     />
                 </div>
                 <div className="input-container">
-                    <label htmlFor='password' className="input-label">Password</label>
+                    <label htmlFor='password' className="mr-auto mb-[0.4rem]">Password</label>
                     <input
                         type="password"
                         placeholder="Password"
                         name="password"
                         value={user.password}
-                        onChange={(e) => setUserState({ ...user, password: e.target.value })}
+                        onChange={(e) => setUser({ ...user, password: e.target.value })}
                         required
                     />
                 </div>

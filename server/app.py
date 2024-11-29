@@ -17,12 +17,7 @@ load_dotenv()
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['SESSION_TYPE'] = 'mongodb'
-app.config['SESSION_MONGODB'] = MongoClient('mongodb://localhost:27017/')
-app.config['SESSION_MONGODB_DB'] = 'AiM'
-app.config['SESSION_MONGODB_COLLECT'] = 'sessions'
-Session(app)
+app.config['SECRET_KEY'] = 'secret-key-AiM'  # Keep secret key for other uses
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client['AiM'] 
@@ -64,9 +59,8 @@ def register():
                     "healthConcern", "recentSymptoms", "emergencyContactName", 
                     "emergencyContactRelation", "emergencyContactPhone"],
         "doctor": [
-            "name", "email", "password", "specialization", "yearsOfExperience",
-            "clinicAddress", "contactNumber", "licenseNumber", "consultationFees",
-            "availableTimings", "qualification", "languagesSpoken", "bio"
+            "name", "email", "password", "specialization", "address",
+            "contactNumber", "clinicAddress", "consultationFees",
         ]
     }
 
@@ -90,8 +84,6 @@ def finalize_registration(user_data, role, user_id):
 
     try:
         # Check if user already exists
-        patients_collection = db['patients']
-        doctors_collection = db['doctors']
         existing_patient = patients_collection.find_one({"email": email})
         existing_doctor = doctors_collection.find_one({"email": email})
 
@@ -169,19 +161,11 @@ def login():
             user = doctors_collection.find_one({"email": email})
 
         if user and check_password_hash(user['password'], password): 
-            session['user_id'] = str(user['_id'])
-            session['role'] = role
-            session['name'] = user['name']
-
             return jsonify({
                 "success": True,
                 "message": f"Welcome, {user['name']}!",
-                "user": {
-                    "name": user['name'],
-                    "email": user['email'],
-                    "role": role
-                }
-            }), 200 
+                "user": {"name": user['name'], "email": user['email'], "role": role}
+            }), 200
         else:
             return jsonify({"success": False, "message": "Invalid credentials"}), 401
         
@@ -196,7 +180,7 @@ def login():
 # =====================================
 @app.route('/logout', methods=['POST'])
 def logout():
-    session.clear()  # Clear session data
+    # Session logic removed as per request
     return jsonify({"message": "Logged out successfully"}), 200
 
 
@@ -204,19 +188,11 @@ def logout():
 # Check Session Endpoint
 # =====================================
 @app.route('/session', methods=['GET'])
-def check_session():
-    if 'user_id' in session:
-        return jsonify({
-            "logged_in": True,
-            "user": {
-                "name": session.get('name'),
-                "role": session.get('role'),
-            }
-        }), 200
-    else:
-        return jsonify({"logged_in": False}), 200
+def get_session():
+    # Session logic removed as per request
+    return jsonify({"logged_in": False}), 200
     
-    
+
 
 # =====================================
 # Disease prediction based on symptoms               
