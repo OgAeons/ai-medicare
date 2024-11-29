@@ -1,0 +1,21 @@
+"Index", "Lab Name", "Latitude", "Longitude", "Address", "Contact Number", "Available Test", "Fees"
+1, "Prime Diagnostics", 18.628112, 73.744287, "401 Prime Labs Ave, Pune, India", "+91 776 123 4592", "All Tests", 1200
+2, "Apollo Diagnostics", 18.627332, 73.745610, "612 Apollo Health Labs, Pune, India", "+91 772 635 8741", "Full Body Check-up", 2500
+3, "Tathawade Lab Services", 18.626875, 73.746008, "234 Lab Services Ave, Pune, India", "+91 774 298 6514", "Diabetes", 800
+4, "Healthy Heart Diagnostics", 18.625674, 73.745217, "178 Heart Care Ave, Pune, India", "+91 790 231 7645", "Heart", 1500
+5, "OncoPath Diagnostics", 18.629001, 73.744912, "893 Cancer Care Lane, Pune, India", "+91 783 436 9872", "Cancer", 2200
+6, "Vitamin Care Labs", 18.628593, 73.746382, "721 Health Check Ave, Pune, India", "+91 771 982 6543", "Vitamin", 1000
+7, "Women's Health Diagnostics", 18.624852, 73.745731, "387 Women Care Lane, Pune, India", "+91 779 345 1297", "Women Health", 2000
+8, "SkinPro Labs", 18.627129, 73.744629, "456 Skin Health Ave, Pune, India", "+91 776 864 3021", "Skin Care", 1800
+9, "LiverCheck Diagnostics", 18.628753, 73.744102, "311 Liver Health Lane, Pune, India", "+91 795 431 2985", "Liver", 1700
+10, "StressFree Labs", 18.626344, 73.745829, "241 Stress Relief Ave, Pune, India", "+91 789 653 2149", "Stress", 1500
+11, "Complete Health Diagnostics", 18.627805, 73.745992, "522 Health Complete Ave, Pune, India", "+91 772 498 6523", "All Tests", 2000
+12, "Wellness Path Labs", 18.625467, 73.744832, "403 Wellness Center Lane, Pune, India", "+91 783 236 9841", "Full Body Check-up", 2300
+13, "DiabetesCheck Diagnostics", 18.624692, 73.746512, "893 Diabetes Health Ave, Pune, India", "+91 775 362 9832", "Diabetes", 850
+14, "CardioHealth Labs", 18.629323, 73.744876, "167 Cardio Health Ave, Pune, India", "+91 771 453 2876", "Heart", 1600
+15, "Cancer Detect Labs", 18.628692, 73.745639, "754 Cancer Detect Lane, Pune, India", "+91 762 123 8792", "Cancer", 2500
+16, "Vitality Vitamin Labs", 18.626498, 73.744569, "399 Vital Care Ave, Pune, India", "+91 763 784 1296", "Vitamin", 1200
+17, "Care Diagnostics for Women", 18.627239, 73.746792, "623 Women Wellness Ave, Pune, India", "+91 782 469 2781", "Women Health", 2100
+18, "SkinPerfect Diagnostics", 18.625139, 73.744003, "582 Skin Check Lane, Pune, India", "+91 776 842 1954", "Skin Care", 1900
+19, "LiverHealth Labs", 18.628434, 73.745129, "739 Liver Pathway Ave, Pune, India", "+91 779 432 1983", "Liver", 1850
+20, "StressEase Diagnostics", 18.624871, 73.746429, "621 Calm Path Ave, Pune, India", "+91 774 923 6718", "Stress", 1600
