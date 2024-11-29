@@ -28,9 +28,13 @@ const AppointmentConfirmation = ({ show, onClose, appointmentDetails }) => {
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
             <div className="bg-white p-6 rounded-lg shadow-md w-1/3">
                 <h2 className="text-xl font-semibold">Confirm Appointment</h2>
-                <p><strong>Doctor:</strong> {appointmentDetails.doctorName}</p>
+                <p><strong>Doctor's Name:</strong> {appointmentDetails.doctorName}</p>
+                {/* <p><strong>Specialization:</strong> {appointmentDetails.doctorSpecialization}</p> */}
                 <p><strong>Date:</strong> {appointmentDetails.date}</p>
                 <p><strong>Appointment Type:</strong> {appointmentDetails.appointmentType}</p>
+                <p><strong>Address:</strong> {appointmentDetails.doctorAddress}</p>
+                <p><strong>Phone:</strong> {appointmentDetails.doctorPhone}</p>
+                <p><strong>Fees:</strong> {appointmentDetails.doctorFees}</p>
 
                 <div className="flex justify-between mt-4">
                     <button
