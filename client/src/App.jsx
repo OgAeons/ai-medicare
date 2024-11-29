@@ -15,6 +15,7 @@ import Login from './routes/Login'
 import Register from './routes/Register'
 import MapComponent from './components/MapComponent'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 function LayoutWithCover({ children }) {
   return (
@@ -43,6 +44,7 @@ function App() {
             <Route path="/map" element={<MapComponent />} />
             <Route path='/locate' element={<UserLocation />} />
             <Route path='/navbar' element={<Navbar />} />
+            <Route path='/footer' element={<Footer />} />
           </Routes>
         </Router>
       </UserProvider>
