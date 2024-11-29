@@ -235,7 +235,52 @@ def get_symptoms():
         return jsonify(symptoms)
     return jsonify([])
 
+
 # Route for disease prediction
+# Dictionary to map disease to test
+disease_to_test = {
+    'Fungal infection': 'Skin Care',
+    'Allergy': 'Women Health',
+    'GERD': 'Liver',
+    'Chronic cholestasis': 'Liver',
+    'Drug Reaction': 'Full Body Check-up',
+    'Peptic ulcer diseae': 'Stress',
+    'AIDS': 'All Tests',
+    'Diabetes ': 'Diabetes',
+    'Gastroenteritis': 'Liver',
+    'Bronchial Asthma': 'Heart',
+    'Hypertension ': 'Heart',
+    'Migraine': 'Stress',
+    'Cervical spondylosis': 'Vitamin',
+    'Paralysis (brain hemorrhage)': 'Stress',
+    'Jaundice': 'Liver',
+    'Malaria': 'All Tests',
+    'Chicken pox': 'Skin Care',
+    'Dengue': 'All Tests',
+    'Typhoid': 'Liver',
+    'hepatitis A': 'Liver',
+    'Hepatitis B': 'Liver',
+    'Hepatitis C': 'Liver',
+    'Hepatitis D': 'Liver',
+    'Hepatitis E': 'Liver',
+    'Alcoholic hepatitis': 'Liver',
+    'Tuberculosis': 'All Tests',
+    'Common Cold': 'Vitamin',
+    'Pneumonia': 'Heart',
+    'Dimorphic hemmorhoids(piles)': 'Full Body Check-up',
+    'Heart attack': 'Heart',
+    'Varicose veins': 'Heart',
+    'Hypothyroidism': 'Thyroid',
+    'Hyperthyroidism': 'Thyroid',
+    'Hypoglycemia': 'Diabetes',
+    'Osteoarthristis': 'Vitamin',
+    'Arthritis': 'Vitamin',
+    '(vertigo) Paroymsal  Positional Vertigo': 'Stress',
+    'Acne': 'Skin Care',
+    'Urinary tract infection': 'Women Health',
+    'Psoriasis': 'Skin Care',
+    'Impetigo': 'Skin Care'
+}
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.json
@@ -265,9 +310,18 @@ def predict():
     if len(features) != model.n_features_in_:
         return jsonify({'error': 'Mismatch in number of features.'}), 400
 
+    # Predict the disease
     prediction = model.predict([features])
-    return jsonify({'predicted_disease': prediction[0]})
+    predicted_disease = prediction[0]  # Save prediction to a variable
 
+    # Fetch the recommended test for the predicted disease
+    recommended_test = disease_to_test.get(predicted_disease, 'No test available')
+
+    # Return the prediction and recommendation
+    return jsonify({
+        'predicted_disease': predicted_disease,
+        'recommended_test': recommended_test
+    })
 
 # =====================================
 # disease info (Alphabet Info)
