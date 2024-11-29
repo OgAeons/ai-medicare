@@ -136,7 +136,7 @@ def finalize_registration(user_data, role, user_id):
                 'latitude': latitude,
                 'longitude': longitude
             }
-            
+
             # Insert doctor data into MongoDB
             doctors_collection.insert_one(doctor_data)
             print(f"Inserted doctor data: {doctor_data}")  # Log the inserted data
@@ -149,8 +149,6 @@ def finalize_registration(user_data, role, user_id):
         print(f"Error during registration: {str(e)}")  # Log the error message
         traceback.print_exc()  # This will print the traceback of the error
         return jsonify({"error": "Registration failed due to a server error. Please try again.", "details": str(e)}), 500
-
-
 
 
 # =====================================
@@ -184,7 +182,6 @@ def login():
         }), 200
     else:
         return jsonify({"success": False, "message": "Invalid credentials"}), 401
-
 
 
 # =====================================
