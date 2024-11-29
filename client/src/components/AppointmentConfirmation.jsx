@@ -3,7 +3,7 @@ const AppointmentConfirmation = ({ show, onClose, appointmentDetails }) => {
 
     const confirmAppointment = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:5000/confirm-appointment', {
+            const response = await fetch('http://127.0.0.1:5000/confirm-doctor-appointment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

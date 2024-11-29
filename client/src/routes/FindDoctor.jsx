@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Navbar from '../components/Navbar'
-import MapComponent from '../components/MapComponent'
 import { FaMapMarkerAlt, FaCalendarAlt, FaHospital, FaHome, FaUserMd, FaLightbulb } from 'react-icons/fa'
 import { BiSearch } from 'react-icons/bi'
 import Calendar from 'react-calendar'

@@ -26,8 +26,10 @@ diseases_collection = db['diseases']
 patients_collection = db['patients']
 doctors_collection = db['doctors']
 doctors_by_speciality_collection = db['doctors-by-speciality']
-appointments_collection = db["appointments"]
+doctors_appointments_collection = db['doctors-appointments']
 medicines_collection = db['medicines']
+labs_collection = db['labs']
+labs_appointments_collection = db['labs-appointments']
 
 # Global dictionary to store user data during registration
 user_data = {}
@@ -232,9 +234,9 @@ def load_model():
     accuracy = accuracy_score(y_test, predictions)
     print(f'Model accuracy: {accuracy:.2f}')
 
-    return model 
+    return model
 
-model = load_model() 
+model = load_model()
 
 # Route to get all symptoms
 @app.route('/symptoms', methods=['GET'])
@@ -246,7 +248,52 @@ def get_symptoms():
         return jsonify(symptoms)
     return jsonify([])
 
+
 # Route for disease prediction
+# Dictionary to map disease to test
+disease_to_test = {
+    'Fungal infection': 'Skin Care',
+    'Allergy': 'Women Health',
+    'GERD': 'Liver',
+    'Chronic cholestasis': 'Liver',
+    'Drug Reaction': 'Full Body Check-up',
+    'Peptic ulcer diseae': 'Stress',
+    'AIDS': 'All Tests',
+    'Diabetes ': 'Diabetes',
+    'Gastroenteritis': 'Liver',
+    'Bronchial Asthma': 'Heart',
+    'Hypertension ': 'Heart',
+    'Migraine': 'Stress',
+    'Cervical spondylosis': 'Vitamin',
+    'Paralysis (brain hemorrhage)': 'Stress',
+    'Jaundice': 'Liver',
+    'Malaria': 'All Tests',
+    'Chicken pox': 'Skin Care',
+    'Dengue': 'All Tests',
+    'Typhoid': 'Liver',
+    'hepatitis A': 'Liver',
+    'Hepatitis B': 'Liver',
+    'Hepatitis C': 'Liver',
+    'Hepatitis D': 'Liver',
+    'Hepatitis E': 'Liver',
+    'Alcoholic hepatitis': 'Liver',
+    'Tuberculosis': 'All Tests',
+    'Common Cold': 'Vitamin',
+    'Pneumonia': 'Heart',
+    'Dimorphic hemmorhoids(piles)': 'Full Body Check-up',
+    'Heart attack': 'Heart',
+    'Varicose veins': 'Heart',
+    'Hypothyroidism': 'Thyroid',
+    'Hyperthyroidism': 'Thyroid',
+    'Hypoglycemia': 'Diabetes',
+    'Osteoarthristis': 'Vitamin',
+    'Arthritis': 'Vitamin',
+    '(vertigo) Paroymsal  Positional Vertigo': 'Stress',
+    'Acne': 'Skin Care',
+    'Urinary tract infection': 'Women Health',
+    'Psoriasis': 'Skin Care',
+    'Impetigo': 'Skin Care'
+}
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.json
@@ -276,8 +323,18 @@ def predict():
     if len(features) != model.n_features_in_:
         return jsonify({'error': 'Mismatch in number of features.'}), 400
 
+    # Predict the disease
     prediction = model.predict([features])
-    return jsonify({'predicted_disease': prediction[0]})
+    predicted_disease = prediction[0]  # Save prediction to a variable
+
+    # Fetch the recommended test for the predicted disease
+    recommended_test = disease_to_test.get(predicted_disease, 'No test available')
+
+    # Return the prediction and recommendation
+    return jsonify({
+        'predicted_disease': predicted_disease,
+        'recommended_test': recommended_test
+    })
 
 
 # =====================================
@@ -355,14 +412,59 @@ def get_doctors():
 
 
 # =====================================
-# appointments
+# labs by tests
 # =====================================
-@app.route("/confirm-appointment", methods=["POST"])
-def confirm_appointment():
+@app.route('/labs', methods=['GET'])
+def get_labs():
+    try: 
+        # Get the specialization from the request arguments
+        test = request.args.get('tests')
+        
+        # Query the database based on specialization if provided
+        query = {"tests": test} if test else {}
+        labs = labs_collection.find(query, {
+            "labName": 1,
+            "Latitude": 1,
+            "Longitude": 1,
+            "Address": 1,
+            "contactNumber": 1,
+            "tests": 1,
+            "Fees": 1,
+            "_id": 0
+        })
+
+        # Convert the cursor to a list of dictionaries
+        labs_list = list(labs)
+
+        return jsonify({"success": True, "data": labs_list})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
+
+
+# =====================================
+# doctors appointments
+# =====================================
+@app.route("/confirm-doctor-appointment", methods=["POST"])
+def confirm_doctor_appointment():
     appointment_details = request.json
     try:
         # Save the appointment details into MongoDB
-        result = appointments_collection.insert_one(appointment_details)
+        result = doctors_appointments_collection.insert_one(appointment_details)
+        return jsonify({"message": "Appointment confirmed", "appointmentId": str(result.inserted_id)}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+
+# =====================================
+# labs appointments
+# =====================================
+@app.route("/confirm-lab-appointment", methods=["POST"])
+def confirm_lab_appointment():
+    appointment_details = request.json
+    try:
+        # Save the appointment details into MongoDB
+        result = labs_appointments_collection.insert_one(appointment_details)
         return jsonify({"message": "Appointment confirmed", "appointmentId": str(result.inserted_id)}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
