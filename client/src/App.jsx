@@ -17,6 +17,7 @@ import Navbar from './components/Navbar'
 import Footer from './routes/Footer'
 import MedicineInfo from './routes/MedicineInfo'
 import DoctorDashboard from './routes/DoctorDashboard'
+import PatientDashboard from './routes/PatientDashboard'
 
 function LayoutWithCover({ children }) {
   return (
@@ -47,6 +48,7 @@ function App() {
             <Route path='/navbar' element={<Navbar />} />
             <Route path='/footer' element={<Footer />} />
             <Route path='/doctor-dashboard' element={<DoctorDashboard />} />
+            <Route path='/patient-dashboard' element={<PatientDashboard />} />
           </Routes>
         </Router>
       </UserProvider>
