@@ -492,11 +492,12 @@ def format_medicine_data(medicine):
             medicine.get("use2"), medicine.get("use3"),
             medicine.get("use4")
         ],
-        "chemicalClass": medicine.get("Chemical Class"),
-        "habitForming": medicine.get("Habit Forming"),
-        "therapeuticClass": medicine.get("Therapeutic Class"),
-        "actionClass": medicine.get("Action Class")
+        "Chemical Class": medicine.get("Chemical Class"),
+        "Habit Forming": medicine.get("Habit Forming"),
+        "Therapeutic Class": medicine.get("Therapeutic Class"),
+        "Action Class": medicine.get("Action Class")
     }
+
 
 # Endpoint to fetch medicines by search query
 @app.route('/medicines', methods=['GET'])

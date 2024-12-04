@@ -98,17 +98,13 @@ function MedicineInfo() {
                         filteredMedicines.map((medicine, index) => (
                             <div key={index} className="my-4 p-4 border border-gray-400 rounded-2xl">
                                 <h3 className='text-lg font-semibold'>{medicine.name}</h3>
-                                <p><strong>Uses:</strong> {medicine.use0 ? capitalizeFirstLetter(medicine.use0) : "Not Specified"}</p>
-                                <p><strong>Side Effects:</strong> {[
-                                    medicine.sideEffect0, medicine.sideEffect1, medicine.sideEffect2
-                                ].filter(effect => effect).join(', ') || "Not Specified"}</p>
-                                <p><strong>Substitutes:</strong> {[
-                                    medicine.substitute0, medicine.substitute1, medicine.substitute2
-                                ].filter(sub => sub).join(', ') || "None"}</p>
-                                <p><strong>Chemical Class:</strong> {medicine['Chemical Class']}</p>
-                                <p><strong>Therapeutic Class:</strong> {medicine['Therapeutic Class']}</p>
-                                <p><strong>Action Class:</strong> {medicine['Action Class']}</p>
-                                <p><strong>Habit Forming:</strong> {medicine['Habit Forming']}</p>
+                                {Object.entries(medicine).map(([key, value]) => (
+                                    key !== "id" && key !== "name" && value && (
+                                        <p key={key}>
+                                            <strong>{capitalizeFirstLetter(key.replace(/([A-Z])/g, ' $1').toLowerCase())}:</strong> {Array.isArray(value) ? value.join(', ') : value}
+                                        </p>
+                                    )
+                                ))}
                             </div>
                         ))
                     ) : (
